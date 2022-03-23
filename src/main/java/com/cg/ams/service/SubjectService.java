@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.com.cg.ams.entity.SubjectEntity;
 import com.example.demo.com.cg.ams.exception.RecordNotFoundException;
-import com.example.demo.com.cg.ams.repository.SubjectDAO;
 @Service
 public interface SubjectService {
 	
