@@ -36,22 +36,8 @@ public class AttendanceServiceImpl implements IAttendanceService {
 
     @Override
     public void update(Attendance entity) {
-        // TODO Auto-generated method stub
-        Attendance att = new Attendance();
-        att.setId(att.getId());
-        att.setSubjectId(att.getSubjectId());
-        att.setSubjectName(att.getSubjectName());
-        att.setStudentId(att.getStudentId());
-        att.setStudentName(att.getStudentName());
-        att.setSemester(att.getSemester());
-        att.setDate(att.getDate());
-        att.setTotalClass(att.getTotalClass());
-        att.setStatus(att.getStatus());
-        att.setTotal(att.getTotal());
-        att.setPercentage(att.getPercentage());
-        att.setCourseId(att.getCourseId());
-        att.setCourseName(att.getCourseName());
-        attRepo.save(att);
+       
+        attRepo.save(entity);
 
     }
 
