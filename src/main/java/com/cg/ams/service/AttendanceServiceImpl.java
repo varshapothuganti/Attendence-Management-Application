@@ -36,7 +36,7 @@ public class AttendanceServiceImpl implements IAttendanceService {
 
     @Override
     public void update(Attendance entity) {
-       
+
         attRepo.save(entity);
 
     }

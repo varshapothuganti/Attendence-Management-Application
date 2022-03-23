@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -24,6 +25,7 @@ public class Attendance {
     private long studentId;
     private String studentName;
     private String semester;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
     private String totalClass;
     private long status;
