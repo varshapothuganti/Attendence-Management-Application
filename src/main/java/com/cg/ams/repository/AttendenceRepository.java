@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface IAttendanceRepository extends JpaRepository<Attendance, Long> {
+public interface AttendenceRepository extends JpaRepository<Attendance, Long> {
 	
 	@Query(value="select attendance.* from attendance where attendance.student_name=:student_name", nativeQuery=true)
 	Attendance findByAttName(@Param("student_name") String student_name);
