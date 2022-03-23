@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @DynamicUpdate
-public class AttendanceEntity {
+public class Attendance {
 	
 	@Id
 	private long id;
