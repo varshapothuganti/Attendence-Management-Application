@@ -11,43 +11,40 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cg.ams.entity.Attendance;
-import com.cg.ams.service.AttendanceServiceImpl;
+import com.cg.ams.bean.Attendance;
 import com.cg.ams.service.IAttendanceService;
 
 @RestController
 public class AttendanceController {
 	@Autowired
 	IAttendanceService attServ;
-	
+
 	@PostMapping("/attendance")
 	ResponseEntity<Attendance> add(@RequestBody Attendance att) {
-		Attendance newAtt =  attServ.add(att);
+		Attendance newAtt = attServ.add(att);
 		return new ResponseEntity<>(newAtt, HttpStatus.CREATED);
 	}
-		
+
 	@GetMapping("/attendance/{id}")
-	Attendance findByPk(@PathVariable("id") int id)
-	{
+	Attendance findByPk(@PathVariable("id") int id) {
 		return attServ.findByPk(id);
 	}
+
 	@GetMapping("/attendance/byname/{student_name}")
-	Attendance findByPk(@PathVariable("student_name") String student_name)
-	{
-		Attendance newAtt = attServ.findByName(student_name);
-		return newAtt;
+	Attendance findByPk(@PathVariable("student_name") String student_name) {
+		return attServ.findByName(student_name);
 	}
+
 	@DeleteMapping("/attendance/entity")
 	void delete(Attendance entity) {
 		attServ.delete(entity);
-		
+
 	}
-	@PutMapping(path ="/updateattendance")
-	public void update(@RequestBody Attendance att)  {
+
+	@PutMapping(path = "/updateattendance")
+	public void update(@RequestBody Attendance att) {
 		attServ.update(att);
 
-		
-		
 	}
 
 }

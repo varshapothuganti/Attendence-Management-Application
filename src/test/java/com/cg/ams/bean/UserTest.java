@@ -1,10 +1,8 @@
-package com.cg.ams.entity;
+package com.cg.ams.bean;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class UserEntityTest {
+class UserTest {
 
     @Test
     void getId() {

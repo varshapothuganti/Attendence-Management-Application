@@ -1,4 +1,4 @@
-package com.cg.ams.entity;
+package com.cg.ams.bean;
 
 public class SubjectEntity {
 }
