@@ -35,10 +35,11 @@ public class AttendanceController {
 		return attServ.findByName(student_name);
 	}
 
-	@DeleteMapping("/attendance/entity")
-	void delete(Attendance entity) {
-		attServ.delete(entity);
-
+	@DeleteMapping("/attendancedeletion/")
+	void delete(@RequestBody Attendance entity) {
+		 attServ.delete(entity);
+		
+		
 	}
 
 	@PutMapping(path = "/updateattendance")
