@@ -1,6 +1,6 @@
 package com.cg.ams.service;
 
-import com.cg.ams.bean.Attendance;
+import com.cg.ams.entity.Attendance;
 import com.cg.ams.repository.IAttendanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

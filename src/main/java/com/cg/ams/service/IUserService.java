@@ -1,29 +1,30 @@
 package com.cg.ams.service;
 
-import com.cg.ams.bean.User;
+import com.cg.ams.entity.UserEntity;
+import com.cg.ams.exception.UserNotFoundException;
 
 import java.util.List;
 
 public interface IUserService {
-    long add(User entity);
+    long add(UserEntity entity);
 
-    void update(User entity);
+    void update(UserEntity entity) throws UserNotFoundException;
 
-    void delete(User entity);
+    void delete(UserEntity entity) throws UserNotFoundException;
 
-    User findByLogin(String loginId);
+    UserEntity findByLogin(String loginId);
 
-    User findByPk(long id); // find by id (pk - primary key)
+    UserEntity findByPk(long id); // find by id (pk - primary key)
 
-    List<User> search(User entity, long pageNo, int pageSize);
+    List<UserEntity> search(UserEntity entity, long pageNo, int pageSize);
 
-    List<User> search(User entity);
+    List<UserEntity> search(UserEntity entity);
 
-    User authenticate(User entity);
+    UserEntity authenticate(UserEntity entity);
 
     boolean changePassword(Long id, String oldPassword, String newPassword);
 
-    long registerUser(User entity);
+    long registerUser(UserEntity entity);
 
     boolean forgetPassword(String login, String newPassword);
 }

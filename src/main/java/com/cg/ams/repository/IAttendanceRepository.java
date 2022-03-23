@@ -1,6 +1,6 @@
 package com.cg.ams.repository;
 
-import com.cg.ams.bean.Attendance;
+import com.cg.ams.entity.Attendance;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

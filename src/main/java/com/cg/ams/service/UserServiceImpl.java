@@ -1,13 +1,14 @@
 package com.cg.ams.service;
 
-import com.cg.ams.bean.User;
+import com.cg.ams.entity.UserEntity;
+import com.cg.ams.exception.UserAuthenticationException;
+import com.cg.ams.exception.UserNotFoundException;
 import com.cg.ams.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -15,111 +16,106 @@ public class UserServiceImpl implements IUserService {
     IUserRepository userRepository;
 
     @Override
-    public long add(User entity) {
+    public long add(UserEntity entity) {
         if (entity.getPassword().equals(entity.getConfirmPassword()))
             userRepository.save(entity);
         return entity.getId();
     }
 
     @Override
-    public void update(User entity) {
-        User newUser = this.authenticate(entity);
+    public void update(UserEntity entity) {
+        UserEntity user = this.findByPk(entity.getId());
 
-        userRepository.save(newUser);
+        userRepository.save(user);
     }
 
     @Override
-    public void delete(User entity) {
-        User newUser = this.authenticate(entity);
+    public void delete(UserEntity entity) {
+        UserEntity user = this.findByPk(entity.getId());
 
-        userRepository.delete(newUser);
+        userRepository.delete(user);
     }
 
     @Override
-    public User findByLogin(String loginId) {
+    public UserEntity findByLogin(String loginId) {
         return userRepository.findByLogin(loginId);
     }
 
     @Override
-    public User findByPk(long id) {
-        Optional<User> userOptional = userRepository.findById(id);
+    public UserEntity findByPk(long id) {
+        UserEntity user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
 
-        if (userOptional.isEmpty()) {
-            // TODO throw exception
-        }
-
-        return userOptional.get();
+        return user;
 
     }
 
     @Override
-    public List<User> search(User entity, long pageNo, int pageSize) {
+    public List<UserEntity> search(UserEntity entity, long pageNo, int pageSize) {
         return null;
     }
 
     @Override
-    public List<User> search(User entity) {
+    public List<UserEntity> search(UserEntity entity) {
         long id = entity.getId();
 
-        List<User> result = new ArrayList<>();
+        List<UserEntity> result = new ArrayList<>();
         result.add(this.findByPk(id));
 
         return result;
     }
 
     @Override
-    public User authenticate(User user) {
-        User dbUser = this.findByPk(user.getId());
+    public UserEntity authenticate(UserEntity userEntity) {
+        UserEntity dbUserEntity = this.findByPk(userEntity.getId());
 
-        if (!(dbUser.getLogin().equals(user.getLogin()) && dbUser.getPassword().equals(user.getPassword()))) {
-            // TODO throw new AuthenticationException();
+        if (!(dbUserEntity.getLogin().equals(userEntity.getLogin()) && dbUserEntity.getPassword().equals(userEntity.getPassword()))) {
+            throw new UserAuthenticationException("Authentication Failed! Check username and password again!");
         }
 
-        return user;
+        return userEntity;
     }
 
     @Override
     public boolean changePassword(Long id, String oldPassword, String newPassword) {
-        User dbUser = this.findByPk(id);
+        UserEntity dbUserEntity = this.findByPk(id);
 
         oldPassword = cleanString(oldPassword);
         newPassword = cleanString(newPassword);
 
 
-        if (dbUser.getPassword().equals(oldPassword)) {
+        if (dbUserEntity.getPassword().equals(oldPassword)) {
             // update password
-            dbUser.setPassword(newPassword);
-            dbUser.setConfirmPassword(newPassword);
+            dbUserEntity.setPassword(newPassword);
+            dbUserEntity.setConfirmPassword(newPassword);
 
-            userRepository.save(dbUser);
+            userRepository.save(dbUserEntity);
 
             return true;
         }
 
-        // TODO throw error
-        return false;
+        throw new UserAuthenticationException("Old password did not match with our records!");
     }
 
     @Override
-    public long registerUser(User user) {
-        return this.add(user);
+    public long registerUser(UserEntity userEntity) {
+        return this.add(userEntity);
     }
 
     @Override
     public boolean forgetPassword(String login, String newPassword) {
-        User dbUser = this.findByLogin(login);
+        UserEntity dbUserEntity = this.findByLogin(login);
 
         newPassword = cleanString(newPassword);
 
-        dbUser.setPassword(newPassword);
-        dbUser.setConfirmPassword(newPassword);
+        dbUserEntity.setPassword(newPassword);
+        dbUserEntity.setConfirmPassword(newPassword);
 
-        userRepository.save(dbUser);
+        userRepository.save(dbUserEntity);
 
         return true;
     }
 
-    private String cleanString(String str) {
+    public String cleanString(String str) {
         str = str.trim();
         str = str.startsWith("\"") ? str.substring(1) : str;
         str = str.endsWith("\"") ? str.substring(0, str.length() - 1) : str;

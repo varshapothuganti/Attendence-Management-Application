@@ -1,6 +1,6 @@
 package com.cg.ams.controller;
 
-import com.cg.ams.bean.User;
+import com.cg.ams.entity.UserEntity;
 import com.cg.ams.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,50 +20,50 @@ public class UserController {
     IUserService userService;
 
     @PostMapping(path = "/add")
-    ResponseEntity<String> addUser(@RequestBody User user) {
-        long id = userService.add(user);
+    ResponseEntity<String> addUser(@RequestBody UserEntity userEntity) {
+        long id = userService.add(userEntity);
         String returnMsg = "User added with ID: ";
 
         return new ResponseEntity<>(returnMsg + id, HttpStatus.CREATED);
     }
 
     @PutMapping(path = "/update")
-    ResponseEntity<String> updateUser(@RequestBody User user) {
-        userService.update(user);
+    ResponseEntity<String> updateUser(@RequestBody UserEntity userEntity) {
+        userService.update(userEntity);
 
         return new ResponseEntity<>(GEN_SUCCESS_MESSAGE, HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/delete")
-    ResponseEntity<String> deleteUser(@RequestBody User user) {
-        userService.delete(user);
+    ResponseEntity<String> deleteUser(@RequestBody UserEntity userEntity) {
+        userService.delete(userEntity);
 
         return new ResponseEntity<>(GEN_SUCCESS_MESSAGE, HttpStatus.OK);
     }
 
     @GetMapping(path = "/login/{login}")
-    ResponseEntity<User> getUserByLogin(@PathVariable("login") String login) {
+    ResponseEntity<UserEntity> getUserByLogin(@PathVariable("login") String login) {
         return new ResponseEntity<>(userService.findByLogin(login), HttpStatus.OK);
     }
 
     @GetMapping(path = "/id/{id}")
-    ResponseEntity<User> getUserById(@PathVariable("id") long id) {
+    ResponseEntity<UserEntity> getUserById(@PathVariable("id") long id) {
         return new ResponseEntity<>(userService.findByPk(id), HttpStatus.OK);
     }
 
     @GetMapping(path = "/search")
-    ResponseEntity<List<User>> search(@RequestBody User user) {
-        return new ResponseEntity<>(userService.search(user), HttpStatus.OK);
+    ResponseEntity<List<UserEntity>> search(@RequestBody UserEntity userEntity) {
+        return new ResponseEntity<>(userService.search(userEntity), HttpStatus.OK);
     }
 
     // TODO add path
-    ResponseEntity<List<User>> search(User entity, long pageNo, int pageSize) {
+    ResponseEntity<List<UserEntity>> search(UserEntity entity, long pageNo, int pageSize) {
         return new ResponseEntity<>(userService.search(entity, pageNo, pageSize), HttpStatus.OK);
     }
 
     @GetMapping(path = "/authenticate")
-    ResponseEntity<User> authenticate(@RequestBody User user) {
-        return new ResponseEntity<>(userService.authenticate(user), HttpStatus.OK);
+    ResponseEntity<UserEntity> authenticate(@RequestBody UserEntity userEntity) {
+        return new ResponseEntity<>(userService.authenticate(userEntity), HttpStatus.OK);
     }
 
     @PatchMapping(path = "/change-password/{id}")
@@ -73,8 +73,8 @@ public class UserController {
     }
 
     @PostMapping(path = "/register")
-    ResponseEntity<String> registerUser(@RequestBody User user) {
-        long id = userService.registerUser(user);
+    ResponseEntity<String> registerUser(@RequestBody UserEntity userEntity) {
+        long id = userService.registerUser(userEntity);
         return new ResponseEntity<>("User registered with id: " + id, HttpStatus.OK);
     }
 

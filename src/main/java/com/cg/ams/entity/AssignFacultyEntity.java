@@ -1,4 +1,4 @@
-package com.cg.ams.bean;
+package com.cg.ams.entity;
 
 public class AssignFacultyEntity {
 }

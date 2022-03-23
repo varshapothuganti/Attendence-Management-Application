@@ -1,8 +1,8 @@
 package com.cg.ams.repository;
 
-import com.cg.ams.bean.User;
+import com.cg.ams.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface IUserRepository extends JpaRepository<User, Long> {
-    User findByLogin(String login);
+public interface IUserRepository extends JpaRepository<UserEntity, Long> {
+    UserEntity findByLogin(String login);
 }
