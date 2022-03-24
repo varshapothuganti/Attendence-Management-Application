@@ -6,6 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
+/**
+ * Responsible for operating on Database. Performs the basic CRUD operations among others.
+ * This interface extends JpaRepository interface
+ *
+ * @author phanindra
+ */
 public interface IUserRepository extends JpaRepository<UserEntity, Long> {
     UserEntity findByLogin(String login);
 

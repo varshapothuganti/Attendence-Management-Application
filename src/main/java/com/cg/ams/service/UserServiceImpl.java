@@ -12,20 +12,37 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Implements IUserService interface
+ *
+ * @author phanindra
+ */
 @Service
 public class UserServiceImpl implements IUserService {
     @Autowired
     IUserRepository userRepository;
 
+    /**
+     * Add a new entry into the database after checking the password.
+     * Throws PasswordDidnotMatchException if the password didnot match
+     *
+     * @param user
+     * @return id
+     */
     @Override
-    public long add(UserEntity entity) {
-        if (!entity.getPassword().equals(entity.getConfirmPassword())) {
+    public long add(UserEntity user) {
+        if (!user.getPassword().equals(user.getConfirmPassword())) {
             throw new PasswordDidnotMatchException("Passwords did not match!");
         }
-        userRepository.save(entity);
-        return entity.getId();
+        userRepository.save(user);
+        return user.getId();
     }
 
+    /**
+     * updates a row in the database. Throws UserNotFoundException if the row doesn't exist.
+     *
+     * @param entity
+     */
     @Override
     public void update(UserEntity entity) {
         this.findByPk(entity.getId());
@@ -33,6 +50,11 @@ public class UserServiceImpl implements IUserService {
         userRepository.save(entity);
     }
 
+    /**
+     * Deletes a row from the database. Throws UserNotFoundException if the row doesn't exist.
+     *
+     * @param entity
+     */
     @Override
     public void delete(UserEntity entity) {
         UserEntity user = this.findByPk(entity.getId());
@@ -40,11 +62,23 @@ public class UserServiceImpl implements IUserService {
         userRepository.delete(user);
     }
 
+    /**
+     * Searches the dababase for a record based on the login ID. If the login ID is not found not is returned.
+     *
+     * @param loginId
+     * @return UserEntity
+     */
     @Override
     public UserEntity findByLogin(String loginId) {
         return userRepository.findByLogin(loginId);
     }
 
+    /**
+     * Searches the database for a record based on the Primary Key (id). Throws UserNotFoundException if not found.
+     *
+     * @param id
+     * @return UserEntity
+     */
     @Override
     public UserEntity findByPk(long id) {
 
@@ -52,6 +86,14 @@ public class UserServiceImpl implements IUserService {
 
     }
 
+    /**
+     * Searches the database based on part of a name. Returns result after paginating.
+     *
+     * @param name
+     * @param pageNo
+     * @param pageSize
+     * @return List<UserEntity>
+     */
     @Override
     public List<UserEntity> search(String name, int pageNo, int pageSize) {
         Pageable currentPage = PageRequest.of(pageNo, pageSize);
@@ -59,11 +101,23 @@ public class UserServiceImpl implements IUserService {
         return userRepository.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(name, name, currentPage);
     }
 
+    /**
+     * Searches the database based on part of a name
+     *
+     * @param name
+     * @return List<UserEntity>
+     */
     @Override
     public List<UserEntity> search(String name) {
         return userRepository.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(name, name);
     }
 
+    /**
+     * Authenticates the user by checking equality of Login and password. Throws UserAuthenticationException if failed.
+     *
+     * @param userEntity
+     * @return UserEntity
+     */
     @Override
     public UserEntity authenticate(UserEntity userEntity) {
         UserEntity dbUserEntity = this.findByPk(userEntity.getId());
@@ -75,6 +129,14 @@ public class UserServiceImpl implements IUserService {
         return userEntity;
     }
 
+    /**
+     * Changes the password of the user. Throws UserAuthenticationException if the old passwords didn't match.
+     *
+     * @param id
+     * @param oldPassword
+     * @param newPassword
+     * @return boolean
+     */
     @Override
     public boolean changePassword(Long id, String oldPassword, String newPassword) {
         UserEntity dbUserEntity = this.findByPk(id);
@@ -96,11 +158,24 @@ public class UserServiceImpl implements IUserService {
         throw new UserAuthenticationException("Old password did not match with our records!");
     }
 
+    /**
+     * Registers the User (same as add).
+     *
+     * @param userEntity
+     * @return long
+     */
     @Override
     public long registerUser(UserEntity userEntity) {
         return this.add(userEntity);
     }
 
+    /**
+     * Resets the password by taking the login ID.
+     *
+     * @param login
+     * @param newPassword
+     * @return boolean
+     */
     @Override
     public boolean forgetPassword(String login, String newPassword) {
         UserEntity dbUserEntity = this.findByLogin(login);
@@ -115,11 +190,22 @@ public class UserServiceImpl implements IUserService {
         return true;
     }
 
+    /**
+     * Returns the number of records in the database.
+     *
+     * @return long
+     */
     @Override
     public long count() {
         return userRepository.count();
     }
 
+    /**
+     * Removes the leading and trailing whitespaces and quotation marks.
+     *
+     * @param str
+     * @return String
+     */
     public String cleanString(String str) {
         str = str.trim();
         str = str.startsWith("\"") ? str.substring(1) : str;

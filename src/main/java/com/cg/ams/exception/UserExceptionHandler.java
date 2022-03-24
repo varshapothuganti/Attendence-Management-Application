@@ -8,6 +8,17 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.LocalDateTime;
 
+/**
+ * This class is reponsible for handling all the user defined exceptions
+ * <p>
+ * Right now it handles:
+ * <li>UserNotFoundException</li>
+ * <li>UserAuthenticationException</li>
+ * <li>PasswordDidnotMatchException</li>
+ * </p>
+ *
+ * @author phanindra
+ */
 @ControllerAdvice
 public class UserExceptionHandler {
 

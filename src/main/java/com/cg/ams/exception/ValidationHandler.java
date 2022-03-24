@@ -12,6 +12,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The class is responsible for handling Validation Exception
+ *
+ * @author phanindra
+ */
 @ControllerAdvice
 public class ValidationHandler extends ResponseEntityExceptionHandler {
 
@@ -21,7 +26,7 @@ public class ValidationHandler extends ResponseEntityExceptionHandler {
             HttpStatus status, WebRequest request) {
 
         Map<String, String> errors = new HashMap<>();
-        
+
         ex.getBindingResult().getAllErrors().forEach(error -> {
             String fieldName = ((FieldError) error).getField();
             String message = error.getDefaultMessage();

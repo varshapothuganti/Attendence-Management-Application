@@ -12,6 +12,11 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 
+/**
+ * This class respresent the User Entity that is persisted into the database
+ *
+ * @author phanindra duvvuri
+ */
 @Entity
 @Data
 @AllArgsConstructor

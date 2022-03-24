@@ -5,6 +5,11 @@ import com.cg.ams.exception.UserNotFoundException;
 
 import java.util.List;
 
+/**
+ * Defines all the operation that are supported by this service
+ *
+ * @author phanindra
+ */
 public interface IUserService {
     long add(UserEntity entity);
 

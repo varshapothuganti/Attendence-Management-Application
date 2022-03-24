@@ -1,5 +1,10 @@
 package com.cg.ams.exception;
 
+/**
+ * This exception is raised when the user is not found in the database.
+ *
+ * @author phanindra
+ */
 public class UserNotFoundException extends RuntimeException {
     public UserNotFoundException() {
         super();
