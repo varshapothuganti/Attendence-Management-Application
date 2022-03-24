@@ -16,7 +16,7 @@ public interface IUserService {
 
     UserEntity findByPk(long id); // find by id (pk - primary key)
 
-    List<UserEntity> search(String name, long pageNo, int pageSize);
+    List<UserEntity> search(String name, int pageNo, int pageSize);
 
     List<UserEntity> search(String name);
 
@@ -27,4 +27,6 @@ public interface IUserService {
     long registerUser(UserEntity entity);
 
     boolean forgetPassword(String login, String newPassword);
+
+    long count();
 }

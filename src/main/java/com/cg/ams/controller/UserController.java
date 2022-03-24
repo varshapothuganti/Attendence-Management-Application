@@ -53,17 +53,15 @@ public class UserController {
     }
 
     @GetMapping(path = "/search")
-    ResponseEntity<List<UserEntity>> search(
-            @RequestParam("name") String name,
-            @RequestParam(name = "page", required = false, defaultValue = "0") int pageNo,
-            @RequestParam(name = "page size", required = false, defaultValue = "10") int pageSize) {
+    ResponseEntity<List<UserEntity>> search(@RequestParam("name") String name) {
 
-        System.out.println(pageNo + " " + pageSize);
         return new ResponseEntity<>(userService.search(name), HttpStatus.OK);
     }
 
-    // TODO add path
-    ResponseEntity<List<UserEntity>> search(String name, long pageNo, int pageSize) {
+    @GetMapping(path = "/search/{name}")
+    ResponseEntity<List<UserEntity>> search(@PathVariable String name,
+                                            @RequestParam(value = "page", defaultValue = "0") int pageNo,
+                                            @RequestParam(value = "size", defaultValue = "10") int pageSize) {
         return new ResponseEntity<>(userService.search(name, pageNo, pageSize), HttpStatus.OK);
     }
 

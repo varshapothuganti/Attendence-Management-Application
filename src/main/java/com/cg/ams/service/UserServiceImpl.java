@@ -6,6 +6,8 @@ import com.cg.ams.exception.UserAuthenticationException;
 import com.cg.ams.exception.UserNotFoundException;
 import com.cg.ams.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,9 +28,9 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public void update(UserEntity entity) {
-        UserEntity user = this.findByPk(entity.getId());
+        this.findByPk(entity.getId());
 
-        userRepository.save(user);
+        userRepository.save(entity);
     }
 
     @Override
@@ -51,8 +53,10 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<UserEntity> search(String name, long pageNo, int pageSize) {
-        return null;
+    public List<UserEntity> search(String name, int pageNo, int pageSize) {
+        Pageable currentPage = PageRequest.of(pageNo, pageSize);
+
+        return userRepository.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(name, name, currentPage);
     }
 
     @Override
@@ -109,6 +113,11 @@ public class UserServiceImpl implements IUserService {
         userRepository.save(dbUserEntity);
 
         return true;
+    }
+
+    @Override
+    public long count() {
+        return userRepository.count();
     }
 
     public String cleanString(String str) {
