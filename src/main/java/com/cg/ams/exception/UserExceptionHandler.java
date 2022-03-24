@@ -15,21 +15,32 @@ public class UserExceptionHandler {
     public ResponseEntity<UserErrorResponse> handleException(UserNotFoundException exception) {
         UserErrorResponse error = new UserErrorResponse();
 
-        error.setStatus(HttpStatus.NOT_FOUND.value());
+        error.setStatus(HttpStatus.BAD_REQUEST.value());
         error.setMsg(exception.getMessage());
         error.setLocalDateTime(LocalDateTime.now());
 
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
     public ResponseEntity<UserErrorResponse> handleException(UserAuthenticationException exception) {
-        UserErrorResponse errorResponse = new UserErrorResponse();
+        UserErrorResponse error = new UserErrorResponse();
 
-        errorResponse.setStatus(HttpStatus.NOT_FOUND.value());
-        errorResponse.setMsg(exception.getMessage());
-        errorResponse.setLocalDateTime(LocalDateTime.now());
+        error.setStatus(HttpStatus.BAD_REQUEST.value());
+        error.setMsg(exception.getMessage());
+        error.setLocalDateTime(LocalDateTime.now());
 
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<UserErrorResponse> handleException(PasswordDidnotMatchException exception) {
+        UserErrorResponse error = new UserErrorResponse();
+
+        error.setStatus(HttpStatus.BAD_REQUEST.value());
+        error.setMsg(exception.getMessage());
+        error.setLocalDateTime(LocalDateTime.now());
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 }

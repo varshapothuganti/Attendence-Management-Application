@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,7 +21,7 @@ public class UserController {
     IUserService userService;
 
     @PostMapping(path = "/add")
-    ResponseEntity<String> addUser(@RequestBody UserEntity userEntity) {
+    ResponseEntity<String> addUser(@Valid @RequestBody UserEntity userEntity) {
         long id = userService.add(userEntity);
         String returnMsg = "User added with ID: ";
 
@@ -28,14 +29,14 @@ public class UserController {
     }
 
     @PutMapping(path = "/update")
-    ResponseEntity<String> updateUser(@RequestBody UserEntity userEntity) {
+    ResponseEntity<String> updateUser(@Valid @RequestBody UserEntity userEntity) {
         userService.update(userEntity);
 
         return new ResponseEntity<>(GEN_SUCCESS_MESSAGE, HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/delete")
-    ResponseEntity<String> deleteUser(@RequestBody UserEntity userEntity) {
+    ResponseEntity<String> deleteUser(@Valid @RequestBody UserEntity userEntity) {
         userService.delete(userEntity);
 
         return new ResponseEntity<>(GEN_SUCCESS_MESSAGE, HttpStatus.OK);
@@ -73,7 +74,7 @@ public class UserController {
     }
 
     @PostMapping(path = "/register")
-    ResponseEntity<String> registerUser(@RequestBody UserEntity userEntity) {
+    ResponseEntity<String> registerUser(@Valid @RequestBody UserEntity userEntity) {
         long id = userService.registerUser(userEntity);
         return new ResponseEntity<>("User registered with id: " + id, HttpStatus.OK);
     }

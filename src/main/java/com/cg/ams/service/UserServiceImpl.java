@@ -1,6 +1,7 @@
 package com.cg.ams.service;
 
 import com.cg.ams.entity.UserEntity;
+import com.cg.ams.exception.PasswordDidnotMatchException;
 import com.cg.ams.exception.UserAuthenticationException;
 import com.cg.ams.exception.UserNotFoundException;
 import com.cg.ams.repository.IUserRepository;
@@ -17,8 +18,10 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public long add(UserEntity entity) {
-        if (entity.getPassword().equals(entity.getConfirmPassword()))
-            userRepository.save(entity);
+        if (!entity.getPassword().equals(entity.getConfirmPassword())) {
+            throw new PasswordDidnotMatchException("Passwords did not match!");
+        }
+        userRepository.save(entity);
         return entity.getId();
     }
 
@@ -43,9 +46,8 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public UserEntity findByPk(long id) {
-        UserEntity user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
 
-        return user;
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
 
     }
 
