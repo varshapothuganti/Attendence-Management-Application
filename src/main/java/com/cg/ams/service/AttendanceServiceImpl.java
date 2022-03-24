@@ -15,7 +15,6 @@ public class AttendanceServiceImpl implements IAttendanceService {
 
     @Override
     public Attendance add(Attendance entity) {
-        // TODO Auto-generated method stub
         Attendance att = attRepo.save(entity);
         att.setId(att.getId());
         att.setSubjectId(att.getSubjectId());

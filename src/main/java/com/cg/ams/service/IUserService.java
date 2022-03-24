@@ -16,9 +16,9 @@ public interface IUserService {
 
     UserEntity findByPk(long id); // find by id (pk - primary key)
 
-    List<UserEntity> search(UserEntity entity, long pageNo, int pageSize);
+    List<UserEntity> search(String name, long pageNo, int pageSize);
 
-    List<UserEntity> search(UserEntity entity);
+    List<UserEntity> search(String name);
 
     UserEntity authenticate(UserEntity entity);
 

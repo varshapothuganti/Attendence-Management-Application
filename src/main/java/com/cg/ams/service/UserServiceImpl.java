@@ -8,7 +8,6 @@ import com.cg.ams.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -52,18 +51,13 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<UserEntity> search(UserEntity entity, long pageNo, int pageSize) {
+    public List<UserEntity> search(String name, long pageNo, int pageSize) {
         return null;
     }
 
     @Override
-    public List<UserEntity> search(UserEntity entity) {
-        long id = entity.getId();
-
-        List<UserEntity> result = new ArrayList<>();
-        result.add(this.findByPk(id));
-
-        return result;
+    public List<UserEntity> search(String name) {
+        return userRepository.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(name, name);
     }
 
     @Override

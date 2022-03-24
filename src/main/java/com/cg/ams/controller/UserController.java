@@ -53,13 +53,18 @@ public class UserController {
     }
 
     @GetMapping(path = "/search")
-    ResponseEntity<List<UserEntity>> search(@RequestBody UserEntity userEntity) {
-        return new ResponseEntity<>(userService.search(userEntity), HttpStatus.OK);
+    ResponseEntity<List<UserEntity>> search(
+            @RequestParam("name") String name,
+            @RequestParam(name = "page", required = false, defaultValue = "0") int pageNo,
+            @RequestParam(name = "page size", required = false, defaultValue = "10") int pageSize) {
+
+        System.out.println(pageNo + " " + pageSize);
+        return new ResponseEntity<>(userService.search(name), HttpStatus.OK);
     }
 
     // TODO add path
-    ResponseEntity<List<UserEntity>> search(UserEntity entity, long pageNo, int pageSize) {
-        return new ResponseEntity<>(userService.search(entity, pageNo, pageSize), HttpStatus.OK);
+    ResponseEntity<List<UserEntity>> search(String name, long pageNo, int pageSize) {
+        return new ResponseEntity<>(userService.search(name, pageNo, pageSize), HttpStatus.OK);
     }
 
     @GetMapping(path = "/authenticate")
