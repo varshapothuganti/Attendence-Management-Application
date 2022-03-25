@@ -19,21 +19,11 @@ import javax.persistence.OneToMany;
 @AllArgsConstructor
 public class CourseEntity {
 
-    public CourseEntity(long id, String name, String description) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.description = description;
-	}
 
 	@Id
     @GeneratedValue
     private long id;
     private String name;
     private String description;
-    
-    @OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="subjectId")
-	private List<SubjectEntity> subject;
 
 }
