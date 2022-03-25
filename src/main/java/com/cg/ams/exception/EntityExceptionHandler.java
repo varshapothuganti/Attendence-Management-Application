@@ -24,4 +24,14 @@ public class EntityExceptionHandler {
 
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);  //404 Not found
     }
+    
+    @ExceptionHandler
+	public ResponseEntity<EntityErrorResponse> handleException(DuplicateRecordException ex){
+		EntityErrorResponse ere = new EntityErrorResponse();
+		ere.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.value());
+		ere.setMessage(ex.getMessage());
+		ere.setTimeStamp(LocalDateTime.now());
+		return new ResponseEntity<>(ere,HttpStatus.UNPROCESSABLE_ENTITY);
+	}
+    
 }
