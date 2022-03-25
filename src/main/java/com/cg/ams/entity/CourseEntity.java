@@ -4,9 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 @Entity
 @Data
@@ -14,10 +19,21 @@ import javax.persistence.Id;
 @AllArgsConstructor
 public class CourseEntity {
 
-    @Id
+    public CourseEntity(long id, String name, String description) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+	}
+
+	@Id
     @GeneratedValue
     private long id;
     private String name;
     private String description;
+    
+    @OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="subjectId")
+	private List<SubjectEntity> subject;
 
 }

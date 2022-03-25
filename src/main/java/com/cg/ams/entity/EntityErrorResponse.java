@@ -1,4 +1,4 @@
-package com.example.demo.com.cg.ams.entity;
+package com.cg.ams.entity;
 
 import java.time.LocalDateTime;
 

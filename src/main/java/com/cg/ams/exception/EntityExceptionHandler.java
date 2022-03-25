@@ -1,7 +1,8 @@
 package com.cg.ams.exception;
 
 
-import com.example.demo.com.cg.ams.entity.EntityErrorResponse;
+import com.cg.ams.entity.EntityErrorResponse;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
