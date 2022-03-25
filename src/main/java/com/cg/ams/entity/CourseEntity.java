@@ -4,10 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
 import javax.persistence.Table;
+
 
 @Entity
 @Data
@@ -16,7 +21,8 @@ import javax.persistence.Table;
 @Table(name = "course")
 public class CourseEntity {
 
-    @Id
+
+	@Id
     @GeneratedValue
     private long id;
     private String name;

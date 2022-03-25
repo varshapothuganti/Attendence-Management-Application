@@ -11,6 +11,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -114,19 +116,19 @@ class RoleServiceMockitoTest {
         assertEquals("Admin is the activity or process of organizing an institution or organization", role1.getDescription());
     }
 
-//	@Test
-//	void getAllRoles() {
-//		List<CourseEntity> clist=new ArrayList<>();
-//		CourseEntity course1 = new CourseEntity(5, "Java", "Java is a Programming Language");
-//		CourseEntity course2 = new CourseEntity(6, "Python", "Python is a Programming Language");
-//		CourseEntity course3 = new CourseEntity(7, "C++", "C++ is a Programming Language");
-//		clist.add(course1);
-//		clist.add(course2);
-//		clist.add(course3);
-//		Mockito.when(courseRepo.findAll()).thenReturn(clist);
-//		List<CourseEntity> courses=courseServ.getAllCourses();
-//		assertEquals(3,courses.size());
-//	}
+    @Test
+	void getAllRoles() {
+		List<RoleEntity> rlist=new ArrayList<>();
+		RoleEntity role1 = new RoleEntity(5, "Java", "Java is a Programming Language");
+		RoleEntity role2 = new RoleEntity(6, "Python", "Python is a Programming Language");
+		RoleEntity role3 = new RoleEntity(7, "C++", "C++ is a Programming Language");
+		rlist.add(role1);
+		rlist.add(role2);
+		rlist.add(role3);
+		Mockito.when(roleRepo.findAll()).thenReturn(rlist);
+		List<RoleEntity> roles=roleServ.getAllRoles();
+		assertEquals(3,roles.size());
+	}
 
 
 }
