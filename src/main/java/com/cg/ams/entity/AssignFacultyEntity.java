@@ -7,12 +7,14 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "assign_faculty")
 public class AssignFacultyEntity {
 
     @Id
