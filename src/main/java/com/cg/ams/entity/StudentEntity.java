@@ -6,12 +6,13 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import lombok.Data;
 
 @Data
 @Entity
-
+@Table(name = "student")
 public class StudentEntity {
 	
 	@Id
