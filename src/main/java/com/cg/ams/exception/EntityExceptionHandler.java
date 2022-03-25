@@ -22,16 +22,16 @@ public class EntityExceptionHandler {
         //error.setTimeStamp(System.currentTimeMillis());
         error.setTimeStamp(LocalDateTime.now());
 
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);  //404 Not found
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
-    
+
     @ExceptionHandler
-	public ResponseEntity<EntityErrorResponse> handleException(DuplicateRecordException ex){
-		EntityErrorResponse ere = new EntityErrorResponse();
-		ere.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.value());
-		ere.setMessage(ex.getMessage());
-		ere.setTimeStamp(LocalDateTime.now());
-		return new ResponseEntity<>(ere,HttpStatus.UNPROCESSABLE_ENTITY);
-	}
-    
+    public ResponseEntity<EntityErrorResponse> handleException(DuplicateRecordException ex) {
+        EntityErrorResponse ere = new EntityErrorResponse();
+        ere.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.value());
+        ere.setMessage(ex.getMessage());
+        ere.setTimeStamp(LocalDateTime.now());
+        return new ResponseEntity<>(ere, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
 }
