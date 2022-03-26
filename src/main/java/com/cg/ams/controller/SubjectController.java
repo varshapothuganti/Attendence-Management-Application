@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.List;
 
@@ -29,13 +28,13 @@ public class SubjectController {
     }
 
     @DeleteMapping("/subject")
-    void deleteSubject(@RequestBody SubjectEntity sub) throws RecordNotFoundException {
+    void deleteSubject(@Valid @RequestBody SubjectEntity sub) throws RecordNotFoundException {
         subServ.delete(sub);
         System.out.println("Subject deleted successfully");
     }
 
     @PatchMapping("/subject")
-    void updateSubject(@RequestBody SubjectEntity sub) throws RecordNotFoundException {
+    void updateSubject(@Valid @RequestBody SubjectEntity sub) throws RecordNotFoundException {
         subServ.update(sub);
         System.out.println("Subject Updated successfully");
     }
@@ -51,6 +50,15 @@ public class SubjectController {
         SubjectEntity sub = subServ.findByPk(id);
         return new ResponseEntity<>(sub, HttpStatus.OK);
     }
-
-
+    
+    @GetMapping("/subject/searchByPages/{pageNo}/{pageSize}")
+	List<SubjectEntity> search(@RequestBody SubjectEntity entity,@PathVariable("pageNo") int pageNo,@PathVariable("pageSize") int pageSize){
+		return subServ.search(entity, pageNo, pageSize);
+	}
+	
+	@GetMapping("/faculty/search")
+	List<SubjectEntity> search(@RequestBody SubjectEntity entity){
+		return subServ.search(entity);
+	}
 }
+

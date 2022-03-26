@@ -23,7 +23,7 @@ public class CourseEntity {
 
 
 	@Id
-    @GeneratedValue
+    //@GeneratedValue
     private long id;
     private String name;
     private String description;
