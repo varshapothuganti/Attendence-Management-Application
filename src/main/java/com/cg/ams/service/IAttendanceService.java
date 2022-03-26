@@ -1,25 +1,26 @@
 package com.cg.ams.service;
 
-import com.cg.ams.entity.Attendance;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.cg.ams.entity.Attendance;
 
 @Service
 public interface IAttendanceService {
 
-    Attendance add(Attendance entity);
+	public Attendance add(Attendance entity);
 
-    void update(Attendance entity);
+	public void update(Attendance entity);
 
-    void delete(Attendance entity);
+	public void delete(Attendance entity);
 
-    Attendance findByName(String student_name);
+	public Attendance findByName(String student_name);
 
-    Attendance findByPk(long id);
+	public Attendance findByPk(long id);
 
-    List<Attendance> search(Attendance entity, long pageNo, int pageSize);
+	public List<Attendance> search(String name, int pageNo, int pageSize);
 
-    List<Attendance> search(Attendance entity);
+	public long count();
 
 }
