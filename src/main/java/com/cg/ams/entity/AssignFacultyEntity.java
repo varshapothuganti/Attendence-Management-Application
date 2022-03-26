@@ -24,9 +24,6 @@ public class AssignFacultyEntity {
     private long userId;
 
     @NotEmpty(message = "User name shouldn't be empty!")
-    // @Min(value = 8, message = "User name shouldn't be less than 8 characters")
-    // @Max(value = 100, message = "User name shouldn't be more than 100
-    // characters")
     @Length(min = 8, max = 100, message = "User name length should be between 8 and 100")
     private String userName;
 
@@ -34,8 +31,6 @@ public class AssignFacultyEntity {
     private long courseId;
 
     @NotEmpty(message = "Course name shouldn't be empty!")
-    // @Min(value=8,message="Course name shouldn't be less than 8 characters")
-    // @Max(value=100,message="Course name shouldn't be more than 100 characters")
     @Length(min = 8, max = 100, message = "Course name should be between 8 and 100")
     private String courseName;
 
@@ -43,8 +38,6 @@ public class AssignFacultyEntity {
     private long subjectId;
 
     @NotEmpty(message = "Subject name shouldn't be empty!")
-    // @Min(value=8,message="Subject name shouldn't be less than 8 characters")
-    // @Max(value=100,message="Subject name shouldn't be more than 100 characters")
     @Length(min = 8, max = 100, message = "Subject name should be between 8 and 100")
     private String subjectName;
 
