@@ -35,7 +35,7 @@ public class StudentServiceImpl implements IStudentService{
 	}
 
 	@Override
-	public void update(StudentEntity entity) {
+	public void update(StudentEntity entity) throws RecordNotFoundException {
 		
 		StudentEntity student = this.findByPk(entity.getId());
 		if(student!=null)
@@ -46,7 +46,7 @@ public class StudentServiceImpl implements IStudentService{
 	}
 
 	@Override
-	public void delete(StudentEntity entity) {
+	public void delete(StudentEntity entity) throws RecordNotFoundException {
 		
 		StudentEntity student = this.findByPk(entity.getId());
 		
@@ -60,7 +60,7 @@ public class StudentServiceImpl implements IStudentService{
 
 
 	@Override
-	public StudentEntity findByPk(long id) {
+	public StudentEntity findByPk(long id) throws RecordNotFoundException {
 
 		StudentEntity student= studentRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Student not found with id: " + id));
 		return student;
@@ -68,7 +68,7 @@ public class StudentServiceImpl implements IStudentService{
 
 	
     @Override
-    public List<StudentEntity> search(String name) {
+    public List<StudentEntity> search(String name) throws RecordNotFoundException {
     	
         Optional<List<StudentEntity>> sub1 = studentRepository.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(name,name);
         if (sub1.get().isEmpty()) {
@@ -78,7 +78,7 @@ public class StudentServiceImpl implements IStudentService{
     }
     
 	@Override
-	public List<StudentEntity> search(String name, int pageNo, int pageSize) {
+	public List<StudentEntity> search(String name, int pageNo, int pageSize) throws RecordNotFoundException {
         Pageable currentPage = PageRequest.of(pageNo, pageSize);
         
         Optional<List<StudentEntity>> sub1 = studentRepository.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(name,name, currentPage);

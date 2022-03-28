@@ -1,5 +1,6 @@
 package com.cg.ams.controller;
 
+import com.cg.ams.entity.CourseEntity;
 import com.cg.ams.entity.SubjectEntity;
 import com.cg.ams.exception.RecordNotFoundException;
 import com.cg.ams.service.SubjectService;
@@ -16,35 +17,43 @@ public class SubjectController {
     @Autowired
     SubjectService subServ;
 
+    //Mapping to get all subjects in the entity
     @GetMapping("/subjects")
-    List<SubjectEntity> getAllEmployees() {
-        return subServ.getAllSubjects();
+    ResponseEntity<List<SubjectEntity>> getAllSubjects() {
+        List<SubjectEntity> subjects = subServ.getAllSubjects();
+        return new ResponseEntity<>(subjects, HttpStatus.OK);
     }
 
+
+    //To add a new subject to the database
     @PostMapping("/subject")
     Long addSubject(@Valid @RequestBody SubjectEntity sub) {
         Long newSubId = subServ.add(sub);
         return newSubId;
     }
 
+    //To delete a subject
     @DeleteMapping("/subject")
     void deleteSubject(@Valid @RequestBody SubjectEntity sub) throws RecordNotFoundException {
         subServ.delete(sub);
         System.out.println("Subject deleted successfully");
     }
 
+    //To update a given subject
     @PatchMapping("/subject")
     void updateSubject(@Valid @RequestBody SubjectEntity sub) throws RecordNotFoundException {
         subServ.update(sub);
         System.out.println("Subject Updated successfully");
     }
 
+    //To get a subject based on name
     @GetMapping("/subject/byname/{name}")
     ResponseEntity<SubjectEntity> getSubjectByName(@PathVariable String name) throws Exception {
         SubjectEntity sub = subServ.findByName(name);
         return new ResponseEntity<>(sub, HttpStatus.OK);
     }
 
+    //To get a subject based on id
     @GetMapping("/subject/{id}")
     ResponseEntity<SubjectEntity> getSubjectById(@PathVariable long id) throws RecordNotFoundException {
         SubjectEntity sub = subServ.findByPk(id);
@@ -56,7 +65,7 @@ public class SubjectController {
 		return subServ.search(entity, pageNo, pageSize);
 	}
 	
-	@GetMapping("/faculty/search")
+	@GetMapping("/subject/search")
 	List<SubjectEntity> search(@RequestBody SubjectEntity entity){
 		return subServ.search(entity);
 	}
