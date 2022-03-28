@@ -56,12 +56,12 @@ public class StudentController {
 		return new ResponseEntity<>(std, HttpStatus.OK);
 	}
 
-    @GetMapping(path = "/search/{name}")
+    @GetMapping(path = "/student/search/{name}")
     ResponseEntity<List<StudentEntity>> search(@Valid @RequestParam("name") String name) {
 
         return new ResponseEntity<>(studentService.search(name), HttpStatus.OK);
     }
-    @GetMapping(path = "/search/byPages/{name}")
+    @GetMapping(path = "/student/search/byPages/{name}")
     ResponseEntity<List<StudentEntity>> search(@Valid @PathVariable String name,
                                             @RequestParam(value = "page", defaultValue = "0") int pageNo,
                                             @RequestParam(value = "size", defaultValue = "10") int pageSize) {

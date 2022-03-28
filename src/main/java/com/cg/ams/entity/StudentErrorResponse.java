@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import lombok.Data;
 
 @Data
-public class EntityErrorResponse {
+public class StudentErrorResponse {
 	
 	private int status;
 	private String message;

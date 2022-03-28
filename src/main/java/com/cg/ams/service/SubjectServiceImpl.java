@@ -1,20 +1,22 @@
 package com.cg.ams.service;
 
-import com.cg.ams.entity.SubjectEntity;
-import com.cg.ams.exception.DuplicateRecordException;
-import com.cg.ams.exception.RecordNotFoundException;
-import com.cg.ams.repository.ISubjectRepository;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.Optional;
+
+import com.cg.ams.entity.SubjectEntity;
+import com.cg.ams.exception.DuplicateRecordException;
+import com.cg.ams.exception.RecordNotFoundException;
+import com.cg.ams.repository.ISubjectRepository;
 
 
 @Service
-public class SubjectServiceImpl implements com.cg.ams.service.ISubjectService {
+public class SubjectServiceImpl implements ISubjectService {
 
 
     @Autowired

@@ -2,6 +2,7 @@ package com.cg.ams.service;
 
 import java.util.List;
 
+import com.cg.ams.dto.UserInputDTO;
 import com.cg.ams.entity.UserEntity;
 
 /**
@@ -10,7 +11,7 @@ import com.cg.ams.entity.UserEntity;
  * @author phanindra
  */
 public interface IUserService {
-	long add(UserEntity entity);
+	long add(UserInputDTO userInputDTO);
 
 	void update(UserEntity entity);
 
@@ -28,7 +29,7 @@ public interface IUserService {
 
 	boolean changePassword(Long id, String oldPassword, String newPassword);
 
-	long registerUser(UserEntity entity);
+	long registerUser(UserInputDTO userInputDTO);
 
 	boolean forgetPassword(String login, String newPassword);
 

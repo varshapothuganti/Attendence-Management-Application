@@ -1,9 +1,10 @@
 package com.cg.ams.service;
 
-import com.cg.ams.entity.SubjectEntity;
-import com.cg.ams.exception.RecordNotFoundException;
-import org.springframework.stereotype.Service;
 import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.cg.ams.entity.SubjectEntity;
 
 @Service
 public interface ISubjectService {

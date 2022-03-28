@@ -1,5 +1,6 @@
 package com.cg.ams.service;
 
+import com.cg.ams.dto.UserInputDTO;
 import com.cg.ams.entity.UserEntity;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -22,16 +23,14 @@ class UserServiceTest {
     @Test
 //    @Disabled
     void add() throws ParseException {  // Just Tested Once (don't want to add records to DB)
-        UserEntity user = new UserEntity();
+        UserInputDTO user = new UserInputDTO();
         user.setFirstName("Viola");
         user.setLastName("Herrmann");
         user.setLogin("purplemeercat202");
         user.setPassword("dickens12345");
-        user.setConfirmPassword("dickens12345");
         user.setGender("female");
         user.setDob(new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"));
-        user.setRoleId(1);
-        user.setProfilePic("default-pic.jpg");
+//        user.setRoleId(1);
 
         long dbCount = userService.count();
         userService.add(user);
