@@ -41,12 +41,8 @@ public class SubjectEntity {
     @ManyToOne(cascade = CascadeType.ALL)
     private CourseEntity course;
     
-   
-    @ManyToMany(fetch = FetchType.LAZY,targetEntity=AssignFacultyEntity.class, cascade={CascadeType.ALL})
-    @JoinTable(name="Faculty_Subjects", 
-            joinColumns=   { @JoinColumn(name="subject_id") },
-            inverseJoinColumns= { @JoinColumn(name="faculty_id")} )
-	private List<AssignFacultyEntity> faculty;
+    /*@ManyToMany(fetch = FetchType.EAGER,mappedBy="subjects")
+    private List<AssignFacultyEntity>subjects;*/
 
 
 
