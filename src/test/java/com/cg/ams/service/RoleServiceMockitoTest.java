@@ -33,7 +33,7 @@ class RoleServiceMockitoTest {
     @Test
     void updateRole() {
         RoleEntity role = new RoleEntity(1, "ADMIN", "Admin is the activity or process of organizing an institution or organization");
-        Mockito.when(roleRepo.getById(role.getId())).thenReturn(role);
+        Mockito.when(roleRepo.findById(role.getId())).thenReturn(Optional.of(role));
         Mockito.when(roleRepo.save(role)).thenReturn(role);
         RoleEntity result = roleServ.updateRole(role);
         assertEquals(1, result.getId());
@@ -44,7 +44,7 @@ class RoleServiceMockitoTest {
     @Test
     void deleteRole() {
         RoleEntity role = new RoleEntity(1, "ADMIN", "Admin is the activity or process of organizing an institution or organization");
-        Mockito.when(roleRepo.getById(role.getId())).thenReturn(role);
+        Mockito.when(roleRepo.findById(role.getId())).thenReturn(Optional.of(role));
 //		Mockito.when(courseRepo.delete(course)).thenReturn(Mockito.doNothing());
         RoleEntity result = roleServ.deleteRole(role);
         assertEquals(1, result.getId());

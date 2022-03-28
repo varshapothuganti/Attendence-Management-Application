@@ -38,13 +38,13 @@ public class CourseServiceImpl implements ICourseService {
 
 	@Override
 	public CourseEntity delete(CourseEntity course) {
-		CourseEntity course1 = courseRepo.getById(course.getId());
 
-		if (course1 != null) {
-			courseRepo.delete(course);
-			return course1;
-		} else {
+		Optional<CourseEntity> opt = courseRepo.findById(course.getId());
+		if (!opt.isPresent()) {
 			throw new CourseNotFoundException("Could not find the Course with id->" + course.getId());
+		} else {
+			courseRepo.delete(course);
+			return course;
 		}
 
 	}

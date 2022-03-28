@@ -36,7 +36,7 @@ class CourseServiceMockitoTest {
     @Disabled
     void updateCourse() {
         CourseEntity course = new CourseEntity(5, "JAVA", "JAVA ia a Programming Language");
-        Mockito.when(courseRepo.getById(course.getId())).thenReturn(course);
+        Mockito.when(courseRepo.findById(course.getId())).thenReturn(Optional.of(course));
         Mockito.when(courseRepo.save(course)).thenReturn(course);
         CourseEntity result = courseServ.update(course);
         assertEquals(5, result.getId());
@@ -47,7 +47,7 @@ class CourseServiceMockitoTest {
     @Test
     void deleteCourse() {
         CourseEntity course = new CourseEntity(5, "JAVA", "JAVA ia a Programming Language");
-        Mockito.when(courseRepo.getById(course.getId())).thenReturn(course);
+        Mockito.when(courseRepo.findById(course.getId())).thenReturn(Optional.of(course));
 //		Mockito.when(courseRepo.delete(course)).thenReturn(Mockito.doNothing());
         CourseEntity result = courseServ.delete(course);
         assertEquals(5, result.getId());

@@ -2,71 +2,96 @@ package com.cg.ams.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
+import com.cg.ams.exception.DuplicateRecordException;
+import com.cg.ams.exception.RecordNotFoundException;
 import com.cg.ams.entity.StudentEntity;
 import com.cg.ams.repository.IStudentRepository;
 
-
 @Service
-public class StudentServiceImpl implements IStudentService{
-	
-	
+public class StudentServiceImpl implements IStudentService {
+
 	@Autowired
-	IStudentRepository stdRepo;
+	IStudentRepository studentRepository;
 
 	@Override
 	public long add(StudentEntity entity) {
-		
-		StudentEntity std = stdRepo.save(entity);
+
+		Optional<StudentEntity> student = studentRepository.findById(entity.getId());
+		if (student.isPresent()) {
+			throw new DuplicateRecordException("Student Already exists with given id " + entity.getId());
+		}
+		StudentEntity std = studentRepository.save(entity);
 
 		return std.getId();
+
 	}
 
 	@Override
 	public void update(StudentEntity entity) {
-		
-		StudentEntity std = stdRepo.findById(entity.getId());
-		if(std!=null)
-		{
-			stdRepo.save(entity);
+
+		StudentEntity student = this.findByPk(entity.getId());
+		if (student != null) {
+			studentRepository.save(entity);
 		}
-		
+
 	}
 
 	@Override
 	public void delete(StudentEntity entity) {
-		
-		stdRepo.delete(entity);
-		
+
+		StudentEntity student = this.findByPk(entity.getId());
+
+		if (student != null) {
+			studentRepository.delete(entity);
+		}
+
 	}
-
-
 
 	@Override
 	public StudentEntity findByPk(long id) {
 
-		return stdRepo.findById(id);
+		return studentRepository.findById(id)
+				.orElseThrow(() -> new RecordNotFoundException("Student not found with id: " + id));
 	}
 
 	@Override
-	public List<StudentEntity> search(StudentEntity entity, long pageNo, int pageSize) {
+	public List<StudentEntity> search(String name) {
 
-		return new ArrayList<>();
+		Optional<List<StudentEntity>> sub1 = studentRepository
+				.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(name, name);
+		if (sub1.get().isEmpty()) {
+			throw new RecordNotFoundException("Student not found with the given name " + name);
+		}
+		return sub1.get();
 	}
 
 	@Override
-	public List<StudentEntity> search(StudentEntity entity) {
+	public List<StudentEntity> search(String name, int pageNo, int pageSize) {
+		Pageable currentPage = PageRequest.of(pageNo, pageSize);
 
-		return new ArrayList<>();
+		Optional<List<StudentEntity>> sub1 = studentRepository
+				.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(name, name, currentPage);
+		if (sub1.get().isEmpty()) {
+			throw new RecordNotFoundException("Student not found with the given name " + name);
+		}
+		return sub1.get();
+
 	}
 
 	@Override
-	public List<StudentEntity> findByName(String firstName) {
-		return stdRepo.findByFirstName(firstName);
+
+	public List<StudentEntity> findByName(String name) {
+		Optional<List<StudentEntity>> sub1 = studentRepository.findByName(name);
+		if (sub1.get().isEmpty()) {
+			throw new RecordNotFoundException("Student not found with the given name " + name);
+		}
+		return sub1.get();
 	}
 
 }
-
