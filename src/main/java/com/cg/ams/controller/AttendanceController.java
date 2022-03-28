@@ -22,7 +22,7 @@ public class AttendanceController {
 	@Autowired
 	IAttendanceService attServ;
 
-	@PostMapping("/attendance")
+	@PostMapping("/attendance/add")
 	ResponseEntity<Attendance> add(@RequestBody Attendance att) {
 		Attendance newAtt = attServ.add(att);
 		return new ResponseEntity<>(newAtt, HttpStatus.CREATED);
@@ -39,18 +39,18 @@ public class AttendanceController {
 		return newAtt;
 	}
 
-	@DeleteMapping("/attendancedeletion/")
+	@DeleteMapping("/attendance/deletion")
 	void delete(@RequestBody Attendance entity) {
 		attServ.delete(entity);
 
 	}
 
-	@PutMapping(path = "/updateattendance")
+	@PutMapping(path = "/attendance/update")
 	public void update(@RequestBody Attendance att) {
 		attServ.update(att);
 	}
 
-	@GetMapping(path = "/search/{name}")
+	@GetMapping(path = "attendance/search/{name}")
 	ResponseEntity<List<Attendance>> search(@PathVariable String name,
 			@RequestParam(value = "page", defaultValue = "0") int pageNo,
 			@RequestParam(value = "size", defaultValue = "10") int pageSize) {

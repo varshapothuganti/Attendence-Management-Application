@@ -94,7 +94,7 @@ class StudentServiceMokitoTest {
 
 	   }
 	 @Test
-	 void findByPkTest() throws RecordNotFoundException, ParseException {
+	 void findByPkTest() throws Exception {
 			StudentEntity student =new StudentEntity();
 			student.setId(1000);
 			student.setRollNo(2);
@@ -121,7 +121,7 @@ class StudentServiceMokitoTest {
 	 
 	 
 	@Test
-	void updateTest() throws RecordNotFoundException, ParseException{
+	void updateTest() throws Exception{
 		StudentEntity student =new StudentEntity();
 		student.setId(1000);
 		student.setRollNo(2);
@@ -146,7 +146,7 @@ class StudentServiceMokitoTest {
 		assertEquals("ClownFish", student.getLastName());
 	}
 	@Test
-	void deleteTest() throws RecordNotFoundException, ParseException {
+	void deleteTest() throws Exception {
 		StudentEntity student =new StudentEntity();
 		student.setId(1000);
 		student.setRollNo(2);

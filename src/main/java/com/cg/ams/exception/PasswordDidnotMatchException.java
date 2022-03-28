@@ -5,6 +5,7 @@ package com.cg.ams.exception;
  *
  * @author phanindra
  */
+@SuppressWarnings("serial")
 public class PasswordDidnotMatchException extends RuntimeException {
     public PasswordDidnotMatchException() {
         super();

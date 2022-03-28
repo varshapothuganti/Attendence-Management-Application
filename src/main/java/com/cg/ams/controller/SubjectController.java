@@ -16,24 +16,24 @@ public class SubjectController {
     @Autowired
     SubjectService subServ;
 
-    @GetMapping("/subjects")
+    @GetMapping("/subject/subjects")
     List<SubjectEntity> getAllEmployees() {
         return subServ.getAllSubjects();
     }
 
-    @PostMapping("/subject")
+    @PostMapping("/subject/add")
     Long addSubject(@Valid @RequestBody SubjectEntity sub) {
         Long newSubId = subServ.add(sub);
         return newSubId;
     }
 
-    @DeleteMapping("/subject")
+    @DeleteMapping("/subject/delete")
     void deleteSubject(@Valid @RequestBody SubjectEntity sub) throws RecordNotFoundException {
         subServ.delete(sub);
         System.out.println("Subject deleted successfully");
     }
 
-    @PatchMapping("/subject")
+    @PatchMapping("/subject/update")
     void updateSubject(@Valid @RequestBody SubjectEntity sub) throws RecordNotFoundException {
         subServ.update(sub);
         System.out.println("Subject Updated successfully");
@@ -56,7 +56,7 @@ public class SubjectController {
 		return subServ.search(entity, pageNo, pageSize);
 	}
 	
-	@GetMapping("/faculty/search")
+	@GetMapping("/subject/search")
 	List<SubjectEntity> search(@RequestBody SubjectEntity entity){
 		return subServ.search(entity);
 	}

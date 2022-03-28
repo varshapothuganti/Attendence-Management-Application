@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Data
@@ -20,21 +21,21 @@ public class AssignFacultyEntity {
     @Id
     private long id;
 
-    @NotEmpty(message = "User Id shouldn't be empty!")
+    @NotNull(message = "User Id shouldn't be empty!")
     private long userId;
 
     @NotEmpty(message = "User name shouldn't be empty!")
     @Length(min = 8, max = 100, message = "User name length should be between 8 and 100")
     private String userName;
 
-    @NotEmpty(message = "Course Id shouldn't be empty!")
+    @NotNull(message = "Course Id shouldn't be empty!")
     private long courseId;
 
     @NotEmpty(message = "Course name shouldn't be empty!")
     @Length(min = 8, max = 100, message = "Course name should be between 8 and 100")
     private String courseName;
 
-    @NotEmpty(message = "Subject Id shouldn't be empty!")
+    @NotNull(message = "Subject Id shouldn't be empty!")
     private long subjectId;
 
     @NotEmpty(message = "Subject name shouldn't be empty!")

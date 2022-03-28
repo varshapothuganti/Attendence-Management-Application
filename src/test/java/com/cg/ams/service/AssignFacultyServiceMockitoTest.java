@@ -3,11 +3,10 @@ package com.cg.ams.service;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -76,7 +75,7 @@ public class AssignFacultyServiceMockitoTest {
 	}
 	
 	@Test
-	@Disabled
+	//@Disabled
 	public void deleteTest() throws Exception {
 		AssignFacultyEntity afe = new AssignFacultyEntity(1,11,"username1",101,"coursename1",1001,"subject1","semester1","class1");
 		Mockito.when(afRep.findById(1L)).thenReturn(Optional.of(afe));
@@ -90,7 +89,9 @@ public class AssignFacultyServiceMockitoTest {
 	//@Disabled
 	public void searchByPagesTest() {
 		AssignFacultyEntity afe = new AssignFacultyEntity(1,11,"Username1",101,"Coursename1",1001,"Subject1","Semester1","Class1");
-		Mockito.when(afRep.findByUserNameIgnoreCase(afe.getUserName(), PageRequest.of(0, 1))).thenReturn(List.of(afe));
+		List<AssignFacultyEntity> l = new ArrayList<AssignFacultyEntity>();
+		l.add(afe);
+		Mockito.when(afRep.findByUserNameIgnoreCase(afe.getUserName(), PageRequest.of(0, 1))).thenReturn(l);
 		List<AssignFacultyEntity> al = afServ.search(afe, 0, 1);
 		assertEquals(1,al.size());
 	}
@@ -99,7 +100,9 @@ public class AssignFacultyServiceMockitoTest {
 	//@Disabled
 	public void searchTest() {
 		AssignFacultyEntity afe = new AssignFacultyEntity(1,11,"Username1",101,"Coursename1",1001,"Subject1","Semester1","Class1");
-		Mockito.when(afRep.findByUserNameIgnoreCase(afe.getUserName())).thenReturn(List.of(afe));
+		List<AssignFacultyEntity> l = new ArrayList<AssignFacultyEntity>();
+		l.add(afe);
+		Mockito.when(afRep.findByUserNameIgnoreCase(afe.getUserName())).thenReturn(l);
 		List<AssignFacultyEntity> al = afServ.search(afe);
 		assertEquals(1,al.size());
 	}

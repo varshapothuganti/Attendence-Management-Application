@@ -120,7 +120,8 @@ class UserServiceTest {
     @Test
     void forgetPasswordTest() {
     	long testId = 4;
-        UserEntity dbUser = userService.findByPk(testId);
+        @SuppressWarnings("unused")
+		UserEntity dbUser = userService.findByPk(testId);
         String newPassword = "phanindra@duvvuri";
 
         userService.forgetPassword("phanindra-duvvuri", newPassword);

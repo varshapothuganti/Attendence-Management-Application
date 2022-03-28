@@ -60,6 +60,7 @@ public class AttendanceServiceImpl implements IAttendanceService {
 
 	@Override
 	public Attendance findByPk(long id) {
+		@SuppressWarnings("unused")
 		Optional<Attendance> att = Optional.of(attRepo.getById(id));
 		return attRepo.findById(id).orElseThrow(() -> new DataNotFoundException("User not found with id: " + id));
 

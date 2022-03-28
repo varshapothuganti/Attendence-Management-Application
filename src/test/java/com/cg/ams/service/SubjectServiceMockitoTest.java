@@ -109,7 +109,8 @@ public class SubjectServiceMockitoTest {
 		Mockito.when(subRepo.save(sub)).thenReturn(sub);
 		subServ.add(sub);
 		list.add(sub);
-		List<SubjectEntity> l=subServ.search(sub);
+		@SuppressWarnings("unused")
+		List<SubjectEntity> l = subServ.search(sub);
 		assertEquals(1,list.size());
 	}
 	

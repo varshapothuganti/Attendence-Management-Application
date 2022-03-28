@@ -29,7 +29,7 @@ public class SubjectServiceImpl implements com.cg.ams.service.SubjectService {
     @Override
     public void update(SubjectEntity entity) throws RecordNotFoundException {
         Optional<SubjectEntity> sub1 = subRepo.findById(entity.getId());
-        if (sub1.isEmpty()) {
+        if (!sub1.isPresent()) {
             throw new RecordNotFoundException("Subject not found with the id: "+entity.getId());
         }
         SubjectEntity sub = sub1.get();
@@ -43,7 +43,7 @@ public class SubjectServiceImpl implements com.cg.ams.service.SubjectService {
     @Override
     public void delete(SubjectEntity entity) throws RecordNotFoundException {
         Optional<SubjectEntity> sub1 = subRepo.findById(entity.getId());
-        if (sub1.isEmpty()) {
+        if (!sub1.isPresent()) {
             throw new RecordNotFoundException("Subject not found with the id: "+entity.getId());
         }
         subRepo.delete(entity);
