@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.time.LocalDateTime;
 
 /**
- * This class is reponsible for handling all the user defined exceptions
+ * This class is responsible for handling all the user defined exceptions
  * <p>
  * Right now it handles:
  * <li>UserNotFoundException</li>

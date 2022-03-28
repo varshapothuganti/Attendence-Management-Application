@@ -10,9 +10,8 @@ import java.util.Optional;
 
 
 @Repository
-public interface ISubjectRepository extends JpaRepository<SubjectEntity, Integer> {
+public interface ISubjectRepository extends JpaRepository<SubjectEntity, Long> {
 
-    public Optional<SubjectEntity> findById(long id);
     public Optional<SubjectEntity> findByName(String name);
     public List<SubjectEntity> findByNameIgnoreCase(String name,Pageable pageable);
 	public List<SubjectEntity> findByNameIgnoreCase(String name);

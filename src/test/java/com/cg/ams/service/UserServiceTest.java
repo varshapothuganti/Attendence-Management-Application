@@ -13,22 +13,14 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@Disabled
+//@Disabled
 class UserServiceTest {
 
     @Autowired
     IUserService userService;
 
     @Test
-    @Disabled
-    void countTest() {  // Just Tested Once (hard coded values might change in the future)
-        long currentCount = 38; //  Hard Coded
-
-        assertEquals(currentCount, userService.count());
-    }
-
-    @Test
-    @Disabled
+//    @Disabled
     void add() throws ParseException {  // Just Tested Once (don't want to add records to DB)
         UserEntity user = new UserEntity();
         user.setFirstName("Viola");
@@ -53,7 +45,7 @@ class UserServiceTest {
         UserEntity dbUser = userService.findByPk(testId);  
 
         // Updating value
-        String newLogin = "phanindra-duvvuri";
+        String newLogin = "newloginid";
         dbUser.setLogin(newLogin);
         userService.update(dbUser);
 
@@ -66,7 +58,7 @@ class UserServiceTest {
     @Disabled
     void deleteTest() {
         long beforeDeleteCount = userService.count();
-        long testId = 6;
+        long testId = 10;
         UserEntity dbUser = userService.findByPk(testId);
 
         userService.delete(dbUser);
@@ -78,9 +70,9 @@ class UserServiceTest {
 
     @Test
     void findByLogin() {
-        String login = "purplemeercat202";
-        long id = 17;
-        String lastName = "Herrmann";
+        String login = "phanindra-duvvuri";
+        long id = 1;
+        String lastName = "Duvvuri";
         UserEntity user = userService.findByLogin(login);
 
         assertEquals(id, user.getId());
@@ -89,7 +81,7 @@ class UserServiceTest {
 
     @Test
     void findByPkTest() {
-        long testId = 4;  // entity name 'Phanindra'
+        long testId = 1;  // entity name 'Phanindra'
         UserEntity user = userService.findByPk(testId);
 
         assertEquals("Phanindra", user.getFirstName());
@@ -98,19 +90,20 @@ class UserServiceTest {
 
     @Test
     void searchTest() {
-        List<UserEntity> users = userService.search("syl");
+        List<UserEntity> users = userService.search("Phan");
+        long cnt = 2;
 
-        assertEquals(4, users.size());
+        assertEquals(cnt, users.size());
     }
 
     @Test
     void changePasswordTest() {
-        String newPassword = "phanindra@123";
-        long testId = 5;
+        String newPassword = "phanindra@123456";
+        long testId = 1;
         UserEntity dbUser = userService.findByPk(testId);
         String oldPassword = dbUser.getPassword();
 
-        userService.changePassword(2L, oldPassword, newPassword);
+        userService.changePassword(testId, oldPassword, newPassword);
         UserEntity updatedUser = userService.findByPk(testId);
 
         assertEquals(newPassword, updatedUser.getPassword());
@@ -119,13 +112,12 @@ class UserServiceTest {
 
     @Test
     void forgetPasswordTest() {
-    	long testId = 4;
-        UserEntity dbUser = userService.findByPk(testId);
+    	long testId = 1;
         String newPassword = "phanindra@duvvuri";
 
         userService.forgetPassword("phanindra-duvvuri", newPassword);
 
-        UserEntity updatedUser = userService.findByPk(2);
+        UserEntity updatedUser = userService.findByPk(testId);
 
         assertEquals(newPassword, updatedUser.getPassword());
     }

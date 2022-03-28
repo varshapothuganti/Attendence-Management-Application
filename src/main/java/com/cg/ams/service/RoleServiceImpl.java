@@ -52,8 +52,7 @@ public class RoleServiceImpl implements IRoleService {
 
     @Override
     public List<RoleEntity> getAllRoles() {
-        List<RoleEntity> roleList = roleRepo.findAll();
-        return roleList;
+        return roleRepo.findAll();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.cg.ams.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,20 +48,19 @@ public class StudentServiceImpl implements IStudentService{
 	@Override
 	public StudentEntity findByPk(long id) {
 
-		StudentEntity std = stdRepo.findById(id);
-		return std;
+		return stdRepo.findById(id);
 	}
 
 	@Override
 	public List<StudentEntity> search(StudentEntity entity, long pageNo, int pageSize) {
 
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
 	public List<StudentEntity> search(StudentEntity entity) {
 
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override

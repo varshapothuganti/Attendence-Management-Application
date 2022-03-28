@@ -18,7 +18,6 @@ public class SubjectEntity {
 
 	@Id
     private long id;
-    //private long courseId;
     private String courseName;
     @NotEmpty(message = "Name shouldn't be empty")
     private String name;
@@ -30,7 +29,6 @@ public class SubjectEntity {
     
     //constructors
     public SubjectEntity(long id, String name, String subjectCode, String semester) {
-		// TODO Auto-generated constructor stub
     	this.id=id;
     	this.name=name;
     	this.subjectCode=subjectCode;

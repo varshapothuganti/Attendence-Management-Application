@@ -14,7 +14,7 @@ import java.util.Optional;
 
 
 @Service
-public class SubjectServiceImpl implements com.cg.ams.service.SubjectService {
+public class SubjectServiceImpl implements com.cg.ams.service.ISubjectService {
 
 
     @Autowired
@@ -50,7 +50,7 @@ public class SubjectServiceImpl implements com.cg.ams.service.SubjectService {
     }
 
     @Override
-    public SubjectEntity findByName(String name) throws Exception {
+    public SubjectEntity findByName(String name) {
         try {
             Optional<SubjectEntity> sub1 = subRepo.findByName(name);
             if (!sub1.isPresent()) {
