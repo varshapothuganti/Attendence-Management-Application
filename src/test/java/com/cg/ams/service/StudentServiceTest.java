@@ -80,13 +80,13 @@ public class StudentServiceTest {
 	}
     @Test
     @Disabled
-    void searchTest() {
+    void searchTest() throws RecordNotFoundException {
         List<StudentEntity> students = studentService.search("sh");
         assertEquals(2, students.size());
     }
     @Test
     @Disabled
-    void searchPageTest() {
+    void searchPageTest() throws RecordNotFoundException {
  	    List<StudentEntity> al1 = studentService.search("sh",0, 3);
  		assertEquals(2,al1.size());
     }

@@ -5,43 +5,65 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "assign_faculty")
 public class AssignFacultyEntity {
 
     @Id
     private long id;
 
-    @NotEmpty(message = "User Id shouldn't be empty!")
+    @NotNull
     private long userId;
 
     @NotEmpty(message = "User name shouldn't be empty!")
     @Length(min = 8, max = 100, message = "User name length should be between 8 and 100")
     private String userName;
 
-    @NotEmpty(message = "Course Id shouldn't be empty!")
-    private long courseId;
+    //@NotNull
+    //private long courseId;
 
-    @NotEmpty(message = "Course name shouldn't be empty!")
-    @Length(min = 8, max = 100, message = "Course name should be between 8 and 100")
-    private String courseName;
+    //@NotEmpty(message = "Course name shouldn't be empty!")
+    //@Length(min = 8, max = 100, message = "Course name should be between 8 and 100")
+    //private String courseName;
 
-    @NotEmpty(message = "Subject Id shouldn't be empty!")
-    private long subjectId;
+    //@NotNull
+    //private long subjectId;
 
-    @NotEmpty(message = "Subject name shouldn't be empty!")
-    @Length(min = 8, max = 100, message = "Subject name should be between 8 and 100")
-    private String subjectName;
-
-    private String semester;
+    //@NotEmpty(message = "Subject name shouldn't be empty!")
+    //@Length(min = 8, max = 100, message = "Subject name should be between 8 and 100")
+    //private String subjectName;
+    //private String semester;
+    
+    
+    @NotEmpty(message="totalClass cannot be empty")
     private String totalClass;
-
+    
+    public AssignFacultyEntity(long id,long userId,String userName,String totalClass){
+    	this.id=id;
+    	this.userId=userId;
+    	this.userName=userName;
+    	this.totalClass=totalClass;
+    }
+    
+    /*@ManyToMany(fetch = FetchType.EAGER,mappedBy="faculty")
+    private List<SubjectEntity>subjects;*/
 }
+   
+

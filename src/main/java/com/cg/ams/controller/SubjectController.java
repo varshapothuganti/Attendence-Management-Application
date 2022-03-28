@@ -1,5 +1,6 @@
 package com.cg.ams.controller;
 
+import com.cg.ams.entity.CourseEntity;
 import com.cg.ams.entity.SubjectEntity;
 import com.cg.ams.exception.RecordNotFoundException;
 import com.cg.ams.service.SubjectService;
@@ -17,9 +18,11 @@ public class SubjectController {
     SubjectService subServ;
 
     @GetMapping("/subjects")
-    List<SubjectEntity> getAllEmployees() {
-        return subServ.getAllSubjects();
+    ResponseEntity<List<SubjectEntity>> getAllSubjects() {
+        List<SubjectEntity> subjects = subServ.getAllSubjects();
+        return new ResponseEntity<>(subjects, HttpStatus.OK);
     }
+
 
     @PostMapping("/subject")
     Long addSubject(@Valid @RequestBody SubjectEntity sub) {
@@ -56,7 +59,7 @@ public class SubjectController {
 		return subServ.search(entity, pageNo, pageSize);
 	}
 	
-	@GetMapping("/faculty/search")
+	@GetMapping("/subject/search")
 	List<SubjectEntity> search(@RequestBody SubjectEntity entity){
 		return subServ.search(entity);
 	}
