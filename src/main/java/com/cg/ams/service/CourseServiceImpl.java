@@ -29,27 +29,28 @@ public class CourseServiceImpl implements ICourseService {
 
     @Override
     public CourseEntity update(CourseEntity course) {
-        CourseEntity course1 = courseRepo.getById(course.getId());
-        if (course1 == null) {
-            throw new CourseNotFoundException("Could not find the Course with id->" + course.getId());
-        } else {
-            courseRepo.save(course);
-            return course;
-        }
+    	Optional<CourseEntity> opt=courseRepo.findById(course.getId());
+		if(!opt.isPresent()) {
+			throw new CourseNotFoundException("Could not find the Course with id->"+course.getId());
+		}
+		else {
+			courseRepo.save(course);
+			return course;
+		}
 
 
     }
 
     @Override
     public CourseEntity delete(CourseEntity course) {
-        CourseEntity course1 = courseRepo.getById(course.getId());
-
-        if (course1 != null) {
-            courseRepo.delete(course);
-            return course1;
-        } else {
-            throw new CourseNotFoundException("Could not find the Course with id->" + course.getId());
-        }
+    	Optional<CourseEntity> opt=courseRepo.findById(course.getId());
+		if(!opt.isPresent()) {
+			throw new CourseNotFoundException("Could not find the Course with id->"+course.getId());
+		}
+		else {
+			courseRepo.delete(course);
+			return course;
+		}
 
     }
 
@@ -98,8 +99,8 @@ public class CourseServiceImpl implements ICourseService {
 
     @Override
     public List<CourseEntity> getAllCourses() {
-        List<CourseEntity> courseList = courseRepo.findAll();
-        return courseList;
+       return courseRepo.findAll();
+   
     }
 
     @Override

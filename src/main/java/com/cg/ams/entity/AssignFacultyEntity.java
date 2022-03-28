@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import javax.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ public class AssignFacultyEntity {
     @Id
     private long id;
 
-    @NotNull
+    @NotNull(message = "User Id shouldn't be empty!")
     private long userId;
 
     @NotEmpty(message = "User name shouldn't be empty!")

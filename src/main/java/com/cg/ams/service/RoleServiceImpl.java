@@ -29,31 +29,32 @@ public class RoleServiceImpl implements IRoleService {
 
     @Override
     public RoleEntity deleteRole(RoleEntity role) {
-        RoleEntity role1 = roleRepo.getById(role.getId());
-        if (role1 != null) {
-            roleRepo.delete(role);
-            return role1;
-        } else {
-            throw new RoleNotFoundException("Could not fing Role with Id:" + role.getId());
-        }
+    	Optional<RoleEntity> opt=roleRepo.findById(role.getId());
+		if(!opt.isPresent()) {
+			throw new RoleNotFoundException("Could not find Role with Id:"+role.getId());
+		}
+		else {
+			roleRepo.delete(role);
+			return role;
+		}
     }
 
     @Override
     public RoleEntity updateRole(RoleEntity role) {
-
-        RoleEntity role1 = roleRepo.getById(role.getId());
-        if (role1 == null) {
-            throw new RoleNotFoundException("Could not fing Role with Id:" + role.getId());
-        } else {
-            roleRepo.save(role);
-            return role;
-        }
+    	Optional<RoleEntity> opt=roleRepo.findById(role.getId());
+		if(!opt.isPresent()) {
+			throw new RoleNotFoundException("Could not find Role with Id:"+role.getId());
+		}
+		else {
+			roleRepo.save(role);
+			return role;
+		}
     }
 
     @Override
     public List<RoleEntity> getAllRoles() {
-        List<RoleEntity> roleList = roleRepo.findAll();
-        return roleList;
+         return roleRepo.findAll();
+ 
     }
 
     @Override
