@@ -22,13 +22,13 @@ public class AttendanceController {
 	@Autowired
 	IAttendanceService attServ;
 
-	@PostMapping("/attendance")
+	@PostMapping("/attendance/AddAttendance")
 	ResponseEntity<Attendance> add(@RequestBody Attendance att) {
 		Attendance newAtt = attServ.add(att);
 		return new ResponseEntity<>(newAtt, HttpStatus.CREATED);
 	}
 
-	@GetMapping("/attendance/{id}")
+	@GetMapping("/attendance/byId/{id}")
 	Attendance findByPk(@PathVariable("id") int id) {
 		return attServ.findByPk(id);
 	}
