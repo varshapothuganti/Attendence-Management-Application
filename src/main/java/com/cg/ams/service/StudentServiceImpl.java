@@ -33,8 +33,13 @@ public class StudentServiceImpl implements IStudentService {
 	}
 
 	@Override
+<<<<<<< HEAD
 	public void update(StudentEntity entity) {
 
+=======
+	public void update(StudentEntity entity) throws RecordNotFoundException {
+		
+>>>>>>> 7fa15bf66df4c96a4eceb63581e1baff2155695d
 		StudentEntity student = this.findByPk(entity.getId());
 		if (student != null) {
 			studentRepository.save(entity);
@@ -43,8 +48,13 @@ public class StudentServiceImpl implements IStudentService {
 	}
 
 	@Override
+<<<<<<< HEAD
 	public void delete(StudentEntity entity) {
 
+=======
+	public void delete(StudentEntity entity) throws RecordNotFoundException {
+		
+>>>>>>> 7fa15bf66df4c96a4eceb63581e1baff2155695d
 		StudentEntity student = this.findByPk(entity.getId());
 
 		if (student != null) {
@@ -54,7 +64,7 @@ public class StudentServiceImpl implements IStudentService {
 	}
 
 	@Override
-	public StudentEntity findByPk(long id) {
+	public StudentEntity findByPk(long id) throws RecordNotFoundException {
 
 		return studentRepository.findById(id)
 				.orElseThrow(() -> new RecordNotFoundException("Student not found with id: " + id));
@@ -71,6 +81,7 @@ public class StudentServiceImpl implements IStudentService {
 		return sub1.get();
 	}
 
+<<<<<<< HEAD
 	@Override
 	public List<StudentEntity> search(String name, int pageNo, int pageSize) {
 		Pageable currentPage = PageRequest.of(pageNo, pageSize);
@@ -81,6 +92,28 @@ public class StudentServiceImpl implements IStudentService {
 			throw new RecordNotFoundException("Student not found with the given name " + name);
 		}
 		return sub1.get();
+=======
+	
+    @Override
+    public List<StudentEntity> search(String name) throws RecordNotFoundException {
+    	
+        Optional<List<StudentEntity>> sub1 = studentRepository.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(name,name);
+        if (sub1.get().isEmpty()) {
+             throw new RecordNotFoundException("Student not found with the given name "+ name);
+         }
+         return sub1.get();
+    }
+    
+	@Override
+	public List<StudentEntity> search(String name, int pageNo, int pageSize) throws RecordNotFoundException {
+        Pageable currentPage = PageRequest.of(pageNo, pageSize);
+        
+        Optional<List<StudentEntity>> sub1 = studentRepository.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(name,name, currentPage);
+        if (sub1.get().isEmpty()) {
+             throw new RecordNotFoundException("Student not found with the given name "+ name);
+         }
+         return sub1.get();
+>>>>>>> 7fa15bf66df4c96a4eceb63581e1baff2155695d
 
 	}
 
