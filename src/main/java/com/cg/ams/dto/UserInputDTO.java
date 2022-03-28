@@ -2,16 +2,13 @@ package com.cg.ams.dto;
 
 import java.util.Date;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.cg.ams.entity.AssignFacultyEntity;
-import com.cg.ams.entity.RoleEntity;
-
 import lombok.AllArgsConstructor;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -35,5 +32,6 @@ public class UserInputDTO {
 	private Date dob;
 	private String mobileNo;
 	private String gender;
-	private RoleEntity role;
+	@Min(value = 1, message = "Role Id cannot be lower than 1")
+	private long roleId;
 }

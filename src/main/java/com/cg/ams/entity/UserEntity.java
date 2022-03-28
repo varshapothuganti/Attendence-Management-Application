@@ -1,21 +1,23 @@
 package com.cg.ams.entity;
 
+import java.util.Date;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.DynamicUpdate;
+
+import com.cg.ams.dto.UserInputDTO;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.validator.constraints.Length;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.cg.ams.dto.UserInputDTO;
-import com.cg.ams.service.IRoleService;
-import com.cg.ams.service.RoleServiceImpl;
-
-import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import java.util.Date;
 
 /**
  * This class respresent the User Entity that is persisted into the database
@@ -36,6 +38,8 @@ public class UserEntity {
 
 	private String firstName;
 	private String lastName;
+
+	@Column(nullable = false)
 	private String login;
 	private String password;
 
@@ -62,7 +66,8 @@ public class UserEntity {
 
 		this.mobileNo = userInputDTO.getMobileNo();
 		this.gender = userInputDTO.getGender();
-		this.role = userInputDTO.getRole();
+//		this.role = userInputDTO.getRole();
+		
 		this.profilePic = profilePic == null || profilePic.length() == 0 ? "default-pic.jpg" : profilePic;
 	}
 }

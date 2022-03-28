@@ -22,6 +22,9 @@ import java.util.List;
 public class UserServiceImpl implements IUserService {
     @Autowired
     IUserRepository userRepository;
+    
+    @Autowired
+    IRoleService roleService;
 
     /**
      * Add a new entry into the database after checking the password.
@@ -38,6 +41,8 @@ public class UserServiceImpl implements IUserService {
         }
         
         UserEntity user = new UserEntity(userInputDTO, null);
+        user.setRole(roleService.getRoleById(userInputDTO.getRoleId()));
+        
         
         userRepository.save(user);
         return user.getId();

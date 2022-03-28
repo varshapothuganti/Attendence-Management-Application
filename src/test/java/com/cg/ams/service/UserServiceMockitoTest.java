@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.cg.ams.entity.RoleEntity;
 import com.cg.ams.entity.UserEntity;
 import com.cg.ams.repository.IUserRepository;
 
@@ -33,8 +34,8 @@ public class UserServiceMockitoTest {
 
 	@Test
 	void addTest() {
-		UserEntity user = new UserEntity(1000, "Phanindra", "Duvvuri", "pduvvuri", "phanindra", "phanindra", new Date(),
-				"8877665544", 1, "male", "default-pic.jpg");
+		RoleEntity role = new RoleEntity(100, "Admin", "Admin role");
+		UserEntity user = new UserEntity(1000, "Tony", "Stark", "ironman", "iam.ironman", new Date(), "1122334455", role, "male", "profile-pic.jpg");
 		Mockito.when(userRepository.save(user)).thenReturn(user);
 		Mockito.when(userRepository.findById(1000L)).thenReturn(Optional.of(user));
 
@@ -46,8 +47,8 @@ public class UserServiceMockitoTest {
 
 	@Test
 	void updateTest() {
-		UserEntity user = new UserEntity(1000, "Phanindra", "Duvvuri", "pduvvuri", "phanindra", "phanindra", new Date(),
-				"8877665544", 1, "male", "default-pic.jpg");
+		RoleEntity role = new RoleEntity(100, "Admin", "Admin role");
+		UserEntity user = new UserEntity(1000, "Tony", "Stark", "ironman", "iam.ironman", new Date(), "1122334455", role, "male", "profile-pic.jpg");
 		
 		Mockito.when(userRepository.findById(1000L)).thenReturn(Optional.of(user));
 		Mockito.when(userRepository.save(user)).thenReturn(user);
