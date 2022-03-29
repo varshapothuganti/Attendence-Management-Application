@@ -1,17 +1,15 @@
 package com.cg.ams.entity;
 
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
+import com.cg.ams.dto.SubjectDTO;
 
 @Entity
 @Data
@@ -38,11 +36,18 @@ public class SubjectEntity {
 	}
  
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    public SubjectEntity(SubjectDTO subjectDTO) {
+		this.id = subjectDTO.getId();
+		this.name = subjectDTO.getName();
+		this.course = subjectDTO.getCourse();
+		this.subjectCode = subjectDTO.getSubjectCode();
+		this.semester = subjectDTO.getSemester();
+	}
+
+
+	@ManyToOne(cascade = CascadeType.ALL)
     private CourseEntity course;
     
-    /*@ManyToMany(fetch = FetchType.EAGER,mappedBy="subjects")
-    private List<AssignFacultyEntity>subjects;*/
 
 
 

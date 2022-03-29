@@ -1,7 +1,6 @@
 package com.cg.ams.controller;
 
 import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cg.ams.dto.StudentInputDto;
 import com.cg.ams.entity.StudentEntity;
 import com.cg.ams.service.IStudentService;
 
@@ -29,6 +29,7 @@ public class StudentController {
 
 	@PostMapping("/add")
 	long addStudent(@Valid @RequestBody StudentEntity std) {
+		
 		return studentService.add(std);
 	}
 
