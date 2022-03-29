@@ -40,8 +40,9 @@ public class AssignFacultyServiceImpl implements IAssignFacultyService {
 
 	@Override
 	public void delete(AssignFacultyEntity entity) {
-		afRep.findById(entity.getId()).orElseThrow(
-				() -> new RecordNotFoundException("The faculty record with id: " + entity.getId() + " is not found!"));
+		Optional<AssignFacultyEntity> assignFaculty = afRep.findById(entity.getId());
+		if (assignFaculty.isEmpty())
+			throw new RecordNotFoundException("The faculty record with id: " + entity.getId() + " is not found!");
 
 		afRep.deleteById(entity.getId());
 	}

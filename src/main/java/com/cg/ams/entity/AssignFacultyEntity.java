@@ -1,14 +1,6 @@
 package com.cg.ams.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Length;
-import javax.validation.constraints.NotNull;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -20,6 +12,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
