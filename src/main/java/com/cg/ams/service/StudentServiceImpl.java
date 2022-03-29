@@ -48,14 +48,11 @@ public class StudentServiceImpl implements IStudentService {
 
 		StudentEntity student = this.findByPk(entity.getId());
 
-		if (student != null) {
-			studentRepository.delete(entity);
-		}
-
+		studentRepository.delete(student);
 	}
 
 	@Override
-	public StudentEntity findByPk(long id) throws RecordNotFoundException {
+	public StudentEntity findByPk(long id) {
 
 		return studentRepository.findById(id)
 				.orElseThrow(() -> new RecordNotFoundException("Student not found with id: " + id));
@@ -66,10 +63,10 @@ public class StudentServiceImpl implements IStudentService {
 
 		Optional<List<StudentEntity>> sub1 = studentRepository
 				.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(name, name);
-		if (sub1.get().isEmpty()) {
-			throw new RecordNotFoundException("Student not found with the given name " + name);
+		if (sub1.isPresent()) {
+			return sub1.get();
 		}
-		return sub1.get();
+		throw new RecordNotFoundException("Student not found with the given name " + name);
 	}
 
 	@Override
@@ -78,10 +75,10 @@ public class StudentServiceImpl implements IStudentService {
 
 		Optional<List<StudentEntity>> sub1 = studentRepository
 				.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(name, name, currentPage);
-		if (sub1.get().isEmpty()) {
-			throw new RecordNotFoundException("Student not found with the given name " + name);
+		if (sub1.isPresent()) {
+			return sub1.get();
 		}
-		return sub1.get();
+		throw new RecordNotFoundException("Student not found with the given name " + name);
 
 	}
 
@@ -89,10 +86,10 @@ public class StudentServiceImpl implements IStudentService {
 
 	public List<StudentEntity> findByName(String name) {
 		Optional<List<StudentEntity>> sub1 = studentRepository.findByName(name);
-		if (sub1.get().isEmpty()) {
-			throw new RecordNotFoundException("Student not found with the given name " + name);
+		if (sub1.isPresent()) {
+			return sub1.get();
 		}
-		return sub1.get();
+		throw new RecordNotFoundException("Student not found with the given name " + name);
 	}
 
 }

@@ -3,6 +3,7 @@ package com.cg.ams.service;
 import java.util.List;
 
 import com.cg.ams.dto.UserInputDTO;
+import com.cg.ams.dto.UserOutputDTO;
 import com.cg.ams.entity.UserEntity;
 
 /**
@@ -17,15 +18,15 @@ public interface IUserService {
 
 	void delete(UserEntity entity);
 
-	UserEntity findByLogin(String loginId);
+	UserOutputDTO findByLogin(String loginId);
 
-	UserEntity findByPk(long id); // find by id (pk - primary key)
+	UserOutputDTO findByPk(long id); // find by id (pk - primary key)
 
-	List<UserEntity> search(String name, int pageNo, int pageSize);
+	List<UserOutputDTO> search(String name, int pageNo, int pageSize);
 
-	List<UserEntity> search(String name);
+	List<UserOutputDTO> search(String name);
 
-	UserEntity authenticate(UserEntity entity);
+	UserOutputDTO authenticate(UserEntity entity);
 
 	boolean changePassword(Long id, String oldPassword, String newPassword);
 

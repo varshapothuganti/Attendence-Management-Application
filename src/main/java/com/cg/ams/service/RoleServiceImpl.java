@@ -79,7 +79,7 @@ public class RoleServiceImpl implements IRoleService {
 	@Override
 	public RoleEntity updateRoleNameById(long id, String name) {
 		Optional<RoleEntity> opt = roleRepo.findById(id);
-		if (opt != null) {
+		if (opt.isPresent()) {
 			RoleEntity role = opt.get();
 			role.setName(name);
 			roleRepo.save(role);

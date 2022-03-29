@@ -1,6 +1,7 @@
 package com.cg.ams.controller;
 
 import com.cg.ams.dto.UserInputDTO;
+import com.cg.ams.dto.UserOutputDTO;
 import com.cg.ams.entity.UserEntity;
 import com.cg.ams.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,30 +45,30 @@ public class UserController {
 	}
 
 	@GetMapping(path = "/login/{login}")
-	ResponseEntity<UserEntity> getUserByLogin(@PathVariable("login") String login) {
+	ResponseEntity<UserOutputDTO> getUserByLogin(@PathVariable("login") String login) {
 		return new ResponseEntity<>(userService.findByLogin(login), HttpStatus.OK);
 	}
 
 	@GetMapping(path = "/id/{id}")
-	ResponseEntity<UserEntity> getUserById(@PathVariable("id") long id) {
+	ResponseEntity<UserOutputDTO> getUserById(@PathVariable("id") long id) {
 		return new ResponseEntity<>(userService.findByPk(id), HttpStatus.OK);
 	}
 
 	@GetMapping(path = "/search")
-	ResponseEntity<List<UserEntity>> search(@RequestParam("name") String name) {
+	ResponseEntity<List<UserOutputDTO>> search(@RequestParam("name") String name) {
 
 		return new ResponseEntity<>(userService.search(name), HttpStatus.OK);
 	}
 
 	@GetMapping(path = "/search/{name}")
-	ResponseEntity<List<UserEntity>> search(@PathVariable String name,
+	ResponseEntity<List<UserOutputDTO>> search(@PathVariable String name,
 			@RequestParam(value = "page", defaultValue = "0") int pageNo,
 			@RequestParam(value = "size", defaultValue = "10") int pageSize) {
 		return new ResponseEntity<>(userService.search(name, pageNo, pageSize), HttpStatus.OK);
 	}
 
 	@PostMapping(path = "/authenticate")
-	ResponseEntity<UserEntity> authenticate(@RequestBody UserEntity userEntity) {
+	ResponseEntity<UserOutputDTO> authenticate(@RequestBody UserEntity userEntity) {
 		return new ResponseEntity<>(userService.authenticate(userEntity), HttpStatus.OK);
 	}
 
