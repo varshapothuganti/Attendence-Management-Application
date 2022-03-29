@@ -26,28 +26,6 @@ public class AssignFacultyEntity {
 
     @Id
     private long id;
-
-//    @NotNull(message = "User Id shouldn't be empty!")
-//    private long userId;
-//
-//    @NotEmpty(message = "User name shouldn't be empty!")
-//    @Length(min = 8, max = 100, message = "User name length should be between 8 and 100")
-//    private String userName;
-
-//    @NotNull
-//    private long courseId;
-//
-//    @NotEmpty(message = "Course name shouldn't be empty!")
-//    @Length(min = 8, max = 100, message = "Course name should be between 8 and 100")
-//    private String courseName;
-//
-//    @NotNull
-//    private long subjectId;
-//
-//    @NotEmpty(message = "Subject name shouldn't be empty!")
-//    @Length(min = 8, max = 100, message = "Subject name should be between 8 and 100")
-//    private String subjectName;
-//    private String semester;
     
     @NotEmpty(message="Username shouldn't be empty")
     private String userName;
