@@ -10,6 +10,7 @@ package com.cg.ams.exception;
  *
  * @author phanindra
  */
+@SuppressWarnings("serial")
 public class UserAuthenticationException extends RuntimeException {
     public UserAuthenticationException() {
     }

@@ -36,17 +36,17 @@ public class StudentController {
 		return studentService.add(std);
 	}
 	@PutMapping("/update")
-	void updateStudent(@Valid @RequestBody StudentEntity std) throws RecordNotFoundException
+	void updateStudent(@Valid @RequestBody StudentEntity std) throws Exception
 	{
 		studentService.update(std);
 	}
 	@DeleteMapping("/delete")
-	void deleteStudent(@Valid @RequestBody StudentEntity std) throws RecordNotFoundException
+	void deleteStudent(@Valid @RequestBody StudentEntity std) throws Exception
 	{
 		studentService.delete(std);
 	}
 	@GetMapping("/students/byPk/{id}")
-	StudentEntity getStudentById(@Valid @PathVariable("id") int stdId) throws RecordNotFoundException
+	StudentEntity getStudentById(@Valid @PathVariable("id") int stdId) throws Exception
 	{
 		return studentService.findByPk(stdId);
 		
@@ -59,7 +59,7 @@ public class StudentController {
 
 
     @GetMapping(path = "/searchStudent/{name}")
-    ResponseEntity<List<StudentEntity>> search(@Valid @RequestParam("name") String name) throws RecordNotFoundException {
+    ResponseEntity<List<StudentEntity>> search(@Valid @RequestParam("name") String name) throws Exception {
 
         return new ResponseEntity<>(studentService.search(name), HttpStatus.OK);
     }
@@ -67,7 +67,7 @@ public class StudentController {
 
     ResponseEntity<List<StudentEntity>> search(@Valid @PathVariable String name,
                                             @RequestParam(value = "page", defaultValue = "0") int pageNo,
-                                            @RequestParam(value = "size", defaultValue = "10") int pageSize) throws RecordNotFoundException {
+                                            @RequestParam(value = "size", defaultValue = "10") int pageSize) throws Exception {
         return new ResponseEntity<>(studentService.search(name, pageNo, pageSize), HttpStatus.OK);
     }
 
