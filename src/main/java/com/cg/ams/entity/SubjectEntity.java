@@ -46,11 +46,8 @@ public class SubjectEntity {
 
 
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="course_id",nullable=true)
     private CourseEntity course;
     
-    /*@ManyToMany(fetch = FetchType.EAGER,mappedBy="subjects")
-    private List<AssignFacultyEntity>subjects;*/
 
 
 

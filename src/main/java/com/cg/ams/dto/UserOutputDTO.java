@@ -2,11 +2,6 @@ package com.cg.ams.dto;
 
 import java.util.Date;
 
-import javax.validation.constraints.NotEmpty;
-
-import org.hibernate.validator.constraints.Length;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import com.cg.ams.entity.UserEntity;
 
 import lombok.AllArgsConstructor;
@@ -17,17 +12,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserOutputDTO {
-	
 	private long id;
-	@NotEmpty
 	private String firstName;
-	@NotEmpty
 	private String lastName;
-	@NotEmpty
-	@Length(min = 3, max = 25, message = "login ID length should between 3 and 25")
 	private String login;
-
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date dob;
 	private String mobileNo;
 	private String gender;
@@ -39,9 +27,8 @@ public class UserOutputDTO {
 		this.lastName = user.getLastName();
 		this.login = user.getLogin();
 		this.dob = user.getDob();
-		this.gender = user.getGender();
 		this.mobileNo = user.getMobileNo();
-		this.roleId = user.getRoleId();
+		this.gender = user.getGender();
+		this.roleId = user.getRole().getId();
 	}
-	
 }

@@ -1,14 +1,23 @@
 package com.cg.ams.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.util.Date;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.cg.ams.dto.UserInputDTO;
 
-import javax.persistence.*;
-import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * This class respresent the User Entity that is persisted into the database
@@ -24,25 +33,28 @@ import java.util.Date;
 public class UserEntity {
 
 	@Id
-	//@GeneratedValue
+	@GeneratedValue
 	private long id;
 
 	private String firstName;
 	private String lastName;
+
+	@Column(nullable = false, unique = true)
 	private String login;
 	private String password;
 
 	private Date dob;
 	private String mobileNo;
 
-	private long roleId;
+	@OneToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "role_id")
+	private RoleEntity role;
 
 	private String gender;
 	private String profilePic;
 
-	// Special constructor from DTO object
+	// Special contructor from DTO object
 	public UserEntity(UserInputDTO userInputDTO) {
-		this.id = userInputDTO.getId();
 		this.firstName = userInputDTO.getFirstName();
 		this.lastName = userInputDTO.getLastName();
 		this.login = userInputDTO.getLogin();
@@ -54,7 +66,8 @@ public class UserEntity {
 
 		this.mobileNo = userInputDTO.getMobileNo();
 		this.gender = userInputDTO.getGender();
-		this.roleId = userInputDTO.getRoleId();
+//		this.role = userInputDTO.getRole();
+		
 		this.profilePic = userInputDTO.getProfilePic();
 	}
 }

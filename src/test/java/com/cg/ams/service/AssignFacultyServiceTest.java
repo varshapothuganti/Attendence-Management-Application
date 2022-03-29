@@ -27,9 +27,9 @@ public class AssignFacultyServiceTest {
 	@Test
 	//@Disabled
 	public void addTest() throws Exception {
-		UserInputDTO userInDTO = new UserInputDTO(1,"firstName1","lastName1","login1",
+		UserInputDTO userInDTO = new UserInputDTO(1L,"firstName1","lastName1","login1",
 				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
-				"mobileNo1","gender1",11,"profilePic1");
+				"mobileNo1","gender1","profilePic1",11L);
 		CourseEntity c1 = new CourseEntity(101,"name1","description1");
 		CourseEntity c2 = new CourseEntity(102,"name2","description2");
 		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
@@ -66,9 +66,9 @@ public class AssignFacultyServiceTest {
 	@Test
 	//@Disabled
 	public void updateTest() throws Exception {
-		UserInputDTO userInDTO = new UserInputDTO(1,"f-Name1","l-Name1","login1",
+		UserInputDTO userInDTO = new UserInputDTO(1L,"firstName1","lastName1","login1",
 				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
-				"mobileNo1","gender1",11,"profilePic1");
+				"mobileNo1","gender1","profilePic1",11L);
 		CourseEntity c1 = new CourseEntity(101,"name1","description1");
 		CourseEntity c2 = new CourseEntity(102,"name2","description2");
 		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
@@ -88,9 +88,9 @@ public class AssignFacultyServiceTest {
 	@Test
 	//@Disabled
 	public void searchByPagesTest() throws Exception {
-		UserInputDTO userInDTO = new UserInputDTO(1,"firstName1","lastName1","login1",
+		UserInputDTO userInDTO = new UserInputDTO(1L,"firstName1","lastName1","login1",
 				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
-				"mobileNo1","gender1",11,"profilePic1");
+				"mobileNo1","gender1","profilePic1",11L);
 		CourseEntity c1 = new CourseEntity(101,"name1","description1");
 		CourseEntity c2 = new CourseEntity(102,"name2","description2");
 		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
@@ -108,9 +108,9 @@ public class AssignFacultyServiceTest {
 	@Test
 	//@Disabled
 	public void searchTest() throws Exception {
-		UserInputDTO userInDTO = new UserInputDTO(1,"firstName1","lastName1","login1",
+		UserInputDTO userInDTO = new UserInputDTO(1L,"firstName1","lastName1","login1",
 				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
-				"mobileNo1","gender1",11,"profilePic1");
+				"mobileNo1","gender1","profilePic1",11L);
 		CourseEntity c1 = new CourseEntity(101,"name1","description1");
 		CourseEntity c2 = new CourseEntity(102,"name2","description2");
 		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
@@ -126,9 +126,9 @@ public class AssignFacultyServiceTest {
 	@Test
 	//@Disabled
 	public void deleteTest() throws Exception {
-		UserInputDTO userInDTO = new UserInputDTO(1,"firstName1","lastName1","login1",
+		UserInputDTO userInDTO = new UserInputDTO(1L,"firstName1","lastName1","login1",
 				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
-				"mobileNo1","gender1",11,"profilePic1");
+				"mobileNo1","gender1","profilePic1",11L);
 		CourseEntity c1 = new CourseEntity(101,"name1","description1");
 		CourseEntity c2 = new CourseEntity(102,"name2","description2");
 		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
