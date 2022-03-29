@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.ams.entity.SubjectEntity;
+import com.cg.ams.exception.RecordNotFoundException;
 import com.cg.ams.service.ISubjectService;
 
 @RestController

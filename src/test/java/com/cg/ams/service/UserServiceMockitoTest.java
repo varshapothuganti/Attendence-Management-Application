@@ -31,30 +31,30 @@ public class UserServiceMockitoTest {
 		MockitoAnnotations.openMocks(this);
 	}
 
-	@Test
-	void addTest() {
-		UserEntity user = new UserEntity(1000, "Phanindra", "Duvvuri", "pduvvuri", "phanindra", "phanindra", new Date(),
-				"8877665544", 1, "male", "default-pic.jpg");
-		Mockito.when(userRepository.save(user)).thenReturn(user);
-		Mockito.when(userRepository.findById(1000L)).thenReturn(Optional.of(user));
-
-		UserEntity user1 = userService.findByPk(1000);
-
-		assertEquals("Phanindra", user1.getFirstName());
-		assertEquals("pduvvuri", user1.getLogin());
-	}
-
-	@Test
-	void updateTest() {
-		UserEntity user = new UserEntity(1000, "Phanindra", "Duvvuri", "pduvvuri", "phanindra", "phanindra", new Date(),
-				"8877665544", 1, "male", "default-pic.jpg");
-		
-		Mockito.when(userRepository.findById(1000L)).thenReturn(Optional.of(user));
-		Mockito.when(userRepository.save(user)).thenReturn(user);
-		
-		
-		userService.update(user);
-		
-		assertEquals(user, userService.findByPk(1000));
-	}
+//	@Test
+//	void addTest() {
+//		UserEntity user = new UserEntity(1000, "Phanindra", "Duvvuri", "pduvvuri", "phanindra", "phanindra", new Date(),
+//				"8877665544", 1, "male", "default-pic.jpg");
+//		Mockito.when(userRepository.save(user)).thenReturn(user);
+//		Mockito.when(userRepository.findById(1000L)).thenReturn(Optional.of(user));
+//
+//		UserEntity user1 = userService.findByPk(1000);
+//
+//		assertEquals("Phanindra", user1.getFirstName());
+//		assertEquals("pduvvuri", user1.getLogin());
+//	}
+//
+//	@Test
+//	void updateTest() {
+//		UserEntity user = new UserEntity(1000, "Phanindra", "Duvvuri", "pduvvuri", "phanindra", "phanindra", new Date(),
+//				"8877665544", 1, "male", "default-pic.jpg");
+//		
+//		Mockito.when(userRepository.findById(1000L)).thenReturn(Optional.of(user));
+//		Mockito.when(userRepository.save(user)).thenReturn(user);
+//		
+//		
+//		userService.update(user);
+//		
+//		assertEquals(user, userService.findByPk(1000));
+//	}
 }

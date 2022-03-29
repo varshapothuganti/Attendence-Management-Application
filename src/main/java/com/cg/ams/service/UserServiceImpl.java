@@ -37,7 +37,7 @@ public class UserServiceImpl implements IUserService {
             throw new PasswordDidnotMatchException("Passwords did not match!");
         }
         
-        UserEntity user = new UserEntity(userInputDTO, null);
+        UserEntity user = new UserEntity(userInputDTO);
         
         userRepository.save(user);
         return user.getId();

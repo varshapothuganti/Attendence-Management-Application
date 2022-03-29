@@ -4,17 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.validator.constraints.Length;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import com.cg.ams.dto.UserInputDTO;
-import com.cg.ams.service.IRoleService;
-import com.cg.ams.service.RoleServiceImpl;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 
 /**
@@ -31,7 +24,7 @@ import java.util.Date;
 public class UserEntity {
 
 	@Id
-	@GeneratedValue
+	//@GeneratedValue
 	private long id;
 
 	private String firstName;
@@ -42,15 +35,14 @@ public class UserEntity {
 	private Date dob;
 	private String mobileNo;
 
-	@OneToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "role_id")
-	private RoleEntity role;
+	private long roleId;
 
 	private String gender;
 	private String profilePic;
 
-	// Special contructor from DTO object
-	public UserEntity(UserInputDTO userInputDTO, String profilePic) {
+	// Special constructor from DTO object
+	public UserEntity(UserInputDTO userInputDTO) {
+		this.id = userInputDTO.getId();
 		this.firstName = userInputDTO.getFirstName();
 		this.lastName = userInputDTO.getLastName();
 		this.login = userInputDTO.getLogin();
@@ -62,7 +54,7 @@ public class UserEntity {
 
 		this.mobileNo = userInputDTO.getMobileNo();
 		this.gender = userInputDTO.getGender();
-		this.role = userInputDTO.getRole();
-		this.profilePic = profilePic == null || profilePic.length() == 0 ? "default-pic.jpg" : profilePic;
+		this.roleId = userInputDTO.getRoleId();
+		this.profilePic = userInputDTO.getProfilePic();
 	}
 }

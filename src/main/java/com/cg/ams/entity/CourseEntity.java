@@ -1,7 +1,6 @@
 package com.cg.ams.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -23,5 +22,8 @@ public class CourseEntity {
     private long id;
     private String name;
     private String description;
-
+    
+//    @OneToMany(cascade = CascadeType.ALL)
+//    private List<SubjectEntity> subjects;
+    
 }

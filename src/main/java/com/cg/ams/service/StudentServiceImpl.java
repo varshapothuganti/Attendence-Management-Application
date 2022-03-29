@@ -1,6 +1,5 @@
 package com.cg.ams.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,23 +71,17 @@ public class StudentServiceImpl implements IStudentService {
          return sub1.get();
     }
     
-	@Override
-	public List<StudentEntity> search(String name, int pageNo, int pageSize) throws RecordNotFoundException {
-        Pageable currentPage = PageRequest.of(pageNo, pageSize);
-        
-        Optional<List<StudentEntity>> sub1 = studentRepository.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(name,name, currentPage);
-        if (sub1.get().isEmpty()) {
-             throw new RecordNotFoundException("Student not found with the given name "+ name);
-         }
-         return sub1.get();
-
-		Optional<List<StudentEntity>> sub1 = studentRepository
-				.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(name, name);
-		if (sub1.get().isEmpty()) {
-			throw new RecordNotFoundException("Student not found with the given name " + name);
-		}
-		return sub1.get();
-	}
+//	@Override
+//	public List<StudentEntity> search(String name, int pageNo, int pageSize) throws RecordNotFoundException {
+//        Pageable currentPage = PageRequest.of(pageNo, pageSize);
+//        
+//        Optional<List<StudentEntity>> sub1 = studentRepository.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(name,name, currentPage);
+//        if (sub1.get().isEmpty()) {
+//             throw new RecordNotFoundException("Student not found with the given name "+ name);
+//         }
+//         return sub1.get();
+//
+//	}
 
 	@Override
 	public List<StudentEntity> search(String name, int pageNo, int pageSize) {
