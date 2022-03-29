@@ -1,6 +1,5 @@
 package com.cg.ams.controller;
 
-
 import java.util.List;
 
 import javax.validation.Valid;
@@ -25,57 +24,58 @@ public class SubjectController {
 	@Autowired
 	ISubjectService subServ;
 
+	// Mapping to get all subjects in the entity
+	@GetMapping("/subjects")
+	ResponseEntity<List<SubjectEntity>> getAllSubjects() {
+		List<SubjectEntity> subjects = subServ.getAllSubjects();
+		return new ResponseEntity<>(subjects, HttpStatus.OK);
+	}
 
-    //Mapping to get all subjects in the entity
-    @GetMapping("/subjects")
-    ResponseEntity<List<SubjectEntity>> getAllSubjects() {
-        List<SubjectEntity> subjects = subServ.getAllSubjects();
-        return new ResponseEntity<>(subjects, HttpStatus.OK);
-    }
+	// To add a new subject to the database
+	@PostMapping("/subject")
+	ResponseEntity<Long> addSubject(@Valid @RequestBody SubjectEntity sub) {
+		Long newSubId = subServ.add(sub);
+		return new ResponseEntity<>(newSubId, HttpStatus.CREATED);
+	}
 
+	// To delete a subject
+	@DeleteMapping("/subject")
+	ResponseEntity<String> deleteSubject(@Valid @RequestBody SubjectEntity sub) {
+		subServ.delete(sub);
+//        System.out.println("Subject deleted successfully");
+		return new ResponseEntity<>("Subject deleted successfully", HttpStatus.OK);
+	}
 
-    //To add a new subject to the database
-    @PostMapping("/subject")
-    Long addSubject(@Valid @RequestBody SubjectEntity sub) {
-        Long newSubId = subServ.add(sub);
-        return newSubId;
-    }
+	// To update a given subject
+	@PatchMapping("/subject")
+	ResponseEntity<String> updateSubject(@Valid @RequestBody SubjectEntity sub) {
+		subServ.update(sub);
+//		System.out.println("Subject Updated successfully");
+		return new ResponseEntity<>("Subject Updated successfully", HttpStatus.OK);
+	}
 
-    //To delete a subject
-    @DeleteMapping("/subject")
-    void deleteSubject(@Valid @RequestBody SubjectEntity sub) throws RecordNotFoundException {
-        subServ.delete(sub);
-        System.out.println("Subject deleted successfully");
-    }
+	// To get a subject based on name
+	@GetMapping("/subject/byname/{name}")
+	ResponseEntity<SubjectEntity> getSubjectByName(@PathVariable String name) {
+		SubjectEntity sub = subServ.findByName(name);
+		return new ResponseEntity<>(sub, HttpStatus.OK);
+	}
 
-    //To update a given subject
-    @PatchMapping("/subject")
-    void updateSubject(@Valid @RequestBody SubjectEntity sub) throws RecordNotFoundException {
-        subServ.update(sub);
-        System.out.println("Subject Updated successfully");
-    }
+	// To get a subject based on id
+	@GetMapping("/subject/{id}")
+	ResponseEntity<SubjectEntity> getSubjectById(@PathVariable long id) {
+		SubjectEntity sub = subServ.findByPk(id);
+		return new ResponseEntity<>(sub, HttpStatus.OK);
+	}
 
-    //To get a subject based on name
-    @GetMapping("/subject/byname/{name}")
-    ResponseEntity<SubjectEntity> getSubjectByName(@PathVariable String name) throws Exception {
-        SubjectEntity sub = subServ.findByName(name);
-        return new ResponseEntity<>(sub, HttpStatus.OK);
-    }
-
-    //To get a subject based on id
-    @GetMapping("/subject/{id}")
-    ResponseEntity<SubjectEntity> getSubjectById(@PathVariable long id) throws RecordNotFoundException {
-        SubjectEntity sub = subServ.findByPk(id);
-        return new ResponseEntity<>(sub, HttpStatus.OK);
-    }
-    
-    @GetMapping("/subject/searchByPages/{pageNo}/{pageSize}")
-	List<SubjectEntity> search(@RequestBody SubjectEntity entity,@PathVariable("pageNo") int pageNo,@PathVariable("pageSize") int pageSize){
+	@GetMapping("/subject/searchByPages/{pageNo}/{pageSize}")
+	List<SubjectEntity> search(@RequestBody SubjectEntity entity, @PathVariable("pageNo") int pageNo,
+			@PathVariable("pageSize") int pageSize) {
 		return subServ.search(entity, pageNo, pageSize);
 	}
-	
+
 	@GetMapping("/subject/search")
-	List<SubjectEntity> search(@RequestBody SubjectEntity entity){
+	List<SubjectEntity> search(@RequestBody SubjectEntity entity) {
 		return subServ.search(entity);
 	}
 }

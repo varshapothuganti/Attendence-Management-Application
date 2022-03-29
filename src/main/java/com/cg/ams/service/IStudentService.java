@@ -2,8 +2,6 @@ package com.cg.ams.service;
 
 import java.util.List;
 
-
-
 import com.cg.ams.entity.StudentEntity;
 
 public interface IStudentService {
@@ -21,6 +19,5 @@ public interface IStudentService {
 	public List<StudentEntity> search(String name, int pageNo, int pageSize);
 
 	public List<StudentEntity> search(String name);
-
 
 }

@@ -29,21 +29,21 @@ public class SubjectServiceImpl implements ISubjectService {
     }
 
     @Override
-    public void update(SubjectEntity entity) throws RecordNotFoundException {
+    public void update(SubjectEntity entity) {
         Optional<SubjectEntity> sub1 = subRepo.findById(entity.getId());
-        if (sub1.isEmpty()) {
-            throw new RecordNotFoundException("Subject not found with the id: "+entity.getId());
+        if (sub1.isPresent()) {
+            SubjectEntity sub = sub1.get();
+            sub.setCourse(entity.getCourse());
+            sub.setName(entity.getName());
+            sub.setSemester(entity.getSemester());
+            sub.setSubjectCode(entity.getSubjectCode());
+            subRepo.save(sub);
         }
-        SubjectEntity sub = sub1.get();
-        sub.setCourse(entity.getCourse());
-        sub.setName(entity.getName());
-        sub.setSemester(entity.getSemester());
-        sub.setSubjectCode(entity.getSubjectCode());
-        subRepo.save(sub);
+        throw new RecordNotFoundException("Subject not found with the id: "+entity.getId());
     }
 
     @Override
-    public void delete(SubjectEntity entity) throws RecordNotFoundException {
+    public void delete(SubjectEntity entity) {
         Optional<SubjectEntity> sub1 = subRepo.findById(entity.getId());
         if (sub1.isEmpty()) {
             throw new RecordNotFoundException("Subject not found with the id: "+entity.getId());
@@ -65,7 +65,7 @@ public class SubjectServiceImpl implements ISubjectService {
     }
 
     @Override
-    public SubjectEntity findByPk(long id) throws RecordNotFoundException {
+    public SubjectEntity findByPk(long id) {
         Optional<SubjectEntity> sub1 = subRepo.findById(id);
         if (!sub1.isPresent()) {
             throw new RecordNotFoundException("Subject not found with the id: "+id);

@@ -1,44 +1,40 @@
 package com.cg.ams.service;
 
 import java.util.List;
-
-
-
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import com.cg.ams.entity.StudentEntity;
 import com.cg.ams.exception.DuplicateRecordException;
 import com.cg.ams.exception.RecordNotFoundException;
-import com.cg.ams.entity.StudentEntity;
 import com.cg.ams.repository.IStudentRepository;
 
-
 @Service
-public class StudentServiceImpl implements IStudentService{
-	
-	
+public class StudentServiceImpl implements IStudentService {
+
 	@Autowired
 	IStudentRepository studentRepository;
 
 	@Override
 	public long add(StudentEntity entity) {
-		
-		Optional<StudentEntity> student= studentRepository.findById(entity.getId());
-		if(student.isPresent())
-		{
-			throw new DuplicateRecordException("Student Already exists with given id "+ entity.getId());
+
+		Optional<StudentEntity> student = studentRepository.findById(entity.getId());
+		if (student.isPresent()) {
+			throw new DuplicateRecordException("Student Already exists with given id " + entity.getId());
 		}
 		StudentEntity stud = studentRepository.save(entity);
 
 		return stud.getId();
-	
+
 	}
 
 	@Override
 	public void update(StudentEntity entity) {
+
 		
 		Optional<StudentEntity> student = studentRepository.findById(entity.getId());
         if (!student.isPresent()) {
@@ -62,26 +58,22 @@ public class StudentServiceImpl implements IStudentService{
 
 	@Override
 	public void delete(StudentEntity entity) {
-		
-        Optional<StudentEntity> student = studentRepository.findById(entity.getId());
-        if (!student.isPresent()) {
-            throw new RecordNotFoundException("Student not found with the id: "+entity.getId());
-        }
-        studentRepository.delete(entity);
-		
+
+		Optional<StudentEntity> student = studentRepository.findById(entity.getId());
+		if (!student.isPresent()) {
+			throw new RecordNotFoundException("Student not found with the id: " + entity.getId());
+		}
+		studentRepository.delete(entity);
+
 	}
-
-
 
 	@Override
 	public StudentEntity findByPk(long id) {
 
-		return studentRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Student not found with id: " + id));
+		return studentRepository.findById(id)
+				.orElseThrow(() -> new RecordNotFoundException("Student not found with id: " + id));
 	}
 
-	
-
-    
 	@Override
 	public List<StudentEntity> search(String name, int pageNo, int pageSize) {
         Pageable currentPage = PageRequest.of(pageNo, pageSize);
@@ -90,23 +82,17 @@ public class StudentServiceImpl implements IStudentService{
         return student.get();
 	}
 
+
 	@Override
 	public List<StudentEntity> findByName(String name){
       Optional<List<StudentEntity>> student = studentRepository.findByName(name);
     return student.get();
-
-
 	}
 
 	@Override
-	public List<StudentEntity> search(String name) {
-		
+	public List<StudentEntity> search(String name) {		
 		Optional<List<StudentEntity>> student = studentRepository.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(name,name);
 		return student.get();
 	}
-
-
-	
-
 
 }

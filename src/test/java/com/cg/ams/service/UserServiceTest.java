@@ -1,123 +1,120 @@
 package com.cg.ams.service;
 
-import com.cg.ams.dto.UserInputDTO;
-import com.cg.ams.entity.UserEntity;
-import org.junit.jupiter.api.Disabled;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.Date;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import com.cg.ams.dto.UserInputDTO;
+import com.cg.ams.dto.UserOutputDTO;
+import com.cg.ams.entity.UserEntity;
 
 @SpringBootTest
-//@Disabled
 class UserServiceTest {
 
-    @Autowired
-    IUserService userService;
+	@Autowired
+	UserServiceImpl userService;
 
-    @Test
-//    @Disabled
-    void add() throws ParseException {  // Just Tested Once (don't want to add records to DB)
-        UserInputDTO user = new UserInputDTO();
-        user.setFirstName("Viola");
-        user.setLastName("Herrmann");
-        user.setLogin("purplemeercat202");
-        user.setPassword("dickens12345");
-        user.setGender("female");
-        user.setDob(new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"));
-//        user.setRoleId(1);
+	@Test
+	void addTest() { // Just Tested Once (don't want to add records to DB)
+		UserInputDTO user = new UserInputDTO();
+		user.setFirstName("Viola");
+		user.setLastName("Herrmann");
+		user.setLogin("purplemeercat202");
+		user.setPassword("dickens12345");
+		user.setConfirmPassword("dickens12345");
+		user.setGender("female");
+		user.setDob(new Date());
+		user.setRoleId(1);
 
-        long dbCount = userService.count();
-        userService.add(user);
+		long prevCount = userService.count();
+		userService.add(user);
 
-        assertEquals(dbCount + 1, userService.count());
-    }
+		assertEquals(prevCount + 1, userService.count());
+	}
 
-    @Test
-    void updateTest() {
-    	long testId = 3;  // Hard coded
-        UserEntity dbUser = userService.findByPk(testId);  
+	@Test
+	void updateTest() {
+		long testId = 3; // Hard coded
+		UserEntity userEntity = userService.getUserById(testId);
 
-        // Updating value
-        String newLogin = "newloginid";
-        dbUser.setLogin(newLogin);
-        userService.update(dbUser);
+		// Updating value
+		String newLogin = "newloginid";
+		userEntity.setLogin(newLogin);
+		userService.update(new UserInputDTO(userEntity));
 
-        UserEntity updatedUser = userService.findByPk(testId);
+		UserOutputDTO updatedUser = userService.findByPk(testId);
 
-        assertEquals(newLogin, updatedUser.getLogin());
-    }
+		assertEquals(newLogin, updatedUser.getLogin());
+	}
 
-    @Test
-    @Disabled
-    void deleteTest() {
-        long beforeDeleteCount = userService.count();
-        long testId = 10;
-        UserEntity dbUser = userService.findByPk(testId);
+	@Test
+	void deleteTest() {
+		long beforeDeleteCount = userService.count();
+		long testId = 4;
+		UserEntity dbUser = userService.getUserById(testId);
 
-        userService.delete(dbUser);
+		userService.delete(new UserInputDTO(dbUser));
 
-        long afterDeleteCount = userService.count();
+		long afterDeleteCount = userService.count();
 
-        assertEquals(beforeDeleteCount, afterDeleteCount + 1);
-    }
+		assertEquals(beforeDeleteCount, afterDeleteCount + 1);
+	}
 
-    @Test
-    void findByLogin() {
-        String login = "phanindra-duvvuri";
-        long id = 1;
-        String lastName = "Duvvuri";
-        UserEntity user = userService.findByLogin(login);
+	@Test
+	void findByLogin() {
+		String login = "pduvvuri";
+		long id = 28;
+		UserOutputDTO user = userService.findByLogin(login);
 
-        assertEquals(id, user.getId());
-        assertEquals(lastName, user.getLastName());
-    }
+		assertEquals(id, user.getId());
+	}
 
-    @Test
-    void findByPkTest() {
-        long testId = 1;  // entity name 'Phanindra'
-        UserEntity user = userService.findByPk(testId);
+	@Test
+	void findByPkTest() {
+		long testId = 1; // entity name 'Phanindra'
+		UserOutputDTO user = userService.findByPk(testId);
 
-        assertEquals("Phanindra", user.getFirstName());
-        assertEquals("Duvvuri", user.getLastName());
-    }
+		assertEquals("phanindra", user.getFirstName());
+		assertEquals("duvvuri", user.getLastName());
+	}
 
-    @Test
-    void searchTest() {
-        List<UserEntity> users = userService.search("Phan");
-        long cnt = 2;
+	@Test
+	void searchTest() {
+		String searchTerm = "phani";
+		List<UserOutputDTO> users = userService.search(searchTerm);
+		long cnt = 3;
 
-        assertEquals(cnt, users.size());
-    }
+		assertEquals(cnt, users.size());
+	}
 
-    @Test
-    void changePasswordTest() {
-        String newPassword = "phanindra@123456";
-        long testId = 1;
-        UserEntity dbUser = userService.findByPk(testId);
-        String oldPassword = dbUser.getPassword();
+	@Test
+	void changePasswordTest() {
+		String newPassword = "phanindra@123456";
+		long testId = 1;
+		UserEntity dbUser = userService.getUserById(testId);
+		String oldPassword = dbUser.getPassword();
 
-        userService.changePassword(testId, oldPassword, newPassword);
-        UserEntity updatedUser = userService.findByPk(testId);
+		userService.changePassword(testId, oldPassword, newPassword);
+		UserEntity updatedUser = userService.getUserById(testId);
 
-        assertEquals(newPassword, updatedUser.getPassword());
+		assertEquals(newPassword, updatedUser.getPassword());
 
-    }
+	}
 
-    @Test
-    void forgetPasswordTest() {
-    	long testId = 1;
-        String newPassword = "phanindra@duvvuri";
+	@Test
+	void forgetPasswordTest() {
+		long testId = 28;
+		String newPassword = "phanindra@duvvuri";
 
-        userService.forgetPassword("phanindra-duvvuri", newPassword);
+		userService.forgetPassword("pduvvuri", newPassword);
 
-        UserEntity updatedUser = userService.findByPk(testId);
+		UserEntity updatedUser = userService.getUserById(testId);
 
-        assertEquals(newPassword, updatedUser.getPassword());
-    }
+		assertEquals(newPassword, updatedUser.getPassword());
+	}
 }
