@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -93,23 +94,24 @@ class StudentServiceMokitoTest {
 	}
 	
 	@Test
-	void searchTest() throws RecordNotFoundException, ParseException
+	void searchTest() throws ParseException
 	{
 		StudentEntity student=new StudentEntity(1000,2,"Varsha","Pothuganti",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),"Female","9999999999","varsha@gmail.com","father@gmail.com","7984561230","pic1.jpg");
 		List<StudentEntity> list =new ArrayList<StudentEntity>();
 		list.add(student);
-		Mockito.when(studentRepository.findByFirstNameContainingOrLastNameContainingAllIgnoreCase("Varsha","Varsha")).thenReturn(list);
+		Mockito.when(studentRepository.findByFirstNameContainingOrLastNameContainingAllIgnoreCase("Varsha","Varsha")).thenReturn(Optional.of(list));
 		List<StudentEntity> students=studentService.search("Varsha");
 		assertEquals(1, students.size());
 		
 	}
+
 	@Test
 	void searchPageTest() throws RecordNotFoundException, ParseException
 	{
 		StudentEntity student=new StudentEntity(1000,2,"Varsha","Pothuganti",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),"Female","9999999999","varsha@gmail.com","father@gmail.com","7984561230","pic1.jpg");
 		List<StudentEntity> list =new ArrayList<StudentEntity>();
 		list.add(student);
-		Mockito.when(studentRepository.findByFirstNameContainingOrLastNameContainingAllIgnoreCase("Varsha","Varsha", PageRequest.of(0, 1))).thenReturn(list);
+		Mockito.when(studentRepository.findByFirstNameContainingOrLastNameContainingAllIgnoreCase("Varsha","Varsha", PageRequest.of(0, 1))).thenReturn(Optional.of(list));
 		List<StudentEntity> students=studentService.search("Varsha",0,1);
 		assertEquals(1, students.size());
 		

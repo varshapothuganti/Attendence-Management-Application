@@ -85,7 +85,6 @@ class StudentServiceTest {
     @Test
     @Disabled
     void searchTest() throws ParseException {
- //   	StudentEntity student=new StudentEntity(1000,2,"Varsha","Pothuganti",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),"Female","9999999999","varsha@gmail.com","father@gmail.com","7984561230","pic1.jpg");
  	   List<StudentEntity> stdlist=studentService.search("Varsha");
  	   assertEquals(2,stdlist.size());
     }
