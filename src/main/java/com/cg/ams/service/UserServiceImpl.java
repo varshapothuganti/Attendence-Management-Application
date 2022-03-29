@@ -1,19 +1,22 @@
 package com.cg.ams.service;
 
-import com.cg.ams.dto.UserInputDTO;
-import com.cg.ams.dto.UserOutputDTO;
-import com.cg.ams.entity.UserEntity;
-import com.cg.ams.exception.PasswordDidnotMatchException;
-import com.cg.ams.exception.UserAuthenticationException;
-import com.cg.ams.exception.UserNotFoundException;
-import com.cg.ams.repository.IUserRepository;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import com.cg.ams.dto.UserInputDTO;
+import com.cg.ams.dto.UserOutputDTO;
+import com.cg.ams.entity.UserEntity;
+import com.cg.ams.exception.DuplicateRecordException;
+import com.cg.ams.exception.PasswordDidnotMatchException;
+import com.cg.ams.exception.UserAuthenticationException;
+import com.cg.ams.exception.UserNotFoundException;
+import com.cg.ams.repository.IUserRepository;
 
 /**
  * Implements IUserService interface
@@ -42,10 +45,14 @@ public class UserServiceImpl implements IUserService {
 			throw new PasswordDidnotMatchException("Passwords did not match!");
 		}
 
-		UserEntity user = new UserEntity(userInputDTO, null);
+		UserEntity user = new UserEntity(userInputDTO);
 		user.setRole(roleService.getRoleById(userInputDTO.getRoleId()));
 
-		userRepository.save(user);
+		try {
+			userRepository.save(user);
+		} catch (DataIntegrityViolationException e) {
+			throw new DuplicateRecordException("A User with Login ID: " + " already exists!");
+		}
 		return user.getId();
 	}
 
@@ -56,10 +63,16 @@ public class UserServiceImpl implements IUserService {
 	 * @param entity
 	 */
 	@Override
-	public void update(UserEntity entity) {
-		this.getUserById(entity.getId());
+	public void update(UserInputDTO entity) {
+		// Get the row from the db
+		UserEntity userEntity = this.getUserById(entity.getId());
 
-		userRepository.save(entity);
+		try {
+			// update new row
+			userRepository.save(userEntity);
+		} catch (DataIntegrityViolationException e) {
+			throw new DuplicateRecordException("A User with Login ID: " + " already exists!");
+		}
 	}
 
 	/**
@@ -69,7 +82,7 @@ public class UserServiceImpl implements IUserService {
 	 * @param entity
 	 */
 	@Override
-	public void delete(UserEntity entity) {
+	public void delete(UserInputDTO entity) {
 		UserEntity user = this.getUserById(entity.getId());
 
 		userRepository.delete(user);
@@ -84,7 +97,8 @@ public class UserServiceImpl implements IUserService {
 	 */
 	@Override
 	public UserOutputDTO findByLogin(String loginId) {
-		return new UserOutputDTO(userRepository.findByLogin(loginId));
+		UserEntity userEntity = userRepository.findByLogin(loginId);
+		return new UserOutputDTO(userEntity);
 	}
 
 	/**
@@ -140,7 +154,7 @@ public class UserServiceImpl implements IUserService {
 	 * @return UserOutputDTO
 	 */
 	@Override
-	public UserOutputDTO authenticate(UserEntity userEntity) {
+	public UserOutputDTO authenticate(UserInputDTO userEntity) {
 		UserEntity dbUserEntity = this.getUserById(userEntity.getId());
 
 		if (!(dbUserEntity.getLogin().equals(userEntity.getLogin())
@@ -148,7 +162,7 @@ public class UserServiceImpl implements IUserService {
 			throw new UserAuthenticationException("Authentication Failed! Check username and password again!");
 		}
 
-		return new UserOutputDTO(userEntity);
+		return new UserOutputDTO(dbUserEntity);
 	}
 
 	/**
@@ -200,6 +214,7 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public boolean forgetPassword(String login, String newPassword) {
 		UserEntity dbUserEntity = userRepository.findByLogin(login);
+		// TODO change back return type and enforce unique contraint
 
 		newPassword = cleanString(newPassword);
 
@@ -234,7 +249,7 @@ public class UserServiceImpl implements IUserService {
 		return str;
 	}
 
-	private UserEntity getUserById(long id) {
+	public UserEntity getUserById(long id) {
 		return userRepository.findById(id)
 				.orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
 	}

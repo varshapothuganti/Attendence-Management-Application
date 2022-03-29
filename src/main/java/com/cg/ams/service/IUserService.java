@@ -14,9 +14,9 @@ import com.cg.ams.entity.UserEntity;
 public interface IUserService {
 	long add(UserInputDTO userInputDTO);
 
-	void update(UserEntity entity);
+	void update(UserInputDTO entity);
 
-	void delete(UserEntity entity);
+	void delete(UserInputDTO entity);
 
 	UserOutputDTO findByLogin(String loginId);
 
@@ -26,7 +26,7 @@ public interface IUserService {
 
 	List<UserOutputDTO> search(String name);
 
-	UserOutputDTO authenticate(UserEntity entity);
+	UserOutputDTO authenticate(UserInputDTO entity);
 
 	boolean changePassword(Long id, String oldPassword, String newPassword);
 

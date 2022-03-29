@@ -39,7 +39,7 @@ public class UserEntity {
 	private String firstName;
 	private String lastName;
 
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	private String login;
 	private String password;
 
@@ -54,7 +54,7 @@ public class UserEntity {
 	private String profilePic;
 
 	// Special contructor from DTO object
-	public UserEntity(UserInputDTO userInputDTO, String profilePic) {
+	public UserEntity(UserInputDTO userInputDTO) {
 		this.firstName = userInputDTO.getFirstName();
 		this.lastName = userInputDTO.getLastName();
 		this.login = userInputDTO.getLogin();
@@ -68,6 +68,6 @@ public class UserEntity {
 		this.gender = userInputDTO.getGender();
 //		this.role = userInputDTO.getRole();
 		
-		this.profilePic = profilePic == null || profilePic.length() == 0 ? "default-pic.jpg" : profilePic;
+		this.profilePic = userInputDTO.getProfilePic();
 	}
 }

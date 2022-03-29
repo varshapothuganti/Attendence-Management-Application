@@ -1,6 +1,7 @@
 package com.cg.ams.service;
 
 import java.util.List;
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,29 +27,45 @@ public class StudentServiceImpl implements IStudentService {
 		if (student.isPresent()) {
 			throw new DuplicateRecordException("Student Already exists with given id " + entity.getId());
 		}
-		StudentEntity std = studentRepository.save(entity);
+		StudentEntity stud = studentRepository.save(entity);
 
-		return std.getId();
+		return stud.getId();
 
 	}
 
 	@Override
 	public void update(StudentEntity entity) {
 
-		StudentEntity student = this.findByPk(entity.getId());
-		if (student != null) {
-			studentRepository.save(entity);
-		}
-
+		
+		Optional<StudentEntity> student = studentRepository.findById(entity.getId());
+        if (!student.isPresent()) {
+            throw new RecordNotFoundException("Student not found with the id: "+entity.getId());
+        }
+        StudentEntity student1=student.get();
+        student1.setSubject(entity.getSubject());
+        student1.setRollNo(entity.getRollNo());
+        student1.setFirstName(entity.getFirstName());
+        student1.setLastName(entity.getLastName());
+        student1.setDob(entity.getDob());
+        student1.setGender(entity.getGender());
+        student1.setMobileNo(entity.getMobileNo());
+        student1.setEmailId(entity.getEmailId());
+        student1.setFatherEmailId(entity.getFatherEmailId());
+        student1.setFatherMobileNo(entity.getFatherMobileNo());
+        student1.setProfilePic(entity.getProfilePic());
+        studentRepository.save(student1);
+		
 	}
 
 	@Override
-
 	public void delete(StudentEntity entity) {
 
-		StudentEntity student = this.findByPk(entity.getId());
+		Optional<StudentEntity> student = studentRepository.findById(entity.getId());
+		if (!student.isPresent()) {
+			throw new RecordNotFoundException("Student not found with the id: " + entity.getId());
+		}
+		studentRepository.delete(entity);
 
-		studentRepository.delete(student);
 	}
 
 	@Override
@@ -59,30 +76,12 @@ public class StudentServiceImpl implements IStudentService {
 	}
 
 	@Override
-	public List<StudentEntity> search(String name) {
-
-		Optional<List<StudentEntity>> sub1 = studentRepository
-				.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(name, name);
-		if (sub1.isPresent()) {
-			return sub1.get();
-		}
-		throw new RecordNotFoundException("Student not found with the given name " + name);
-	}
-
-	@Override
 	public List<StudentEntity> search(String name, int pageNo, int pageSize) {
-		Pageable currentPage = PageRequest.of(pageNo, pageSize);
-
-		Optional<List<StudentEntity>> sub1 = studentRepository
-				.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(name, name, currentPage);
-		if (sub1.isPresent()) {
-			return sub1.get();
-		}
-		throw new RecordNotFoundException("Student not found with the given name " + name);
+        Pageable currentPage = PageRequest.of(pageNo, pageSize);
+        
+        return studentRepository.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(name,name, currentPage);
 
 	}
-
-	@Override
 
 	public List<StudentEntity> findByName(String name) {
 		Optional<List<StudentEntity>> sub1 = studentRepository.findByName(name);
@@ -90,6 +89,13 @@ public class StudentServiceImpl implements IStudentService {
 			return sub1.get();
 		}
 		throw new RecordNotFoundException("Student not found with the given name " + name);
+
+	}
+
+	@Override
+	public List<StudentEntity> search(String name) {
+
+		return studentRepository.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(name, name);
 	}
 
 }
