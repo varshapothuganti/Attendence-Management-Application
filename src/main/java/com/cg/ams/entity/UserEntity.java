@@ -5,7 +5,6 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -33,7 +32,7 @@ import lombok.NoArgsConstructor;
 public class UserEntity {
 
 	@Id
-	@GeneratedValue
+	//@GeneratedValue
 	private long id;
 
 	private String firstName;
@@ -46,8 +45,8 @@ public class UserEntity {
 	private Date dob;
 	private String mobileNo;
 
-	@OneToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "role_id")
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "role_id",nullable = true)
 	private RoleEntity role;
 
 	private String gender;

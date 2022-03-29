@@ -31,9 +31,8 @@ public class AssignFacultyServiceTest {
 				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
 				"mobileNo1","gender1","profilePic1",11L);
 		CourseEntity c1 = new CourseEntity(101,"name1","description1");
-		CourseEntity c2 = new CourseEntity(102,"name2","description2");
 		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
-		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c2);
+		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c1);
 		List<SubjectDTO> subList = new ArrayList<>();
 		subList.add(subDTO1);
 		subList.add(subDTO2);
@@ -66,13 +65,12 @@ public class AssignFacultyServiceTest {
 	@Test
 	//@Disabled
 	public void updateTest() throws Exception {
-		UserInputDTO userInDTO = new UserInputDTO(1L,"firstName1","lastName1","login1",
+		UserInputDTO userInDTO = new UserInputDTO(1L,"f-Name1","l-Name1","login1",
 				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
 				"mobileNo1","gender1","profilePic1",11L);
 		CourseEntity c1 = new CourseEntity(101,"name1","description1");
-		CourseEntity c2 = new CourseEntity(102,"name2","description2");
 		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
-		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c2);
+		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c1);
 		List<SubjectDTO> subList = new ArrayList<>();
 		subList.add(subDTO1);
 		subList.add(subDTO2);
@@ -92,9 +90,8 @@ public class AssignFacultyServiceTest {
 				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
 				"mobileNo1","gender1","profilePic1",11L);
 		CourseEntity c1 = new CourseEntity(101,"name1","description1");
-		CourseEntity c2 = new CourseEntity(102,"name2","description2");
 		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
-		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c2);
+		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c1);
 		List<SubjectDTO> subList = new ArrayList<>();
 		subList.add(subDTO1);
 		subList.add(subDTO2);
@@ -112,9 +109,8 @@ public class AssignFacultyServiceTest {
 				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
 				"mobileNo1","gender1","profilePic1",11L);
 		CourseEntity c1 = new CourseEntity(101,"name1","description1");
-		CourseEntity c2 = new CourseEntity(102,"name2","description2");
 		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
-		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c2);
+		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c1);
 		List<SubjectDTO> subList = new ArrayList<>();
 		subList.add(subDTO1);
 		subList.add(subDTO2);
@@ -130,9 +126,8 @@ public class AssignFacultyServiceTest {
 				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
 				"mobileNo1","gender1","profilePic1",11L);
 		CourseEntity c1 = new CourseEntity(101,"name1","description1");
-		CourseEntity c2 = new CourseEntity(102,"name2","description2");
 		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
-		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c2);
+		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c1);
 		List<SubjectDTO> subList = new ArrayList<>();
 		subList.add(subDTO1);
 		subList.add(subDTO2);
