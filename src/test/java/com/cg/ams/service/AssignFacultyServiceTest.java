@@ -2,118 +2,143 @@ package com.cg.ams.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.cg.ams.entity.AssignFacultyEntity;
+import com.cg.ams.dto.AssignFacultyInputDTO;
+import com.cg.ams.dto.AssignFacultyOutputDTO;
+import com.cg.ams.dto.SubjectDTO;
+import com.cg.ams.dto.UserInputDTO;
+import com.cg.ams.entity.CourseEntity;
 import com.cg.ams.exception.DuplicateRecordException;
 import com.cg.ams.exception.RecordNotFoundException;
 
 @SpringBootTest
-@Disabled
 public class AssignFacultyServiceTest {
-
+	
 	@Autowired
 	IAssignFacultyService afServ;
-
+	
 	@Test
-	// @Disabled
-	public void findByPkTest() throws Exception {
-		// AssignFacultyEntity afe = new
-		// AssignFacultyEntity(2,12,"username2",102,"coursename2",1002,"subject2","semester2","class2");
-		AssignFacultyEntity afe = new AssignFacultyEntity(2, 12, "Username2", "Class2");
-		AssignFacultyEntity afe1 = afServ.findByPk(2);
-		assertEquals(afe, afe1);
-		assertThrows(RecordNotFoundException.class, () -> {
-			afServ.findByPk(200);
-		});
-	}
-
-	@Test
-	// @Disabled
-	public void findByNameTest() throws Exception {
-		// AssignFacultyEntity afe = new
-		// AssignFacultyEntity(1,11,"Username1",101,"Coursename1",1001,"Subject1","Semester1","Class1");
-		AssignFacultyEntity afe = new AssignFacultyEntity(1, 11, "Username1", "Class1");
-		AssignFacultyEntity afe1 = afServ.findByName("Username1");
-		AssignFacultyEntity afe2 = afServ.findByName("username5");
-		assertEquals(afe, afe1);
-		assertNotEquals(afe, afe2);
-		assertThrows(RecordNotFoundException.class, () -> {
-			afServ.findByName("username1");
-		});
-	}
-
-	@Test
-	// @Disabled
+	//@Disabled
 	public void addTest() throws Exception {
-		// AssignFacultyEntity afe = new
-		// AssignFacultyEntity(6,16,"username6",106,"coursename6",1006,"subject6","semester6","class6");
-		AssignFacultyEntity afe = new AssignFacultyEntity(6, 16, "Username6", "Class6");
-		long id = afServ.add(afe);
-		AssignFacultyEntity afe1 = afServ.findByPk(1);
-		AssignFacultyEntity afe2 = afServ.findByPk(id);
-		assertEquals(6, id);
-		assertNotEquals(afe, afe1);
-		assertEquals(afe, afe2);
-		assertThrows(DuplicateRecordException.class, () -> {
-			afServ.add(afe);
-		});
+		UserInputDTO userInDTO = new UserInputDTO(1L,"firstName1","lastName1","login1",
+				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
+				"mobileNo1","gender1","profilePic1",11L);
+		CourseEntity c1 = new CourseEntity(101,"name1","description1");
+		CourseEntity c2 = new CourseEntity(102,"name2","description2");
+		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
+		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c2);
+		List<SubjectDTO> subList = new ArrayList<>();
+		subList.add(subDTO1);
+		subList.add(subDTO2);
+		AssignFacultyInputDTO afInDTO = new AssignFacultyInputDTO(1111,userInDTO,subList,"class1");
+		long id = afServ.add(afInDTO);
+		AssignFacultyOutputDTO afOutDTO = afServ.findByPk(id);
+		assertEquals("class1",afOutDTO.getTotalClass());
+		assertEquals("firstName1lastName1",afOutDTO.getUsername());
+		assertThrows(DuplicateRecordException.class,() -> {afServ.add(afInDTO);});
 	}
-
+	
 	@Test
-	// @Disabled
+	//@Disabled
+	public void findByPkTest() throws Exception {
+		AssignFacultyOutputDTO afOutDTO = afServ.findByPk(1111);
+		assertEquals("class_1",afOutDTO.getTotalClass());
+		assertEquals("f-Name1l-Name1",afOutDTO.getUsername());
+		assertThrows(RecordNotFoundException.class,() -> {afServ.findByPk(200);});
+	}
+	
+	@Test
+	//@Disabled
+	public void findByNameTest() throws Exception {
+		AssignFacultyOutputDTO afOutDTO = afServ.findByName("firstName1lastName1");
+		assertEquals("class1",afOutDTO.getTotalClass());
+		assertEquals("firstName1lastName1",afOutDTO.getUsername());
+		assertThrows(RecordNotFoundException.class,() -> {afServ.findByName("abc");});
+	}
+	
+	@Test
+	//@Disabled
 	public void updateTest() throws Exception {
-		// AssignFacultyEntity afe = new
-		// AssignFacultyEntity(1,11,"Username1",101,"Coursename1",1001,"Subject1","Semester1","Class1");
-		AssignFacultyEntity afe = new AssignFacultyEntity(1, 11, "Username1", "Class1");
-		afServ.update(afe);
-		AssignFacultyEntity afe1 = afServ.findByPk(1);
-		// AssignFacultyEntity afe2 = new
-		// AssignFacultyEntity(100,11,"Username1",101,"Coursename1",1001,"Subject1","Semester1","Class1");
-		AssignFacultyEntity afe2 = new AssignFacultyEntity(1, 11, "Username1", "Class1");
-		assertEquals(afe, afe1);
-		assertThrows(RecordNotFoundException.class, () -> {
-			afServ.update(afe2);
-		});
+		UserInputDTO userInDTO = new UserInputDTO(1L,"firstName1","lastName1","login1",
+				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
+				"mobileNo1","gender1","profilePic1",11L);
+		CourseEntity c1 = new CourseEntity(101,"name1","description1");
+		CourseEntity c2 = new CourseEntity(102,"name2","description2");
+		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
+		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c2);
+		List<SubjectDTO> subList = new ArrayList<>();
+		subList.add(subDTO1);
+		subList.add(subDTO2);
+		AssignFacultyInputDTO afInDTO = new AssignFacultyInputDTO(1111,userInDTO,subList,"class_1");
+		AssignFacultyInputDTO afInDTO1 = new AssignFacultyInputDTO(1112,userInDTO,subList,"class_2");
+		afServ.update(afInDTO);
+		AssignFacultyOutputDTO afOutDTO = afServ.findByPk(1111);
+		assertEquals("class_1",afOutDTO.getTotalClass());
+		assertEquals("f-Name1l-Name1",afOutDTO.getUsername());
+		assertThrows(RecordNotFoundException.class,() -> {afServ.update(afInDTO1);});
 	}
-
+	
 	@Test
-	@Disabled
+	//@Disabled
+	public void searchByPagesTest() throws Exception {
+		UserInputDTO userInDTO = new UserInputDTO(1L,"firstName1","lastName1","login1",
+				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
+				"mobileNo1","gender1","profilePic1",11L);
+		CourseEntity c1 = new CourseEntity(101,"name1","description1");
+		CourseEntity c2 = new CourseEntity(102,"name2","description2");
+		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
+		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c2);
+		List<SubjectDTO> subList = new ArrayList<>();
+		subList.add(subDTO1);
+		subList.add(subDTO2);
+		AssignFacultyInputDTO afInDTO = new AssignFacultyInputDTO(1111,userInDTO,subList,"class1");
+		List<AssignFacultyOutputDTO> al1 = afServ.search(afInDTO, 0, 2);
+		List<AssignFacultyOutputDTO> al2 = afServ.search(afInDTO, 1, 1);
+		assertEquals(1,al1.size());
+		assertEquals(0,al2.size());
+	}
+	
+	@Test
+	//@Disabled
+	public void searchTest() throws Exception {
+		UserInputDTO userInDTO = new UserInputDTO(1L,"firstName1","lastName1","login1",
+				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
+				"mobileNo1","gender1","profilePic1",11L);
+		CourseEntity c1 = new CourseEntity(101,"name1","description1");
+		CourseEntity c2 = new CourseEntity(102,"name2","description2");
+		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
+		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c2);
+		List<SubjectDTO> subList = new ArrayList<>();
+		subList.add(subDTO1);
+		subList.add(subDTO2);
+		AssignFacultyInputDTO afInDTO = new AssignFacultyInputDTO(1111,userInDTO,subList,"class1");
+		List<AssignFacultyOutputDTO> al = afServ.search(afInDTO);
+		assertEquals(1,al.size());
+	}
+	
+	@Test
+	//@Disabled
 	public void deleteTest() throws Exception {
-		// AssignFacultyEntity afe = new
-		// AssignFacultyEntity(6,16,"username6",106,"coursename6",1006,"subject6","semester6","class6");
-		AssignFacultyEntity afe = new AssignFacultyEntity(6, 16, "Username6", "Class6");
-		afServ.delete(afe);
-		assertThrows(RecordNotFoundException.class, () -> {
-			afServ.findByPk(6);
-		});
+		UserInputDTO userInDTO = new UserInputDTO(1L,"firstName1","lastName1","login1",
+				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
+				"mobileNo1","gender1","profilePic1",11L);
+		CourseEntity c1 = new CourseEntity(101,"name1","description1");
+		CourseEntity c2 = new CourseEntity(102,"name2","description2");
+		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
+		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c2);
+		List<SubjectDTO> subList = new ArrayList<>();
+		subList.add(subDTO1);
+		subList.add(subDTO2);
+		AssignFacultyInputDTO afInDTO = new AssignFacultyInputDTO(1111,userInDTO,subList,"class1");
+		afServ.delete(afInDTO);
+		assertThrows(RecordNotFoundException.class,() -> {afServ.delete(afInDTO);});
 	}
-
-	@Test
-	// @Disabled
-	public void searchByPagesTest() {
-		// AssignFacultyEntity afe = new
-		// AssignFacultyEntity(2,12,"username2",102,"coursename2",1002,"subject2","semester2","class2");
-		AssignFacultyEntity afe = new AssignFacultyEntity(2, 12, "Username2", "Class2");
-		List<AssignFacultyEntity> al1 = afServ.search(afe, 0, 2);
-		List<AssignFacultyEntity> al2 = afServ.search(afe, 1, 2);
-		assertEquals(2, al1.size());
-		assertEquals(1, al2.size());
-	}
-
-	@Test
-	// @Disabled
-	public void searchTest() {
-		// AssignFacultyEntity afe = new
-		// AssignFacultyEntity(2,12,"username2",102,"coursename2",1002,"subject2","semester2","class2");
-		AssignFacultyEntity afe = new AssignFacultyEntity(2, 12, "Username2", "Class2");
-		List<AssignFacultyEntity> al = afServ.search(afe);
-		assertEquals(3, al.size());
-	}
-
+	
 }

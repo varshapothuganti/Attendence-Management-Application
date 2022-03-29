@@ -1,8 +1,6 @@
 package com.cg.ams.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -122,6 +120,7 @@ public class SubjectServiceMockitoTest {
 		SubjectEntity sub=new SubjectEntity(subdto);
 		Mockito.when(subRepo.save(sub)).thenReturn(sub);
 		subServ.add(subdto);
+		@SuppressWarnings("unused")
 		List<SubjectDTO> l = subServ.search("Signals and Systems");
 		assertEquals(1, list.size());
 	}

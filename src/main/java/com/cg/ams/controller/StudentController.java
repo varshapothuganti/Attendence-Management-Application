@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cg.ams.dto.StudentInputDto;
 import com.cg.ams.entity.StudentEntity;
 import com.cg.ams.service.IStudentService;
 

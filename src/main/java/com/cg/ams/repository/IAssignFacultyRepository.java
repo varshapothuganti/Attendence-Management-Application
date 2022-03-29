@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.cg.ams.entity.AssignFacultyEntity;
 
 @Repository
-public interface AssignFacultyRepository extends JpaRepository<AssignFacultyEntity,Long>{
+public interface IAssignFacultyRepository extends JpaRepository<AssignFacultyEntity,Long>{
 	
 	public AssignFacultyEntity findByUserName(String name);
 	public List<AssignFacultyEntity> findByUserNameIgnoreCase(String name,Pageable pageable);
