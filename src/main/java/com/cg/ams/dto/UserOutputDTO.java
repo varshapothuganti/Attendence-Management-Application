@@ -32,7 +32,6 @@ public class UserOutputDTO {
 	private String mobileNo;
 	private String gender;
 	private long roleId;
-	private String profilePic;
 	
 	public UserOutputDTO(UserEntity user) {
 		this.id = user.getId();
@@ -43,7 +42,6 @@ public class UserOutputDTO {
 		this.gender = user.getGender();
 		this.mobileNo = user.getMobileNo();
 		this.roleId = user.getRoleId();
-		this.profilePic = user.getProfilePic();
 	}
 	
 }
