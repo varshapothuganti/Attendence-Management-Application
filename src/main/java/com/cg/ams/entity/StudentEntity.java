@@ -19,6 +19,7 @@ import javax.validation.constraints.Positive;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -69,15 +70,8 @@ public class StudentEntity {
 			@JoinColumn(name = "subject_id") })
 	private List<SubjectEntity> subject;
 
-	public StudentEntity(long id, @Positive(message = "Id cannot be less than or equal to zero") long rollNo,
-			@NotEmpty(message = " First Name of Student shouldn't be empty") String firstName,
-			@NotEmpty(message = "Last Name of Student Shouldn't be empty") String lastName, @Past Date dob,
-			@NotEmpty(message = "Gender should not be empty") String gender,
-			@NotEmpty(message = "student mobile number should not be empty") @Pattern(regexp = "^(9|7|8)([0-9]){9}$", message = "Student Mobile Number is Not valid") String mobileNo,
-			@Email(message = "Provide valid EmailId for Student") String emailId,
-			@Email(message = "Provide valid EmailId for Parent") String fatherEmailId,
-			@NotEmpty(message = "parent mobile number should not be empty") @Pattern(regexp = "^(9|7|8)([0-9]){9}$", message = "parent Mobile Number is Not valid") String fatherMobileNo,
-			@NotEmpty(message = "Profilepic shouldn't be empty") String profilePic) {
+
+	public StudentEntity(long id, long rollNo, String firstName,String lastName, @Past Date dob,String gender,String mobileNo,String emailId,String fatherEmailId, String fatherMobileNo,String profilePic) {
 		super();
 		this.id = id;
 		this.rollNo = rollNo;
@@ -91,5 +85,4 @@ public class StudentEntity {
 		this.fatherMobileNo = fatherMobileNo;
 		this.profilePic = profilePic;
 	}
-
 }
