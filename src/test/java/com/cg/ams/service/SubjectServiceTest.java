@@ -14,7 +14,7 @@ import com.cg.ams.exception.RecordNotFoundException;
 public class SubjectServiceTest {
 	
    @Autowired
-   SubjectService subServ;
+   ISubjectService subServ;
    
    @Test
    void addTest() throws RecordNotFoundException {

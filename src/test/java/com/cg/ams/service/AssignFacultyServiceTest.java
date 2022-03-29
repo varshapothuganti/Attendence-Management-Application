@@ -14,6 +14,7 @@ import com.cg.ams.exception.DuplicateRecordException;
 import com.cg.ams.exception.RecordNotFoundException;
 
 @SpringBootTest
+@Disabled
 public class AssignFacultyServiceTest {
 	
 	@Autowired

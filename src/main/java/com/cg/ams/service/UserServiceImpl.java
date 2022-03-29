@@ -1,5 +1,6 @@
 package com.cg.ams.service;
 
+import com.cg.ams.dto.UserInputDTO;
 import com.cg.ams.entity.UserEntity;
 import com.cg.ams.exception.PasswordDidnotMatchException;
 import com.cg.ams.exception.UserAuthenticationException;
@@ -30,10 +31,14 @@ public class UserServiceImpl implements IUserService {
      * @return id
      */
     @Override
-    public long add(UserEntity user) {
-        if (!user.getPassword().equals(user.getConfirmPassword())) {
+    public long add(UserInputDTO userInputDTO) {
+    	// Check if password == confirmPassword else throw exception
+        if (!userInputDTO.getPassword().equals(userInputDTO.getConfirmPassword())) {
             throw new PasswordDidnotMatchException("Passwords did not match!");
         }
+        
+        UserEntity user = new UserEntity(userInputDTO, null);
+        
         userRepository.save(user);
         return user.getId();
     }
@@ -148,7 +153,6 @@ public class UserServiceImpl implements IUserService {
         if (dbUserEntity.getPassword().equals(oldPassword)) {
             // update password
             dbUserEntity.setPassword(newPassword);
-            dbUserEntity.setConfirmPassword(newPassword);
 
             userRepository.save(dbUserEntity);
 
@@ -165,8 +169,8 @@ public class UserServiceImpl implements IUserService {
      * @return long
      */
     @Override
-    public long registerUser(UserEntity userEntity) {
-        return this.add(userEntity);
+    public long registerUser(UserInputDTO userInputDTO) {
+        return this.add(userInputDTO);
     }
 
     /**
@@ -183,7 +187,6 @@ public class UserServiceImpl implements IUserService {
         newPassword = cleanString(newPassword);
 
         dbUserEntity.setPassword(newPassword);
-        dbUserEntity.setConfirmPassword(newPassword);
 
         userRepository.save(dbUserEntity);
 

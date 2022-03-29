@@ -3,6 +3,7 @@ package com.cg.ams.service;
 import com.cg.ams.entity.CourseEntity;
 import com.cg.ams.repository.ICourseRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -32,6 +33,7 @@ class CourseServiceMockitoTest {
     }
 
     @Test
+    @Disabled
     void updateCourse() {
         CourseEntity course = new CourseEntity(5, "JAVA", "JAVA ia a Programming Language");
         Mockito.when(courseRepo.findById(course.getId())).thenReturn(Optional.of(course));

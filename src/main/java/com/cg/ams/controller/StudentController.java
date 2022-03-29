@@ -57,12 +57,14 @@ public class StudentController {
 		return new ResponseEntity<>(std, HttpStatus.OK);
 	}
 
+
     @GetMapping(path = "/searchStudent/{name}")
     ResponseEntity<List<StudentEntity>> search(@Valid @RequestParam("name") String name) throws RecordNotFoundException {
 
         return new ResponseEntity<>(studentService.search(name), HttpStatus.OK);
     }
     @GetMapping(path = "/searchStudent/byPages/{name}")
+
     ResponseEntity<List<StudentEntity>> search(@Valid @PathVariable String name,
                                             @RequestParam(value = "page", defaultValue = "0") int pageNo,
                                             @RequestParam(value = "size", defaultValue = "10") int pageSize) throws RecordNotFoundException {

@@ -1,6 +1,6 @@
 package com.cg.ams.exception;
 
-public class RecordNotFoundException extends Exception {
+public class RecordNotFoundException extends RuntimeException {
     public RecordNotFoundException() {
         super();
     }

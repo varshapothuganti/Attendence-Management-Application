@@ -14,53 +14,52 @@ import com.cg.ams.exception.RecordNotFoundException;
 import com.cg.ams.repository.AssignFacultyRepository;
 
 @Service
-public class AssignFacultyServiceImpl implements IAssignFacultyService{
+public class AssignFacultyServiceImpl implements IAssignFacultyService {
 
 	@Autowired
 	AssignFacultyRepository afRep;
-	
+
 	@Override
-	public long add(AssignFacultyEntity entity) throws DuplicateRecordException {
+	public long add(AssignFacultyEntity entity) {
 		Optional<AssignFacultyEntity> afe = afRep.findById(entity.getId());
-		if(afe.isPresent()) {
-			throw new DuplicateRecordException("The entity with id: "+entity.getId()+" already exists!");
+		if (afe.isPresent()) {
+			throw new DuplicateRecordException("The entity with id: " + entity.getId() + " already exists!");
 		}
 		afRep.save(entity);
 		return entity.getId();
 	}
 
 	@Override
-	public void update(AssignFacultyEntity entity) throws RecordNotFoundException {
+	public void update(AssignFacultyEntity entity) {
 		Optional<AssignFacultyEntity> afe = afRep.findById(entity.getId());
-		if(!afe.isPresent()) {
-			throw new RecordNotFoundException("The faculty record with id: "+entity.getId()+" is not found!");
+		if (!afe.isPresent()) {
+			throw new RecordNotFoundException("The faculty record with id: " + entity.getId() + " is not found!");
 		}
 		afRep.save(entity);
 	}
 
 	@Override
-	public void delete(AssignFacultyEntity entity) throws RecordNotFoundException {
-		Optional<AssignFacultyEntity> afe = afRep.findById(entity.getId());
-		if(!afe.isPresent()) {
-			throw new RecordNotFoundException("The faculty record with id: "+entity.getId()+" is not found!"); 
-		}
+	public void delete(AssignFacultyEntity entity) {
+		afRep.findById(entity.getId()).orElseThrow(
+				() -> new RecordNotFoundException("The faculty record with id: " + entity.getId() + " is not found!"));
+
 		afRep.deleteById(entity.getId());
 	}
 
 	@Override
-	public AssignFacultyEntity findByName(String name) throws RecordNotFoundException {
+	public AssignFacultyEntity findByName(String name) {
 		Optional<AssignFacultyEntity> afe = Optional.ofNullable(afRep.findByUserName(name));
-		if(!afe.isPresent()) {
-			throw new RecordNotFoundException("The faculty record with name: "+name+" is not found!");
+		if (!afe.isPresent()) {
+			throw new RecordNotFoundException("The faculty record with name: " + name + " is not found!");
 		}
 		return afe.get();
 	}
 
 	@Override
-	public AssignFacultyEntity findByPk(long id) throws RecordNotFoundException {
+	public AssignFacultyEntity findByPk(long id) {
 		Optional<AssignFacultyEntity> afe = afRep.findById(id);
-		if(!afe.isPresent()) {
-			throw new RecordNotFoundException("The faculty record with id: "+id+" is not found!");
+		if (!afe.isPresent()) {
+			throw new RecordNotFoundException("The faculty record with id: " + id + " is not found!");
 		}
 		return afe.get();
 	}

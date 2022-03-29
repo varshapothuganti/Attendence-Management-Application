@@ -30,7 +30,6 @@ public class SubjectEntity {
     
     //constructors
     public SubjectEntity(long id, String name, String subjectCode, String semester) {
-		// TODO Auto-generated constructor stub
     	this.id=id;
     	this.name=name;
     	this.subjectCode=subjectCode;

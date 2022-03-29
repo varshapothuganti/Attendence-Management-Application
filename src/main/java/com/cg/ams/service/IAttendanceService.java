@@ -15,7 +15,7 @@ public interface IAttendanceService {
 
 	public void delete(Attendance entity);
 
-	public Attendance findByName(String student_name);
+	public Attendance findByName(String studentName);
 
 	public Attendance findByPk(long id);
 
