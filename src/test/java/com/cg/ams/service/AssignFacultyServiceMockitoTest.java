@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,7 +46,10 @@ public class AssignFacultyServiceMockitoTest {
 		CourseEntity c2 = new CourseEntity(102,"name2","description2");
 		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
 		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c2);
-		AssignFacultyInputDTO afInDTO = new AssignFacultyInputDTO(1111,userInDTO,List.of(subDTO1,subDTO2),"class1");
+		List<SubjectDTO> subList = new ArrayList<>();
+		subList.add(subDTO1);
+		subList.add(subDTO2);
+		AssignFacultyInputDTO afInDTO = new AssignFacultyInputDTO(1111,userInDTO,subList,"class1");
 		AssignFacultyEntity afe = new AssignFacultyEntity(afInDTO);
 		Mockito.when(afRep.save(afe)).thenReturn(afe);
 		long l = afServ.add(afInDTO);

@@ -19,6 +19,7 @@ import com.cg.ams.exception.RecordNotFoundException;
 
 
 @SpringBootTest
+@Disabled
 public class StudentServiceTest {
 	
 	@Autowired

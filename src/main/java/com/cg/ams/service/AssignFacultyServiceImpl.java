@@ -48,10 +48,10 @@ public class AssignFacultyServiceImpl implements IAssignFacultyService {
 	@Override
 	public void delete(AssignFacultyInputDTO afInDTO) {
 		AssignFacultyEntity entity = new AssignFacultyEntity(afInDTO);
-		afRep.findById(entity.getId()).orElseThrow(
+		AssignFacultyEntity afe = afRep.findById(entity.getId()).orElseThrow(
 				() -> new RecordNotFoundException(message + entity.getId()));
 
-		afRep.deleteById(entity.getId());
+		afRep.deleteById(afe.getId());
 	}
 
 	@Override
@@ -60,8 +60,7 @@ public class AssignFacultyServiceImpl implements IAssignFacultyService {
 		if (!afe.isPresent()) {
 			throw new RecordNotFoundException("The faculty with userName: "+name+" does not exist!");
 		}
-		AssignFacultyOutputDTO afOutDTO = new AssignFacultyOutputDTO(afe.get());
-		return afOutDTO;
+		return new AssignFacultyOutputDTO(afe.get());
 	}
 
 	@Override
@@ -70,8 +69,7 @@ public class AssignFacultyServiceImpl implements IAssignFacultyService {
 		if (!afe.isPresent()) {
 			throw new RecordNotFoundException(message + id);
 		}
-		AssignFacultyOutputDTO afOutDTO = new AssignFacultyOutputDTO(afe.get());
-		return afOutDTO;
+		return new AssignFacultyOutputDTO(afe.get());
 	}
 
 	@Override
