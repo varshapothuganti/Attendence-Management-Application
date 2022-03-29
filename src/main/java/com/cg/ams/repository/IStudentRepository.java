@@ -24,9 +24,9 @@ public interface IStudentRepository extends JpaRepository<StudentEntity, Long> {
 	@Query(value = "select student.* FROM student where first_name=:name or last_name=:name", nativeQuery = true)
     Optional<List<StudentEntity>> findByName(@Param("name") String name);
 
-    Optional<List<StudentEntity>> findByFirstNameContainingOrLastNameContainingAllIgnoreCase(String firstName, String lastName);
+    List<StudentEntity> findByFirstNameContainingOrLastNameContainingAllIgnoreCase(String firstName, String lastName);
     
-    Optional<List<StudentEntity>> findByFirstNameContainingOrLastNameContainingAllIgnoreCase(String firstName, String lastName, Pageable pageable);
+    List<StudentEntity> findByFirstNameContainingOrLastNameContainingAllIgnoreCase(String firstName, String lastName, Pageable pageable);
 
 
 }
