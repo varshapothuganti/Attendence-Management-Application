@@ -1,7 +1,6 @@
 package com.cg.ams.service;
 
 import java.util.List;
-
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,23 +78,21 @@ public class StudentServiceImpl implements IStudentService {
 	public List<StudentEntity> search(String name, int pageNo, int pageSize) {
         Pageable currentPage = PageRequest.of(pageNo, pageSize);
         
-        return studentRepository.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(name,name, currentPage);
-
+        Optional<List<StudentEntity>> student =studentRepository.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(name,name, currentPage);
+        return student.get();
 	}
 
-	public List<StudentEntity> findByName(String name) {
-		Optional<List<StudentEntity>> sub1 = studentRepository.findByName(name);
-		if (sub1.isPresent()) {
-			return sub1.get();
-		}
-		throw new RecordNotFoundException("Student not found with the given name " + name);
 
+	@Override
+	public List<StudentEntity> findByName(String name){
+      Optional<List<StudentEntity>> student = studentRepository.findByName(name);
+    return student.get();
 	}
 
 	@Override
-	public List<StudentEntity> search(String name) {
-
-		return studentRepository.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(name, name);
+	public List<StudentEntity> search(String name) {		
+		Optional<List<StudentEntity>> student = studentRepository.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(name,name);
+		return student.get();
 	}
 
 }

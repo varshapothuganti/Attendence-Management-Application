@@ -4,6 +4,8 @@ package com.cg.ams.repository;
 import java.util.List;
 
 
+
+
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
@@ -24,9 +26,11 @@ public interface IStudentRepository extends JpaRepository<StudentEntity, Long> {
 	@Query(value = "select student.* FROM student where first_name=:name or last_name=:name", nativeQuery = true)
     Optional<List<StudentEntity>> findByName(@Param("name") String name);
 
-    List<StudentEntity> findByFirstNameContainingOrLastNameContainingAllIgnoreCase(String firstName, String lastName);
     
-    List<StudentEntity> findByFirstNameContainingOrLastNameContainingAllIgnoreCase(String firstName, String lastName, Pageable pageable);
+    public Optional<List<StudentEntity>> findByFirstNameContainingOrLastNameContainingAllIgnoreCase(String firstName, String lastName, Pageable pageable);
+
+
+	public Optional<List<StudentEntity>> findByFirstNameContainingOrLastNameContainingAllIgnoreCase(String firstName, String lastName);
 
 
 }
