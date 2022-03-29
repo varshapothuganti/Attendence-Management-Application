@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.ams.entity.SubjectEntity;
-import com.cg.ams.exception.RecordNotFoundException;
 import com.cg.ams.service.ISubjectService;
 
 @RestController
@@ -43,28 +42,28 @@ public class SubjectController {
 
     //To delete a subject
     @DeleteMapping("/subject")
-    void deleteSubject(@Valid @RequestBody SubjectEntity sub) throws RecordNotFoundException {
+    void deleteSubject(@Valid @RequestBody SubjectEntity sub) {
         subServ.delete(sub);
         System.out.println("Subject deleted successfully");
     }
 
     //To update a given subject
     @PatchMapping("/subject")
-    void updateSubject(@Valid @RequestBody SubjectEntity sub) throws RecordNotFoundException {
+    void updateSubject(@Valid @RequestBody SubjectEntity sub) {
         subServ.update(sub);
         System.out.println("Subject Updated successfully");
     }
 
     //To get a subject based on name
     @GetMapping("/subject/byname/{name}")
-    ResponseEntity<SubjectEntity> getSubjectByName(@PathVariable String name) throws Exception {
+    ResponseEntity<SubjectEntity> getSubjectByName(@PathVariable String name) {
         SubjectEntity sub = subServ.findByName(name);
         return new ResponseEntity<>(sub, HttpStatus.OK);
     }
 
     //To get a subject based on id
     @GetMapping("/subject/{id}")
-    ResponseEntity<SubjectEntity> getSubjectById(@PathVariable long id) throws RecordNotFoundException {
+    ResponseEntity<SubjectEntity> getSubjectById(@PathVariable long id) {
         SubjectEntity sub = subServ.findByPk(id);
         return new ResponseEntity<>(sub, HttpStatus.OK);
     }

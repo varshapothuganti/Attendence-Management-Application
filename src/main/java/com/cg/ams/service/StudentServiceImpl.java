@@ -1,6 +1,5 @@
 package com.cg.ams.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,9 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import com.cg.ams.entity.StudentEntity;
 import com.cg.ams.exception.DuplicateRecordException;
 import com.cg.ams.exception.RecordNotFoundException;
-import com.cg.ams.entity.StudentEntity;
 import com.cg.ams.repository.IStudentRepository;
 
 @Service
@@ -34,6 +34,7 @@ public class StudentServiceImpl implements IStudentService {
 
 	@Override
 	public void update(StudentEntity entity) {
+
 		StudentEntity student = this.findByPk(entity.getId());
 		if (student != null) {
 			studentRepository.save(entity);
@@ -43,7 +44,8 @@ public class StudentServiceImpl implements IStudentService {
 
 	@Override
 
-	public void delete(StudentEntity entity) throws RecordNotFoundException {
+	public void delete(StudentEntity entity) {
+
 		StudentEntity student = this.findByPk(entity.getId());
 
 		if (student != null) {
@@ -80,7 +82,6 @@ public class StudentServiceImpl implements IStudentService {
 			throw new RecordNotFoundException("Student not found with the given name " + name);
 		}
 		return sub1.get();
-
 
 	}
 
