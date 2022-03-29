@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.cg.ams.dto.SubjectDTO;
-import com.cg.ams.entity.SubjectEntity;
 
 @Service
 public interface ISubjectService {

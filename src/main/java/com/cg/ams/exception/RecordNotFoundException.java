@@ -1,5 +1,6 @@
 package com.cg.ams.exception;
 
+@SuppressWarnings("serial")
 public class RecordNotFoundException extends RuntimeException {
     public RecordNotFoundException() {
         super();
