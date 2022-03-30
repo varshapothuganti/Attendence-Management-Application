@@ -131,9 +131,9 @@ public class StudentServiceImpl implements IStudentService{
 	@Override
 	public List<StudentOutputDTO> search(String name, int pageNo, int pageSize) {
 		Pageable currentPage = PageRequest.of(pageNo, pageSize);
-		Optional<List<StudentEntity>> student =studentRepository.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(name,name, currentPage);
+		List<StudentEntity> student =studentRepository.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(name,name, currentPage);
 		List<StudentOutputDTO> std = new ArrayList<>();
-		for(StudentEntity std1 : student.get()) {
+		for(StudentEntity std1 : student) {
 			std.add(new StudentOutputDTO(std1));
 		}
 		return std;
@@ -147,14 +147,28 @@ public class StudentServiceImpl implements IStudentService{
 	 */
 	@Override
 	public List<StudentOutputDTO> search(String name) {
-		Optional<List<StudentEntity>> student = studentRepository.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(name,name);
+		List<StudentEntity> student = studentRepository.findStudentByFirstNameOrLastName(name,name);
 		List<StudentOutputDTO> std = new ArrayList<>();
-		for(StudentEntity std1 : student.get()) {
+		for(StudentEntity std1 : student) {
 			std.add(new StudentOutputDTO(std1));
 		}
 		return std;
 	}
 
+		@Override
+		public long add(StudentEntity entity) {
+			
+			Optional<StudentEntity> student= studentRepository.findById(entity.getId());
+			if(student.isPresent())
+			{
+				throw new DuplicateRecordException("Student Already exists with given id "+ entity.getId());
+			}
+			StudentEntity stud = studentRepository.save(entity);
+
+			return stud.getId();
+		
+		}
+	}
 
 
-}
+

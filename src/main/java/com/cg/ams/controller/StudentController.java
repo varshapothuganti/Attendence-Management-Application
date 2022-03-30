@@ -3,6 +3,16 @@ package com.cg.ams.controller;
 import java.util.List;
 
 
+
+
+
+
+
+
+
+
+
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +41,11 @@ public class StudentController {
 	@Autowired
 	IStudentService studentService;
 	
-
+	@PostMapping("/add")
+	long addStudent(@Valid @RequestBody StudentEntity std) {
+		
+		return studentService.add(std);
+	}
 	
 	@PostMapping("/student/add")
 	ResponseEntity<Long> add(@Valid @RequestBody StudentInputDTO stdDTO) {
@@ -70,7 +84,7 @@ public class StudentController {
 		return new ResponseEntity<>(stdOutDTO, HttpStatus.OK);
 	}
 	@GetMapping("/student/search/{name}")
-	ResponseEntity<List<StudentOutputDTO>> search(@RequestParam("name") String name) {
+	ResponseEntity<List<StudentOutputDTO>> search(@PathVariable("name") String name) {
 		return new ResponseEntity<>(studentService.search(name), HttpStatus.OK);
 	}
 
