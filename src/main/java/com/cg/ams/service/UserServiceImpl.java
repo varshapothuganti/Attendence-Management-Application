@@ -65,13 +65,15 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public void update(UserInputDTO entity) {
 		// Get the row from the db
-		UserEntity userEntity = this.getUserById(entity.getId());
+		this.getUserById(entity.getId());
+		UserEntity updatedUser = new UserEntity(entity);
+		
 
 		try {
 			// update new row
-			userRepository.save(userEntity);
+			userRepository.save(updatedUser);
 		} catch (DataIntegrityViolationException e) {
-			throw new DuplicateRecordException("A User with Login ID: " + " already exists!");
+			throw new DuplicateRecordException("A User with Login ID: " + entity.getId() + " already exists!");
 		}
 	}
 
