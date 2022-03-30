@@ -45,8 +45,8 @@ public class UserEntity {
 	private Date dob;
 	private String mobileNo;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "role_id",nullable = true)
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "role_id")
 	private RoleEntity role;
 
 	private String gender;
@@ -54,6 +54,7 @@ public class UserEntity {
 
 	// Special contructor from DTO object
 	public UserEntity(UserInputDTO userInputDTO) {
+		this.id = userInputDTO.getId();
 		this.firstName = userInputDTO.getFirstName();
 		this.lastName = userInputDTO.getLastName();
 		this.login = userInputDTO.getLogin();
@@ -65,7 +66,6 @@ public class UserEntity {
 
 		this.mobileNo = userInputDTO.getMobileNo();
 		this.gender = userInputDTO.getGender();
-//		this.role = userInputDTO.getRole();
 		
 		this.profilePic = userInputDTO.getProfilePic();
 	}

@@ -15,7 +15,7 @@ import com.cg.ams.dto.UserOutputDTO;
 import com.cg.ams.entity.UserEntity;
 
 @SpringBootTest
-@Disabled
+//@Disabled
 class UserServiceTest {
 
 	@Autowired
@@ -24,6 +24,7 @@ class UserServiceTest {
 	@Test
 	void addTest() { // Just Tested Once (don't want to add records to DB)
 		UserInputDTO user = new UserInputDTO();
+		user.setId(1);
 		user.setFirstName("Viola");
 		user.setLastName("Herrmann");
 		user.setLogin("purplemeercat202");
@@ -40,8 +41,9 @@ class UserServiceTest {
 	}
 
 	@Test
+	@Disabled
 	void updateTest() {
-		long testId = 3; // Hard coded
+		long testId = 1; // Hard coded
 		UserEntity userEntity = userService.getUserById(testId);
 
 		// Updating value
@@ -55,9 +57,10 @@ class UserServiceTest {
 	}
 
 	@Test
+	//@Disabled
 	void deleteTest() {
 		long beforeDeleteCount = userService.count();
-		long testId = 4;
+		long testId = 1;
 		UserEntity dbUser = userService.getUserById(testId);
 
 		userService.delete(new UserInputDTO(dbUser));
@@ -69,8 +72,8 @@ class UserServiceTest {
 
 	@Test
 	void findByLogin() {
-		String login = "pduvvuri";
-		long id = 28;
+		String login = "purplemeercat202";
+		long id = 1;
 		UserOutputDTO user = userService.findByLogin(login);
 
 		assertEquals(id, user.getId());
@@ -81,15 +84,15 @@ class UserServiceTest {
 		long testId = 1; // entity name 'Phanindra'
 		UserOutputDTO user = userService.findByPk(testId);
 
-		assertEquals("phanindra", user.getFirstName());
-		assertEquals("duvvuri", user.getLastName());
+		assertEquals("Viola", user.getFirstName());
+		assertEquals("Herrmann", user.getLastName());
 	}
 
 	@Test
 	void searchTest() {
-		String searchTerm = "phani";
+		String searchTerm = "Viola";
 		List<UserOutputDTO> users = userService.search(searchTerm);
-		long cnt = 3;
+		long cnt = 1;
 
 		assertEquals(cnt, users.size());
 	}
@@ -110,10 +113,10 @@ class UserServiceTest {
 
 	@Test
 	void forgetPasswordTest() {
-		long testId = 28;
+		long testId = 1;
 		String newPassword = "phanindra@duvvuri";
 
-		userService.forgetPassword("pduvvuri", newPassword);
+		userService.forgetPassword("purplemeercat202", newPassword);
 
 		UserEntity updatedUser = userService.getUserById(testId);
 

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -122,7 +123,7 @@ public class AssignFacultyServiceMockitoTest {
 	}
 	
 	@Test
-	//@Disabled
+	@Disabled
 	public void deleteTest() throws Exception {
 		UserInputDTO userInDTO = new UserInputDTO(1L,"firstName1","lastName1","login1",
 				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),

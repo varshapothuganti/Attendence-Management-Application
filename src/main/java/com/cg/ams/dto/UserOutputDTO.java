@@ -29,6 +29,6 @@ public class UserOutputDTO {
 		this.dob = user.getDob();
 		this.mobileNo = user.getMobileNo();
 		this.gender = user.getGender();
-//		this.roleId = user.getRole().getId();
+		this.roleId = user.getRole().getId();
 	}
 }

@@ -6,10 +6,14 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cg.ams.dto.CourseOutputDTO;
 import com.cg.ams.entity.CourseEntity;
 import com.cg.ams.exception.CourseNotFoundException;
 import com.cg.ams.exception.DuplicateRecordException;
 import com.cg.ams.repository.ICourseRepository;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 @Service
 public class CourseServiceImpl implements ICourseService {
@@ -17,6 +21,7 @@ public class CourseServiceImpl implements ICourseService {
 	@Autowired
 	ICourseRepository courseRepo;
 
+	// Add Course Entity
 	@Override
 	public String add(CourseEntity course) {
 		Optional<CourseEntity> opt = courseRepo.findById(course.getId());
@@ -28,14 +33,36 @@ public class CourseServiceImpl implements ICourseService {
 		}
 	}
 
+	// Add Course Dto
 	@Override
-	public CourseEntity update(CourseEntity course) {
+	public CourseOutputDTO addDto(CourseEntity course) {
 
-		this.findById(course.getId());
-		return courseRepo.save(course);
+		Optional<CourseEntity> c1 = courseRepo.findById(course.getId());
+		if (c1.isPresent()) {
+			throw new DuplicateRecordException("Duplicate Record Entered with id->" + course.getId());
+		} else {
+
+			CourseEntity c2 = courseRepo.save(course);
+			CourseOutputDTO res = new CourseOutputDTO();
+			res.setName(c2.getName());
+			return res;
+		}
 
 	}
 
+	// Update Course Entity
+	@Override
+	public CourseEntity update(CourseEntity course) {
+		Optional<CourseEntity> opt = courseRepo.findById(course.getId());
+		if (!opt.isPresent()) {
+			throw new CourseNotFoundException("Could not find the Course with id->" + course.getId());
+		} else {
+			courseRepo.save(course);
+			return course;
+		}
+	}
+
+	// Delete Course Entity
 	@Override
 	public CourseEntity delete(CourseEntity course) {
 
@@ -46,9 +73,9 @@ public class CourseServiceImpl implements ICourseService {
 			courseRepo.delete(course);
 			return course;
 		}
-
 	}
 
+	// Find Course By Name
 	@Override
 	public CourseEntity findByName(String name) {
 		CourseEntity course = courseRepo.findByName(name);
@@ -59,6 +86,7 @@ public class CourseServiceImpl implements ICourseService {
 		}
 	}
 
+	// Find Course By Id
 	@Override
 	public CourseEntity findById(long id) {
 
@@ -70,6 +98,7 @@ public class CourseServiceImpl implements ICourseService {
 		}
 	}
 
+	// Delete Course By Id
 	@Override
 	public CourseEntity deleteById(long id) {
 		Optional<CourseEntity> opt = courseRepo.findById(id);
@@ -80,6 +109,7 @@ public class CourseServiceImpl implements ICourseService {
 		return opt.get();
 	}
 
+	// Delete Course By Name
 	@Override
 	public CourseEntity deleteByName(String name) {
 		CourseEntity course = courseRepo.findByName(name);
@@ -91,11 +121,14 @@ public class CourseServiceImpl implements ICourseService {
 		}
 	}
 
+	// List All Courses
 	@Override
 	public List<CourseEntity> getAllCourses() {
 		return courseRepo.findAll();
+
 	}
 
+	// Update Course Name By Id
 	@Override
 	public CourseEntity updateNameById(long id, String name) {
 		Optional<CourseEntity> opt = courseRepo.findById(id);
@@ -106,7 +139,13 @@ public class CourseServiceImpl implements ICourseService {
 		course.setName(name);
 		courseRepo.save(course);
 		return course;
+	}
 
+	// Get Courses With Pagination
+	@Override
+	public Page<CourseEntity> getAllCoursesWithPagination(int offset, int pageSize) {
+		Page<CourseEntity> courses = courseRepo.findAll(PageRequest.of(offset, pageSize));
+		return courses;
 	}
 
 }

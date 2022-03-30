@@ -2,10 +2,11 @@ package com.cg.ams.service;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
+
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Disabled;
@@ -13,7 +14,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.cg.ams.entity.StudentEntity;
+import com.cg.ams.dto.StudentInputDTO;
+import com.cg.ams.dto.StudentOutputDTO;
+import com.cg.ams.dto.SubjectDTO;
+import com.cg.ams.entity.CourseEntity;
+import com.cg.ams.exception.DuplicateRecordException;
 import com.cg.ams.exception.RecordNotFoundException;
 
 @SpringBootTest
@@ -22,78 +27,85 @@ class StudentServiceTest {
 	@Autowired
 	IStudentService studentService;
 	
+
 	@Test
 	@Disabled
-	void addTest()throws RecordNotFoundException, ParseException{ 
-		StudentEntity student=new StudentEntity();
-		student.setRollNo(5);
-		student.setFirstName("Varsha");
-		student.setLastName("Pothuganti");
-		student.setDob(new SimpleDateFormat("yyyy-MM-dd").parse("2001-04-21T11:04:54.511Z"));
-		student.setGender("female");
-		student.setMobileNo("9999999990");
-		student.setEmailId("varsha@gmail.com");
-		student.setFatherEmailId("father@gmail.com");
-		student.setFatherMobileNo("7896541230");
-		student.setProfilePic("pic1.jpg");
-		studentService.add(student);
-		assertEquals("Varsha", student.getFirstName());
-		assertEquals("varsha@gmail.com", student.getEmailId());	
+	public void addTest() throws DuplicateRecordException {
+		CourseEntity c1 = new CourseEntity(501,"CSE","Computer Science Engineering");
+		CourseEntity c2 = new CourseEntity(102,"CSE","Computer Science Engineering");
+		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
+		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c2);
+		List<SubjectDTO> subList = new ArrayList<>();
+		subList.add(subDTO1);
+		subList.add(subDTO2);
+		StudentInputDTO student = new StudentInputDTO(1101,1,"Varsha","9876543210","pic1.jpg",subList);
+		long id = studentService.add(student);
+		StudentOutputDTO stdOutDTO = studentService.findByPk(id);
+		assertEquals("Varsha",stdOutDTO.getFirstName());
+		assertEquals("9876543210",stdOutDTO.getMobileNo());
+		assertThatExceptionOfType(DuplicateRecordException.class).isThrownBy(()->{studentService.add(student);});
 	}
+
+	
+
 	
 	@Test
-	@Disabled
-	void updateTest() throws RecordNotFoundException
-	{
-        StudentEntity dbStudent = studentService.findByPk(250);
-
-        // Updating value
-        String newLastName = "ClownFish";
-        dbStudent.setLastName(newLastName);
-        studentService.update(dbStudent);
-
-        StudentEntity updatedStudent = studentService.findByPk(250);
-
-        assertEquals(newLastName, updatedStudent.getLastName());
-	}
-	
-	@Test
-	@Disabled
-	void deleteTest() throws RecordNotFoundException
-	{
-		StudentEntity dbStudent =studentService.findByPk(248);
-		studentService.delete(dbStudent);
-		assertThatExceptionOfType(RecordNotFoundException.class).isThrownBy(()->{studentService.findByPk(248);});
+	public void findByPkTest() throws Exception {
+		StudentOutputDTO stdOutDTO = studentService.findByPk(1101);
+		assertEquals("Varsha",stdOutDTO.getFirstName());
+		assertEquals("9876543210",stdOutDTO.getMobileNo());
+		assertThrows(RecordNotFoundException.class,() -> {studentService.findByPk(200);});
 	}
 	@Test
-	@Disabled
-	void findByPkTest() throws RecordNotFoundException{
-		StudentEntity student =studentService.findByPk(250);
-        assertEquals("Nemo", student.getFirstName());
-        assertEquals("ClownFish", student.getLastName());
-		
-	}
-	
-	@Test
-	@Disabled
-	void findByName() throws RecordNotFoundException
+	void findByName()
 	{
-		List<StudentEntity> students = studentService.findByName("Varsha");
+		List<StudentOutputDTO> students = studentService.findByName("Raj");
 		assertEquals(2, students.size());
 	}
-
-    @Test
-    @Disabled
-    void searchTest() throws ParseException {
- 	   List<StudentEntity> stdlist=studentService.search("Varsha");
- 	   assertEquals(2,stdlist.size());
-    }
-    @Test
-    @Disabled
-    void searchPageTest() {
- 	    List<StudentEntity> al1 = studentService.search("sh",0, 3);
- 		assertEquals(3,al1.size());
-    }
+	  @Test
+	  void searchTest() throws Exception {
+	   List<StudentOutputDTO> students=studentService.search("Ray");
+	   assertEquals(2,students.size());
+	  }
+	@Test
+	public void updateTest() {
+		CourseEntity c1 = new CourseEntity(101,"name1","description1");
+		CourseEntity c2 = new CourseEntity(102,"name2","description2");
+		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
+		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c2);
+		List<SubjectDTO> subList = new ArrayList<>();
+		subList.add(subDTO1);
+		subList.add(subDTO2);
+		StudentInputDTO stdDTO = new StudentInputDTO(1101,1,"Varsha","9876543210","pic1.jpg",subList);
+		StudentInputDTO stdDTO1 = new StudentInputDTO(1111,1,"Nemo","9999999990","pic1.jpg",subList);
+		studentService.update(stdDTO);
+		StudentOutputDTO stdOutDTO = studentService.findByPk(1101);
+		assertEquals("Varsha",stdOutDTO.getFirstName());
+		assertEquals("9876543210",stdOutDTO.getMobileNo());
+		assertThrows(RecordNotFoundException.class,() -> {studentService.update(stdDTO1);});
+	}
+	  @Test
+	  void searchPageTest() {
+		    List<StudentOutputDTO> students = studentService.search("Ra",0, 3);
+			assertEquals(3,students.size());
+	  }
+		@Test
+		@Disabled
+		public void deleteTest() throws Exception {
+			CourseEntity c1 = new CourseEntity(101,"name1","description1");
+			CourseEntity c2 = new CourseEntity(102,"name2","description2");
+			SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
+			SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c2);
+			List<SubjectDTO> subList = new ArrayList<>();
+			subList.add(subDTO1);
+			subList.add(subDTO2);
+			StudentInputDTO afInDTO = new StudentInputDTO(1002,1,"Varsha","9876543210","pic1.jpg",subList);
+			studentService.delete(afInDTO);
+			assertThrows(RecordNotFoundException.class,() -> {studentService.delete(afInDTO);});
+		}
+	
+	
+	
 	
 	
 
