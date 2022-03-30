@@ -5,8 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,11 +17,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.cg.ams.dto.StudentInputDTO;
+import com.cg.ams.dto.StudentOutputDTO;
+import com.cg.ams.dto.SubjectDTO;
+import com.cg.ams.entity.CourseEntity;
 import com.cg.ams.entity.StudentEntity;
-import com.cg.ams.exception.RecordNotFoundException;
 import com.cg.ams.repository.IStudentRepository;
 
 @ExtendWith(SpringExtension.class)
@@ -44,78 +45,75 @@ class StudentServiceMokitoTest {
 	void init() {
 		MockitoAnnotations.openMocks(this);
 	}
-
+	
 	@Test
-	void addTest() throws RecordNotFoundException, ParseException {
-		StudentEntity student =new StudentEntity(1000,2,"Varsha","Pothuganti",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),"Female","9999999999","varsha@gmail.com","father@gmail.com","7984561230","pic1.jpg");
+	public void addTest() throws Exception {
+		CourseEntity c1 = new CourseEntity(501,"CSE","Computer Science Engineering");
+		CourseEntity c2 = new CourseEntity(102,"CSE","Computer Science Engineering");
+		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
+		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c2);
+		List<SubjectDTO> subList = new ArrayList<>();
+		subList.add(subDTO1);
+		subList.add(subDTO2);
+		StudentInputDTO stdInDTO = new StudentInputDTO(1101,1,"Varsha","9876543210","pic1.jpg",subList);
+		StudentEntity student = new StudentEntity(stdInDTO);
 		Mockito.when(studentRepository.save(student)).thenReturn(student);
-		studentService.add(student);
-		assertEquals("Varsha", student.getFirstName());
-		assertEquals("varsha@gmail.com", student.getEmailId());	
+		studentService.add(stdInDTO);
+		Mockito.when(studentRepository.findById(1101)).thenReturn(Optional.of(student));
+		StudentOutputDTO stdOutDTO = studentService.findByPk(1101);
+		assertEquals("Varsha",stdOutDTO.getFirstName());
+		assertEquals("9876543210",stdOutDTO.getMobileNo());
 	}
 	
 	@Test
-	void findByNameTest() throws Exception {
-		StudentEntity student=new StudentEntity(1000,2,"Varsha","Pothuganti",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),"Female","9999999999","varsha@gmail.com","father@gmail.com","7984561230","pic1.jpg");
-		List<StudentEntity> list =new ArrayList<StudentEntity>();
-		list.add(student);
-		Mockito.when(studentRepository.findByName("Varsha")).thenReturn(Optional.of(list));
-		List<StudentEntity> students=studentService.findByName("Varsha");
-		assertEquals(1, students.size());
-
-	   }
-	
-	 @Test
-	 void findByPkTest() throws RecordNotFoundException, ParseException {
-			StudentEntity student =new StudentEntity(1000,2,"Varsha","Pothuganti",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),"Female","9999999999","varsha@gmail.com","father@gmail.com","7984561230","pic1.jpg");
-			Mockito.when(studentRepository.findById(1000)).thenReturn(Optional.of(student));
-			StudentEntity student1=studentService.findByPk(1000);
-			assertEquals("Varsha", student1.getFirstName());
-			assertEquals("varsha@gmail.com", student1.getEmailId());  
-	   }
-	 
-	 
+	public void findByPkTest() throws Exception {
+		CourseEntity c1 = new CourseEntity(501,"CSE","Computer Science Engineering");
+		CourseEntity c2 = new CourseEntity(102,"CSE","Computer Science Engineering");
+		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
+		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c2);
+		List<SubjectDTO> subList = new ArrayList<>();
+		subList.add(subDTO1);
+		subList.add(subDTO2);
+		StudentInputDTO stdInDTO = new StudentInputDTO(1101,1,"Varsha","9876543210","pic1.jpg",subList);
+		StudentEntity student = new StudentEntity(stdInDTO);
+		Mockito.when(studentRepository.findById(1101)).thenReturn(Optional.of(student));
+		StudentOutputDTO stdOutDTO = studentService.findByPk(1101);
+		assertEquals("Varsha",stdOutDTO.getFirstName());
+		assertEquals("9876543210",stdOutDTO.getMobileNo());
+	}
 	@Test
-	void updateTest() throws RecordNotFoundException, ParseException{
-		StudentEntity student =new StudentEntity(1000,2,"VarshaP","P",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),"Female","9999999999","varsha@gmail.com","father@gmail.com","7984561230","pic1.jpg");
+	public void updateTest() throws Exception {
+		CourseEntity c1 = new CourseEntity(501,"CSE","Computer Science Engineering");
+		CourseEntity c2 = new CourseEntity(102,"CSE","Computer Science Engineering");
+		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
+		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c2);
+		List<SubjectDTO> subList = new ArrayList<>();
+		subList.add(subDTO1);
+		subList.add(subDTO2);
+		StudentInputDTO stdInDTO = new StudentInputDTO(1101,1,"Varsha","9876543210","pic1.jpg",subList);
+		StudentEntity student = new StudentEntity(stdInDTO);
 		Mockito.when(studentRepository.save(student)).thenReturn(student);
-		Mockito.when(studentRepository.findById(1000)).thenReturn(Optional.of(student));
-		studentService.update(student);
-		assertEquals("VarshaP", student.getFirstName());
-		assertEquals("P", student.getLastName());
+		Mockito.when(studentRepository.findById(1101)).thenReturn(Optional.of(student));
+		studentService.update(stdInDTO);
+		assertEquals("Varsha",studentService.findByPk(1101).getFirstName());
 	}
 	@Test
-	void deleteTest() throws RecordNotFoundException, ParseException {
-		StudentEntity student =new StudentEntity(1000,2,"Varsha","Pothuganti",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),"Female","9999999999","varsha@gmail.com","father@gmail.com","7984561230","pic1.jpg");
-		Mockito.when(studentRepository.findById(1000)).thenReturn(Optional.of(student));
-		studentService.delete(student);
-		Mockito.when(studentRepository.findById(1000)).thenReturn(Optional.empty());
-		assertThrows(RecordNotFoundException.class,()->{studentService.findByPk(1000);});
-	}
-	
-	@Test
-	void searchTest() throws ParseException
-	{
-		StudentEntity student=new StudentEntity(1000,2,"Varsha","Pothuganti",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),"Female","9999999999","varsha@gmail.com","father@gmail.com","7984561230","pic1.jpg");
-		List<StudentEntity> list =new ArrayList<StudentEntity>();
-		list.add(student);
-		Mockito.when(studentRepository.findByFirstNameContainingOrLastNameContainingAllIgnoreCase("Varsha","Varsha")).thenReturn(Optional.of(list));
-		List<StudentEntity> students=studentService.search("Varsha");
-		assertEquals(1, students.size());
-		
+	public void deleteTest() throws Exception {
+		CourseEntity c1 = new CourseEntity(501,"CSE","Computer Science Engineering");
+		CourseEntity c2 = new CourseEntity(102,"CSE","Computer Science Engineering");
+		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
+		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c2);
+		List<SubjectDTO> subList = new ArrayList<>();
+		subList.add(subDTO1);
+		subList.add(subDTO2);
+		StudentInputDTO stdInDTO = new StudentInputDTO(1101,1,"Varsha","9876543210","pic1.jpg",subList);
+		StudentEntity student = new StudentEntity(stdInDTO);
+		Mockito.when(studentRepository.findById(1101)).thenReturn(Optional.of(student));
+		studentService.delete(stdInDTO);
+		Mockito.verify(studentRepository).deleteById(student.getId());
 	}
 
-	@Test
-	void searchPageTest() throws RecordNotFoundException, ParseException
-	{
-		StudentEntity student=new StudentEntity(1000,2,"Varsha","Pothuganti",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),"Female","9999999999","varsha@gmail.com","father@gmail.com","7984561230","pic1.jpg");
-		List<StudentEntity> list =new ArrayList<StudentEntity>();
-		list.add(student);
-		Mockito.when(studentRepository.findByFirstNameContainingOrLastNameContainingAllIgnoreCase("Varsha","Varsha", PageRequest.of(0, 1))).thenReturn(Optional.of(list));
-		List<StudentEntity> students=studentService.search("Varsha",0,1);
-		assertEquals(1, students.size());
-		
-	}
+
 	
 	
 
