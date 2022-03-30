@@ -1,64 +1,77 @@
 package com.cg.ams.controller;
 
-import com.cg.ams.entity.SubjectEntity;
-import com.cg.ams.exception.RecordNotFoundException;
-import com.cg.ams.service.SubjectService;
+
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import javax.validation.Valid;
-import java.util.List;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.cg.ams.dto.SubjectDTO;
+import com.cg.ams.service.ISubjectService;
 
 @RestController
 public class SubjectController {
 
-    @Autowired
-    SubjectService subServ;
+	@Autowired
+	ISubjectService subServ;
 
-    @GetMapping("/subjects")
-    List<SubjectEntity> getAllEmployees() {
-        return subServ.getAllSubjects();
-    }
 
+    // add subject to the database
     @PostMapping("/subject")
-    Long addSubject(@Valid @RequestBody SubjectEntity sub) {
-        Long newSubId = subServ.add(sub);
-        return newSubId;
+    ResponseEntity<Long> addSubject(@Valid @RequestBody SubjectDTO subdto) {
+        Long subId = subServ.add(subdto);
+        return new ResponseEntity<>(subId,HttpStatus.OK);
     }
 
+    //delete a subject
     @DeleteMapping("/subject")
-    void deleteSubject(@Valid @RequestBody SubjectEntity sub) throws RecordNotFoundException {
+   ResponseEntity<String> deleteSubject(@Valid @RequestBody SubjectDTO sub){
         subServ.delete(sub);
-        System.out.println("Subject deleted successfully");
+        return new ResponseEntity<>("Subject deleted successfully",HttpStatus.OK);
     }
 
+    //update a given subject
     @PatchMapping("/subject")
-    void updateSubject(@Valid @RequestBody SubjectEntity sub) throws RecordNotFoundException {
+    ResponseEntity<String> updateSubject(@Valid @RequestBody SubjectDTO sub){
         subServ.update(sub);
-        System.out.println("Subject Updated successfully");
+        return new ResponseEntity<>("Subject Updated successfully",HttpStatus.OK);
     }
 
+    //get subject based on name
     @GetMapping("/subject/byname/{name}")
-    ResponseEntity<SubjectEntity> getSubjectByName(@PathVariable String name) throws Exception {
-        SubjectEntity sub = subServ.findByName(name);
+    ResponseEntity<SubjectDTO> getSubjectByName(@PathVariable String name){
+        SubjectDTO sub = subServ.findByName(name);
         return new ResponseEntity<>(sub, HttpStatus.OK);
     }
 
+    // get subject based on id
     @GetMapping("/subject/{id}")
-    ResponseEntity<SubjectEntity> getSubjectById(@PathVariable long id) throws RecordNotFoundException {
-        SubjectEntity sub = subServ.findByPk(id);
+    ResponseEntity<SubjectDTO> getSubjectById(@PathVariable long id){
+        SubjectDTO sub = subServ.findByPk(id);
         return new ResponseEntity<>(sub, HttpStatus.OK);
     }
     
-    @GetMapping("/subject/searchByPages/{pageNo}/{pageSize}")
-	List<SubjectEntity> search(@RequestBody SubjectEntity entity,@PathVariable("pageNo") int pageNo,@PathVariable("pageSize") int pageSize){
-		return subServ.search(entity, pageNo, pageSize);
+    //search subject in pages
+    @GetMapping("/subject/searchByPages/{name}/{pageNo}/{pageSize}")
+	List<SubjectDTO> search(@PathVariable String name,@RequestParam(value = "page", defaultValue = "0") int pageNo,
+			@RequestParam(value = "size", defaultValue = "10") int pageSize){
+		return subServ.search(name, pageNo, pageSize);
 	}
 	
-	@GetMapping("/faculty/search")
-	List<SubjectEntity> search(@RequestBody SubjectEntity entity){
-		return subServ.search(entity);
+    //search subject
+	@GetMapping("/subject/search/{name}")
+	List<SubjectDTO> search(@PathVariable String name){
+		return subServ.search(name);
 	}
 }
-

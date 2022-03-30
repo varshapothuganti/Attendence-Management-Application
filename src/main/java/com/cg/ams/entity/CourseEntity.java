@@ -3,7 +3,6 @@ package com.cg.ams.entity;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -21,6 +20,7 @@ import lombok.NoArgsConstructor;
 public class CourseEntity {
 
 	@Id
+
 	// @GeneratedValue
 	private long id;
 	@NotEmpty(message = "Name shouldn't be empty")
@@ -38,5 +38,4 @@ public class CourseEntity {
 
 	@OneToMany(mappedBy = "course")
 	private List<SubjectEntity> subject;
-
 }

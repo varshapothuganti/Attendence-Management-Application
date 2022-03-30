@@ -15,8 +15,9 @@ import java.util.Optional;
 @Service
 public class RoleServiceImpl implements IRoleService {
 
-    @Autowired
-    IRoleRepository roleRepo;
+	@Autowired
+	IRoleRepository roleRepo;
+
 
     // Add Role Entity
     @Override
@@ -30,18 +31,17 @@ public class RoleServiceImpl implements IRoleService {
         }
     }
 
-    // Delete Role Entity
-    @Override
-    public RoleEntity deleteRole(RoleEntity role) {
-    	Optional<RoleEntity> opt=roleRepo.findById(role.getId());
-		if(!opt.isPresent()) {
-			throw new RoleNotFoundException("Could not find Role with Id:"+role.getId());
-		}
-		else {
+	@Override
+	public RoleEntity deleteRole(RoleEntity role) {
+		Optional<RoleEntity> opt = roleRepo.findById(role.getId());
+		if (!opt.isPresent()) {
+			throw new RoleNotFoundException("Could not find Role with Id:" + role.getId());
+		} else {
 			roleRepo.delete(role);
 			return role;
 		}
-    }
+	}
+
 
     // Update Role Entity
     @Override
@@ -54,7 +54,8 @@ public class RoleServiceImpl implements IRoleService {
 			roleRepo.save(role);
 			return role;
 		}
-    }
+	}
+
 
     // List All Roles
     @Override
@@ -126,6 +127,7 @@ public class RoleServiceImpl implements IRoleService {
 	public Page<RoleEntity> getAllRolesWithPagination(int offset, int pageSize) {
 		Page<RoleEntity> roles = roleRepo.findAll(PageRequest.of(offset, pageSize));
 		return roles;
+
 	}
 
 }

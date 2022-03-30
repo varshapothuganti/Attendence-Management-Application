@@ -5,10 +5,8 @@ import java.time.LocalDateTime;
 import lombok.Data;
 
 @Data
-public class EntityErrorResponse {
-	
+public class AssignFacultyErrorResponse {
 	private int status;
-	private String message;
-	private LocalDateTime timeStamp;
-
+	private String msg;
+	private LocalDateTime localDateTime;
 }

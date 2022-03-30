@@ -1,7 +1,6 @@
 package com.cg.ams.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -20,7 +19,6 @@ public class AttendanceServiceImpl implements IAttendanceService {
 
 	@Override
 	public Attendance add(Attendance entity) {
-		// TODO Auto-generated method stub
 		Attendance att = attRepo.save(entity);
 		att.setId(att.getId());
 		att.setSubjectId(att.getSubjectId());
@@ -53,14 +51,13 @@ public class AttendanceServiceImpl implements IAttendanceService {
 	}
 
 	@Override
-	public Attendance findByName(String student_name) {
-		return attRepo.findByAttName(student_name);
+	public Attendance findByName(String studentName) {
+		return attRepo.findByAttName(studentName);
 
 	}
 
 	@Override
 	public Attendance findByPk(long id) {
-		Optional<Attendance> att = Optional.of(attRepo.getById(id));
 		return attRepo.findById(id).orElseThrow(() -> new DataNotFoundException("User not found with id: " + id));
 
 	}

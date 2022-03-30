@@ -5,6 +5,7 @@ package com.cg.ams.exception;
  *
  * @author phanindra
  */
+@SuppressWarnings("serial")
 public class UserNotFoundException extends RuntimeException {
     public UserNotFoundException() {
         super();

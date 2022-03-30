@@ -2,10 +2,9 @@ package com.cg.ams.service;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.text.ParseException;
-
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -17,10 +16,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.cg.ams.entity.StudentEntity;
 import com.cg.ams.exception.RecordNotFoundException;
 
-
 @SpringBootTest
-public class StudentServiceTest {
-	
+class StudentServiceTest {
+
 	@Autowired
 	IStudentService studentService;
 	
@@ -28,37 +26,33 @@ public class StudentServiceTest {
 	@Disabled
 	void addTest()throws RecordNotFoundException, ParseException{ 
 		StudentEntity student=new StudentEntity();
-		student.setRollNo(3);
-		student.setFirstName("Nemo");
-		student.setLastName("Clown");
-		student.setDob(new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"));
-		student.setGender("male");
+		student.setRollNo(5);
+		student.setFirstName("Varsha");
+		student.setLastName("Pothuganti");
+		student.setDob(new SimpleDateFormat("yyyy-MM-dd").parse("2001-04-21T11:04:54.511Z"));
+		student.setGender("female");
 		student.setMobileNo("9999999990");
-		student.setCourseId(5);
-		student.setCourseName("CSE");
-		student.setSubjectId(501);
-		student.setSubjectName("AI");
-		student.setSemester("First");
-		student.setEmailId("nemo@gmail.com");
-		student.setFatherEmailId("Marlin@gmail.com");
+		student.setEmailId("varsha@gmail.com");
+		student.setFatherEmailId("father@gmail.com");
 		student.setFatherMobileNo("7896541230");
 		student.setProfilePic("pic1.jpg");
 		studentService.add(student);
-		assertEquals("Nemo", student.getFirstName());
-		assertEquals("nemo@gmail.com", student.getEmailId());	
+		assertEquals("Varsha", student.getFirstName());
+		assertEquals("varsha@gmail.com", student.getEmailId());	
 	}
 	
 	@Test
+	@Disabled
 	void updateTest() throws RecordNotFoundException
 	{
-        StudentEntity dbStudent = studentService.findByPk(218);
+        StudentEntity dbStudent = studentService.findByPk(250);
 
         // Updating value
         String newLastName = "ClownFish";
         dbStudent.setLastName(newLastName);
         studentService.update(dbStudent);
 
-        StudentEntity updatedStudent = studentService.findByPk(218);
+        StudentEntity updatedStudent = studentService.findByPk(250);
 
         assertEquals(newLastName, updatedStudent.getLastName());
 	}
@@ -67,35 +61,42 @@ public class StudentServiceTest {
 	@Disabled
 	void deleteTest() throws RecordNotFoundException
 	{
-		StudentEntity dbStudent =studentService.findByPk(220);
+		StudentEntity dbStudent =studentService.findByPk(248);
 		studentService.delete(dbStudent);
-		assertThatExceptionOfType(RecordNotFoundException.class).isThrownBy(()->{studentService.findByPk(220);});
+		assertThatExceptionOfType(RecordNotFoundException.class).isThrownBy(()->{studentService.findByPk(248);});
 	}
 	@Test
+	@Disabled
 	void findByPkTest() throws RecordNotFoundException{
-		StudentEntity student =studentService.findByPk(218);
+		StudentEntity student =studentService.findByPk(250);
         assertEquals("Nemo", student.getFirstName());
         assertEquals("ClownFish", student.getLastName());
 		
 	}
+	
+	@Test
+	@Disabled
+	void findByName() throws RecordNotFoundException
+	{
+		List<StudentEntity> students = studentService.findByName("Varsha");
+		assertEquals(2, students.size());
+	}
+
     @Test
     @Disabled
-    void searchTest() {
-        List<StudentEntity> students = studentService.search("sh");
-        assertEquals(2, students.size());
+    void searchTest() throws ParseException {
+ 	   List<StudentEntity> stdlist=studentService.search("Varsha");
+ 	   assertEquals(2,stdlist.size());
     }
     @Test
     @Disabled
     void searchPageTest() {
  	    List<StudentEntity> al1 = studentService.search("sh",0, 3);
- 		assertEquals(2,al1.size());
+ 		assertEquals(3,al1.size());
     }
 	
 	
 
 
-	
-	
-	
 
 }

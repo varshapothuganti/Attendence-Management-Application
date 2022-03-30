@@ -1,132 +1,120 @@
 package com.cg.ams.service;
 
-import com.cg.ams.entity.UserEntity;
-import org.junit.jupiter.api.Disabled;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.Date;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import com.cg.ams.dto.UserInputDTO;
+import com.cg.ams.dto.UserOutputDTO;
+import com.cg.ams.entity.UserEntity;
 
 @SpringBootTest
-@Disabled
 class UserServiceTest {
 
-    @Autowired
-    IUserService userService;
+	@Autowired
+	UserServiceImpl userService;
 
-    @Test
-    @Disabled
-    void countTest() {  // Just Tested Once (hard coded values might change in the future)
-        long currentCount = 38; //  Hard Coded
+	@Test
+	void addTest() { // Just Tested Once (don't want to add records to DB)
+		UserInputDTO user = new UserInputDTO();
+		user.setFirstName("Viola");
+		user.setLastName("Herrmann");
+		user.setLogin("purplemeercat202");
+		user.setPassword("dickens12345");
+		user.setConfirmPassword("dickens12345");
+		user.setGender("female");
+		user.setDob(new Date());
+		user.setRoleId(1);
 
-        assertEquals(currentCount, userService.count());
-    }
+		long prevCount = userService.count();
+		userService.add(user);
 
-    @Test
-    @Disabled
-    void add() throws ParseException {  // Just Tested Once (don't want to add records to DB)
-        UserEntity user = new UserEntity();
-        user.setFirstName("Viola");
-        user.setLastName("Herrmann");
-        user.setLogin("purplemeercat202");
-        user.setPassword("dickens12345");
-        user.setConfirmPassword("dickens12345");
-        user.setGender("female");
-        user.setDob(new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"));
-        user.setRoleId(1);
-        user.setProfilePic("default-pic.jpg");
+		assertEquals(prevCount + 1, userService.count());
+	}
 
-        long dbCount = userService.count();
-        userService.add(user);
+	@Test
+	void updateTest() {
+		long testId = 3; // Hard coded
+		UserEntity userEntity = userService.getUserById(testId);
 
-        assertEquals(dbCount + 1, userService.count());
-    }
+		// Updating value
+		String newLogin = "newloginid";
+		userEntity.setLogin(newLogin);
+		userService.update(new UserInputDTO(userEntity));
 
-    @Test
-    void updateTest() {
-    	long testId = 3;  // Hard coded
-        UserEntity dbUser = userService.findByPk(testId);  
+		UserOutputDTO updatedUser = userService.findByPk(testId);
 
-        // Updating value
-        String newLogin = "phanindra-duvvuri";
-        dbUser.setLogin(newLogin);
-        userService.update(dbUser);
+		assertEquals(newLogin, updatedUser.getLogin());
+	}
 
-        UserEntity updatedUser = userService.findByPk(testId);
+	@Test
+	void deleteTest() {
+		long beforeDeleteCount = userService.count();
+		long testId = 4;
+		UserEntity dbUser = userService.getUserById(testId);
 
-        assertEquals(newLogin, updatedUser.getLogin());
-    }
+		userService.delete(new UserInputDTO(dbUser));
 
-    @Test
-    @Disabled
-    void deleteTest() {
-        long beforeDeleteCount = userService.count();
-        long testId = 6;
-        UserEntity dbUser = userService.findByPk(testId);
+		long afterDeleteCount = userService.count();
 
-        userService.delete(dbUser);
+		assertEquals(beforeDeleteCount, afterDeleteCount + 1);
+	}
 
-        long afterDeleteCount = userService.count();
+	@Test
+	void findByLogin() {
+		String login = "pduvvuri";
+		long id = 28;
+		UserOutputDTO user = userService.findByLogin(login);
 
-        assertEquals(beforeDeleteCount, afterDeleteCount + 1);
-    }
+		assertEquals(id, user.getId());
+	}
 
-    @Test
-    void findByLogin() {
-        String login = "purplemeercat202";
-        long id = 17;
-        String lastName = "Herrmann";
-        UserEntity user = userService.findByLogin(login);
+	@Test
+	void findByPkTest() {
+		long testId = 1; // entity name 'Phanindra'
+		UserOutputDTO user = userService.findByPk(testId);
 
-        assertEquals(id, user.getId());
-        assertEquals(lastName, user.getLastName());
-    }
+		assertEquals("phanindra", user.getFirstName());
+		assertEquals("duvvuri", user.getLastName());
+	}
 
-    @Test
-    void findByPkTest() {
-        long testId = 4;  // entity name 'Phanindra'
-        UserEntity user = userService.findByPk(testId);
+	@Test
+	void searchTest() {
+		String searchTerm = "phani";
+		List<UserOutputDTO> users = userService.search(searchTerm);
+		long cnt = 3;
 
-        assertEquals("Phanindra", user.getFirstName());
-        assertEquals("Duvvuri", user.getLastName());
-    }
+		assertEquals(cnt, users.size());
+	}
 
-    @Test
-    void searchTest() {
-        List<UserEntity> users = userService.search("syl");
+	@Test
+	void changePasswordTest() {
+		String newPassword = "phanindra@123456";
+		long testId = 1;
+		UserEntity dbUser = userService.getUserById(testId);
+		String oldPassword = dbUser.getPassword();
 
-        assertEquals(4, users.size());
-    }
+		userService.changePassword(testId, oldPassword, newPassword);
+		UserEntity updatedUser = userService.getUserById(testId);
 
-    @Test
-    void changePasswordTest() {
-        String newPassword = "phanindra@123";
-        long testId = 5;
-        UserEntity dbUser = userService.findByPk(testId);
-        String oldPassword = dbUser.getPassword();
+		assertEquals(newPassword, updatedUser.getPassword());
 
-        userService.changePassword(2L, oldPassword, newPassword);
-        UserEntity updatedUser = userService.findByPk(testId);
+	}
 
-        assertEquals(newPassword, updatedUser.getPassword());
+	@Test
+	void forgetPasswordTest() {
+		long testId = 28;
+		String newPassword = "phanindra@duvvuri";
 
-    }
+		userService.forgetPassword("pduvvuri", newPassword);
 
-    @Test
-    void forgetPasswordTest() {
-    	long testId = 4;
-        UserEntity dbUser = userService.findByPk(testId);
-        String newPassword = "phanindra@duvvuri";
+		UserEntity updatedUser = userService.getUserById(testId);
 
-        userService.forgetPassword("phanindra-duvvuri", newPassword);
-
-        UserEntity updatedUser = userService.findByPk(2);
-
-        assertEquals(newPassword, updatedUser.getPassword());
-    }
+		assertEquals(newPassword, updatedUser.getPassword());
+	}
 }

@@ -1,9 +1,9 @@
 package com.cg.ams.service;
 
-import com.cg.ams.entity.UserEntity;
-import com.cg.ams.exception.UserNotFoundException;
-
 import java.util.List;
+
+import com.cg.ams.dto.UserInputDTO;
+import com.cg.ams.dto.UserOutputDTO;
 
 /**
  * Defines all the operation that are supported by this service
@@ -11,27 +11,27 @@ import java.util.List;
  * @author phanindra
  */
 public interface IUserService {
-    long add(UserEntity entity);
+	long add(UserInputDTO userInputDTO);
 
-    void update(UserEntity entity) throws UserNotFoundException;
+	void update(UserInputDTO entity);
 
-    void delete(UserEntity entity) throws UserNotFoundException;
+	void delete(UserInputDTO entity);
 
-    UserEntity findByLogin(String loginId);
+	UserOutputDTO findByLogin(String loginId);
 
-    UserEntity findByPk(long id); // find by id (pk - primary key)
+	UserOutputDTO findByPk(long id); // find by id (pk - primary key)
 
-    List<UserEntity> search(String name, int pageNo, int pageSize);
+	List<UserOutputDTO> search(String name, int pageNo, int pageSize);
 
-    List<UserEntity> search(String name);
+	List<UserOutputDTO> search(String name);
 
-    UserEntity authenticate(UserEntity entity);
+	UserOutputDTO authenticate(UserInputDTO entity);
 
-    boolean changePassword(Long id, String oldPassword, String newPassword);
+	boolean changePassword(Long id, String oldPassword, String newPassword);
 
-    long registerUser(UserEntity entity);
+	long registerUser(UserInputDTO userInputDTO);
 
-    boolean forgetPassword(String login, String newPassword);
+	boolean forgetPassword(String login, String newPassword);
 
-    long count();
+	long count();
 }
