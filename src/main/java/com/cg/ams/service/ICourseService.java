@@ -4,6 +4,8 @@ import com.cg.ams.entity.CourseEntity;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 public interface ICourseService {
 
     public String add(CourseEntity course);
@@ -23,5 +25,6 @@ public interface ICourseService {
     public CourseEntity findById(long id);
 
     public List<CourseEntity> getAllCourses();
-
+  
+    Page<CourseEntity> getAllCoursesWithPagination(int offset, int pageSize);
 }
