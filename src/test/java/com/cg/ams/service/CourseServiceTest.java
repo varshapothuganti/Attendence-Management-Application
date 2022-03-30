@@ -18,6 +18,7 @@ class CourseServiceTest {
     @Autowired
     ICourseService courseServ;
 
+    // Add Course Entity
     @Test
     void addCourse() {
         CourseEntity course = new CourseEntity(93, "Python", "Python is a Programming Language");
@@ -25,6 +26,7 @@ class CourseServiceTest {
         assertEquals("Course Added Successfully", s);
     }
 
+    // Update Course Entity
     @Test
     void updateCourse() {
         CourseEntity course = new CourseEntity(104, "Cricket", "Cricket is a Sport");
@@ -32,12 +34,14 @@ class CourseServiceTest {
         assertEquals("Cricket", result.getName());
     }
 
+    // Update Course Name by Id
     @Test
     void updateNameById() {
         CourseEntity course = courseServ.updateNameById(105, "Android");
         assertEquals("Java ia a Progtramming Language", course.getDescription());
     }
 
+    // Delete Course Entity
     @Test
     void deleteCourse() {
         CourseEntity course = new CourseEntity(108, "Python", "Python is a Programming Language");
@@ -47,30 +51,35 @@ class CourseServiceTest {
 
     }
 
+    // Get Course Entity by Name
     @Test
     void getByName() {
         CourseEntity course = courseServ.findByName("CSS");
         assertEquals(101, course.getId());
     }
 
+    // Get Course Entity By Id
     @Test
     void getById() {
         CourseEntity course = courseServ.findById(100);
         assertEquals("Html", course.getName());
     }
 
+    // Delete Course By Name
     @Test
     void deleteByName() {
         CourseEntity course = courseServ.deleteByName("Cricket");
         assertEquals(104, course.getId());
     }
 
+    // Delete Course By Id
     @Test
     void deleteById() {
         CourseEntity course = courseServ.deleteById(103);
         assertEquals("HTML", course.getName());
     }
 
+    // List All Courses
     @Test
     void getAllCourses() {
         List<CourseEntity> courseList = courseServ.getAllCourses();
