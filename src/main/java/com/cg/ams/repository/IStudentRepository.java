@@ -16,6 +16,12 @@ import org.springframework.stereotype.Repository;
 
 import com.cg.ams.entity.StudentEntity;
 
+/**
+ * Responsible for operating on Database. Performs the basic CRUD operations among others.
+ * This interface extends JpaRepository interface
+ *
+ * @author Varsha
+ */
 
 @Repository
 public interface IStudentRepository extends JpaRepository<StudentEntity, Long> {

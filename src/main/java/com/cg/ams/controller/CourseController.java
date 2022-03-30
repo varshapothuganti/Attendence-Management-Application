@@ -3,6 +3,7 @@ package com.cg.ams.controller;
 import com.cg.ams.entity.CourseEntity;
 import com.cg.ams.service.ICourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -57,6 +58,13 @@ public class CourseController {
         return new ResponseEntity<>(course, HttpStatus.OK);
     }
 
+    @GetMapping("/courses/pagination/{offset}/{pageSize}")
+	ResponseEntity<Page<CourseEntity>> getAllCoursesWithPagination(@PathVariable("offset") int offset,
+			@PathVariable("pageSize") int pageSize) {
+		Page<CourseEntity> courses = courseServ.getAllCoursesWithPagination(offset, pageSize);
+		return new ResponseEntity<>(courses, HttpStatus.OK);
+	}
+    
     // Delete Course By Id
     @DeleteMapping("/course/courseById/{id}")
     ResponseEntity<CourseEntity> deleteById(@PathVariable("id") long id) {

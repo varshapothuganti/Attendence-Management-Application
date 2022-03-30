@@ -1,98 +1,160 @@
 package com.cg.ams.service;
 
+import java.util.ArrayList;
+
 import java.util.List;
+
+
+
+
 import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import com.cg.ams.entity.StudentEntity;
 import com.cg.ams.exception.DuplicateRecordException;
 import com.cg.ams.exception.RecordNotFoundException;
+import com.cg.ams.dto.StudentInputDTO;
+import com.cg.ams.dto.StudentOutputDTO;
+import com.cg.ams.entity.StudentEntity;
 import com.cg.ams.repository.IStudentRepository;
 
-@Service
-public class StudentServiceImpl implements IStudentService {
 
+/**
+ * Implements IStudentService interface
+ *
+ * @author Varsha
+ */
+@Service
+public class StudentServiceImpl implements IStudentService{
+	
+	
 	@Autowired
 	IStudentRepository studentRepository;
+	
+	private String message = "Cannot find any Student record with id: ";
 
+	/**
+	 * Add student into database
+	 *
+	 * @param stdDTO
+	 * @return id
+	 */
 	@Override
-	public long add(StudentEntity entity) {
-
+	public long add(StudentInputDTO stdDTO) {
+		
+		StudentEntity entity = new StudentEntity(stdDTO);
 		Optional<StudentEntity> student = studentRepository.findById(entity.getId());
 		if (student.isPresent()) {
-			throw new DuplicateRecordException("Student Already exists with given id " + entity.getId());
+			throw new DuplicateRecordException("The faculty with id: " + entity.getId() + " already exists!");
 		}
-		StudentEntity stud = studentRepository.save(entity);
-
-		return stud.getId();
-
+		StudentEntity std=studentRepository.save(entity);
+		return std.getId();
 	}
-
+	
+	/**
+	 * updates a row in the database. Throws RecordFoundException if the row
+	 * doesn't exist.
+	 *
+	 * @param StdDTO
+	 */
 	@Override
-	public void update(StudentEntity entity) {
-
+	public void update(StudentInputDTO stdDTO) {
 		
-		Optional<StudentEntity> student = studentRepository.findById(entity.getId());
-        if (!student.isPresent()) {
-            throw new RecordNotFoundException("Student not found with the id: "+entity.getId());
-        }
-        StudentEntity student1=student.get();
-        student1.setSubject(entity.getSubject());
-        student1.setRollNo(entity.getRollNo());
-        student1.setFirstName(entity.getFirstName());
-        student1.setLastName(entity.getLastName());
-        student1.setDob(entity.getDob());
-        student1.setGender(entity.getGender());
-        student1.setMobileNo(entity.getMobileNo());
-        student1.setEmailId(entity.getEmailId());
-        student1.setFatherEmailId(entity.getFatherEmailId());
-        student1.setFatherMobileNo(entity.getFatherMobileNo());
-        student1.setProfilePic(entity.getProfilePic());
-        studentRepository.save(student1);
-		
-	}
-
-	@Override
-	public void delete(StudentEntity entity) {
-
+		StudentEntity entity = new StudentEntity(stdDTO);
 		Optional<StudentEntity> student = studentRepository.findById(entity.getId());
 		if (!student.isPresent()) {
-			throw new RecordNotFoundException("Student not found with the id: " + entity.getId());
+			throw new RecordNotFoundException(message + entity.getId());
 		}
-		studentRepository.delete(entity);
-
+		studentRepository.save(entity);
+		
 	}
+	/**
+	 * Deletes a row from the database. Throws RecordNotFoundException if the row
+	 * doesn't exist.
+	 *
+	 * @param stdDTO
+	 */
+	@Override
+	public void delete(StudentInputDTO stdDTO) {
+		StudentEntity entity = new StudentEntity(stdDTO);
+		StudentEntity student = studentRepository.findById(entity.getId()).orElseThrow(
+				() -> new RecordNotFoundException(message + entity.getId()));
+
+		studentRepository.deleteById(student.getId());
+		
+	}
+	/**
+	 * Searches the database for a record based on the name. Throws
+	 * RecordNotFoundException if not found.
+	 *
+	 * @param name
+	 * @return StudentOutputDTO
+	 */
+	@Override
+	public List<StudentOutputDTO> findByName(String name) {
+		Optional<List<StudentEntity>> student = studentRepository.findByName(name);
+		List<StudentOutputDTO> std = new ArrayList<>();
+		for(StudentEntity std1 : student.get()) {
+			std.add(new StudentOutputDTO(std1));
+		}
+		return std;
+	}
+	/**
+	 * Searches the database for a record based on the Primary Key (id). Throws
+	 * RecordNotFoundException if not found.
+	 *
+	 * @param id
+	 * @return StudentOutputDto
+	 */
 
 	@Override
-	public StudentEntity findByPk(long id) {
-
-		return studentRepository.findById(id)
-				.orElseThrow(() -> new RecordNotFoundException("Student not found with id: " + id));
+	public StudentOutputDTO findByPk(long id) {
+		Optional<StudentEntity> student = studentRepository.findById(id);
+		if (!student.isPresent()) {
+			throw new RecordNotFoundException(message + id);
+		}
+		return new StudentOutputDTO(student.get());
 	}
 
+	/**
+	 * Searches the database based on part of a name. Returns result after
+	 * paginating.
+	 *
+	 * @param name
+	 * @param pageNo
+	 * @param pageSize
+	 * @return List<StudentOutputDTO>
+	 */
 	@Override
-	public List<StudentEntity> search(String name, int pageNo, int pageSize) {
-        Pageable currentPage = PageRequest.of(pageNo, pageSize);
-        
-        Optional<List<StudentEntity>> student =studentRepository.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(name,name, currentPage);
-        return student.get();
+	public List<StudentOutputDTO> search(String name, int pageNo, int pageSize) {
+		Pageable currentPage = PageRequest.of(pageNo, pageSize);
+		Optional<List<StudentEntity>> student =studentRepository.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(name,name, currentPage);
+		List<StudentOutputDTO> std = new ArrayList<>();
+		for(StudentEntity std1 : student.get()) {
+			std.add(new StudentOutputDTO(std1));
+		}
+		return std;
 	}
-
-
+	
+	/**
+	 * Searches the database based on part of a name
+	 *
+	 * @param name
+	 * @return List<studentOutputDTO>
+	 */
 	@Override
-	public List<StudentEntity> findByName(String name){
-      Optional<List<StudentEntity>> student = studentRepository.findByName(name);
-    return student.get();
-	}
-
-	@Override
-	public List<StudentEntity> search(String name) {		
+	public List<StudentOutputDTO> search(String name) {
 		Optional<List<StudentEntity>> student = studentRepository.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(name,name);
-		return student.get();
+		List<StudentOutputDTO> std = new ArrayList<>();
+		for(StudentEntity std1 : student.get()) {
+			std.add(new StudentOutputDTO(std1));
+		}
+		return std;
 	}
+
+
 
 }

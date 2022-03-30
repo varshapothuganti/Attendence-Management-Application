@@ -38,14 +38,14 @@ class RoleServiceTest {
         assertEquals("Head of Department", role.getDescription());
     }
 
-//	@Test
-//	void deleteRole() {
-//		RoleEntity role=new RoleEntity(5,"Mounish","Head of Department");
-//		RoleEntity result=roleServ.deleteRole(role);
-//		assertEquals("Mounish",result.getName());
-//		//assertEquals("Python ia a Programming Language",result.getDescription());
-//		
-//	}
+	@Test
+	void deleteRole() {
+		RoleEntity role=new RoleEntity(5,"Mounish","Head of Department");
+		RoleEntity result=roleServ.deleteRole(role);
+		assertEquals("Mounish",result.getName());
+		//assertEquals("Python ia a Programming Language",result.getDescription());
+		
+	}
 
     @Test
     void getByName() {
