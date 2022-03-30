@@ -32,7 +32,7 @@ import lombok.NoArgsConstructor;
 public class UserEntity {
 
 	@Id
-	//@GeneratedValue
+//	@GeneratedValue
 	private long id;
 
 	private String firstName;

@@ -31,6 +31,8 @@ public class UserServiceImpl implements IUserService {
 	@Autowired
 	IRoleService roleService;
 
+	private static String USER_NOT_FOUND_MSG = "User not found with id: ";
+
 	/**
 	 * Add a new entry into the database after checking the password. Throws
 	 * PasswordDidnotMatchException if the password didnot match
@@ -44,6 +46,9 @@ public class UserServiceImpl implements IUserService {
 		if (!userInputDTO.getPassword().equals(userInputDTO.getConfirmPassword())) {
 			throw new PasswordDidnotMatchException("Passwords did not match!");
 		}
+
+		if (userRepository.existsById(userInputDTO.getId()))
+			throw new DuplicateRecordException(" A User with ID: " + userInputDTO.getId() + " Already exists!");
 
 		UserEntity user = new UserEntity(userInputDTO);
 		user.setRole(roleService.getRoleById(userInputDTO.getRoleId()));
@@ -65,16 +70,17 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public void update(UserInputDTO entity) {
 		// Get the row from the db
-		this.getUserById(entity.getId());
-		UserEntity updatedUser = new UserEntity(entity);
-		
+		if (!userRepository.existsById(entity.getId()))
+			throw new UserNotFoundException(USER_NOT_FOUND_MSG + entity.getId());
 
-		try {
-			// update new row
-			userRepository.save(updatedUser);
-		} catch (DataIntegrityViolationException e) {
+		if (userRepository.existsByLogin(entity.getLogin())) {
 			throw new DuplicateRecordException("A User with Login ID: " + entity.getId() + " already exists!");
 		}
+
+		UserEntity updatedUser = new UserEntity(entity);
+		updatedUser.setRole(roleService.getRoleById(entity.getRoleId()));
+
+		userRepository.save(updatedUser);
 	}
 
 	/**
@@ -113,8 +119,8 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public UserOutputDTO findByPk(long id) {
 
-		return new UserOutputDTO(userRepository.findById(id)
-				.orElseThrow(() -> new UserNotFoundException("User not found with id: " + id)));
+		return new UserOutputDTO(
+				userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_MSG + id)));
 
 	}
 
@@ -252,8 +258,7 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	public UserEntity getUserById(long id) {
-		return userRepository.findById(id)
-				.orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
+		return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_MSG + id));
 	}
 
 }

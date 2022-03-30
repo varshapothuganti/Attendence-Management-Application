@@ -29,6 +29,10 @@ public class UserOutputDTO {
 		this.dob = user.getDob();
 		this.mobileNo = user.getMobileNo();
 		this.gender = user.getGender();
+		try {
 		this.roleId = user.getRole().getId();
+		} catch (NullPointerException e) {
+			System.out.println(user);
+		}
 	}
 }
