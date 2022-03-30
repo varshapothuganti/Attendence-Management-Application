@@ -22,6 +22,7 @@ public class AssignFacultyInputDTO {
 	@NotEmpty(message="totalClass cannot be empty")
     private String totalClass;
 
+	
 	public AssignFacultyInputDTO(@NotNull long id, UserInputDTO userDTO, List<SubjectDTO> subDTO,
 			@NotEmpty(message = "totalClass cannot be empty") String totalClass) {
 		this.id = id;

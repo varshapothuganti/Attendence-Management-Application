@@ -4,7 +4,6 @@ import com.cg.ams.dto.CourseOutputDTO;
 import com.cg.ams.entity.CourseEntity;
 import com.cg.ams.repository.ICourseRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

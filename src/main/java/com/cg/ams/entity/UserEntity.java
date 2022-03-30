@@ -5,7 +5,6 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -46,7 +45,7 @@ public class UserEntity {
 	private Date dob;
 	private String mobileNo;
 
-	@OneToOne(cascade = CascadeType.MERGE)
+	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "role_id")
 	private RoleEntity role;
 
@@ -67,7 +66,6 @@ public class UserEntity {
 
 		this.mobileNo = userInputDTO.getMobileNo();
 		this.gender = userInputDTO.getGender();
-//		this.role = userInputDTO.getRole();
 		
 		this.profilePic = userInputDTO.getProfilePic();
 	}

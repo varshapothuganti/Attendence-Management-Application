@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.Date;
 import java.util.List;
 
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -77,6 +78,7 @@ class UserServiceTest {
 	@Test
 	void addTest() { // Just Tested Once (don't want to add records to DB)
 		UserInputDTO user = new UserInputDTO();
+
 		user.setId(10000);
 		user.setFirstName("first_name");
 		user.setLastName("last_name");
@@ -99,7 +101,9 @@ class UserServiceTest {
 	 * here checking for updating the loginid
 	 */
 	@Test
+	@Disabled
 	void updateTest() {
+
 		long testId = 10001; // Hard coded
 		UserEntity userEntity = userService.getUserById(testId);
 
@@ -113,6 +117,7 @@ class UserServiceTest {
 		assertEquals(newLogin, updatedUser.getLogin());
 	}
 
+
 	/**
 	 * Test case for finding a user by their userID
 	 */
@@ -120,6 +125,7 @@ class UserServiceTest {
 	void findByLogin() {
 		String login = "login2";
 		long id = 10002;
+
 		UserOutputDTO user = userService.findByLogin(login);
 
 		assertEquals(id, user.getId());
@@ -142,10 +148,12 @@ class UserServiceTest {
 	 */
 	@Test
 	void searchTest() {
+
 		String searchTerm = "first";
 		List<UserOutputDTO> users = userService.search(searchTerm);
 		users.forEach(System.out::println);
 		long cnt = 6;
+
 
 		assertEquals(cnt, users.size());
 	}
@@ -166,6 +174,7 @@ class UserServiceTest {
 
 	@Test
 	void forgetPasswordTest() {
+
 		long testId = 10005;
 		String newPassword = "phanindra@duvvuri";
 

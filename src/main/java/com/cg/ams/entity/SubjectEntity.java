@@ -45,7 +45,9 @@ public class SubjectEntity {
 	}
 
 
-	@ManyToOne(cascade = CascadeType.MERGE)
+
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(nullable = false)
     private CourseEntity course;
     
 
