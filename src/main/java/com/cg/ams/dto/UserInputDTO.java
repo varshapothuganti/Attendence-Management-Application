@@ -7,6 +7,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
 
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -22,6 +23,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserInputDTO {
 	@NotNull
+	@Positive
 	private long id;
 	@NotEmpty
 	private String firstName;
@@ -58,5 +60,6 @@ public class UserInputDTO {
 		this.gender = entity.getGender();
 		this.profilePic = entity.getProfilePic();
 		this.mobileNo = entity.getMobileNo();
+		this.roleId = entity.getRole().getId();
 	}
 }

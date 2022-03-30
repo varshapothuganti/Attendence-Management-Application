@@ -19,5 +19,5 @@ public interface IUserRepository extends JpaRepository<UserEntity, Long> {
 
     List<UserEntity> findByFirstNameContainingOrLastNameContainingAllIgnoreCase(String firstname, String lastname, Pageable pageable);
 
-
+    boolean existsByLogin(String login);
 }

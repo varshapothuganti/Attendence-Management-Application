@@ -33,7 +33,7 @@ import lombok.NoArgsConstructor;
 public class UserEntity {
 
 	@Id
-	@GeneratedValue
+//	@GeneratedValue
 	private long id;
 
 	private String firstName;
@@ -55,6 +55,7 @@ public class UserEntity {
 
 	// Special contructor from DTO object
 	public UserEntity(UserInputDTO userInputDTO) {
+		this.id = userInputDTO.getId();
 		this.firstName = userInputDTO.getFirstName();
 		this.lastName = userInputDTO.getLastName();
 		this.login = userInputDTO.getLogin();

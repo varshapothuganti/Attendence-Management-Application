@@ -24,30 +24,30 @@ import com.cg.ams.dto.AssignFacultyInputDTO;
 @Table(name = "assign_faculty")
 public class AssignFacultyEntity {
 
-    @Id
-    private long id;
-    
-    @NotEmpty(message="Username shouldn't be empty")
-    private String userName;
-    
-    @NotEmpty(message="totalClass cannot be empty")
-    private String totalClass;
-    
-    @OneToOne(cascade = CascadeType.ALL)
-    private UserEntity user;
-    
-    @ManyToMany(fetch = FetchType.LAZY,targetEntity=SubjectEntity.class, cascade={CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
-    @JoinTable(name="Faculty_Subjects", 
-            joinColumns=   { @JoinColumn(name="faculty_id") },
-            inverseJoinColumns= { @JoinColumn(name="subject_id")} )
+	@Id
+	private long id;
+
+	@NotEmpty(message = "Username shouldn't be empty")
+	private String userName;
+
+	@NotEmpty(message = "totalClass cannot be empty")
+	private String totalClass;
+
+	@OneToOne(cascade = CascadeType.MERGE)
+	private UserEntity user;
+
+	@ManyToMany(fetch = FetchType.LAZY, targetEntity = SubjectEntity.class, cascade = { CascadeType.MERGE,
+			CascadeType.REFRESH })
+	@JoinTable(name = "Faculty_Subjects", joinColumns = { @JoinColumn(name = "faculty_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "subject_id") })
 	private List<SubjectEntity> subjects;
 
 	public AssignFacultyEntity(AssignFacultyInputDTO afDTO) {
 		this.id = afDTO.getId();
 		this.user = new UserEntity(afDTO.getUserDTO());
-		this.userName = this.user.getFirstName()+this.user.getLastName();
+		this.userName = this.user.getFirstName() + " " + this.user.getLastName();
 		this.subjects = new ArrayList<>();
-		for(int i = 0;i < afDTO.getSubDTO().size();i++) {
+		for (int i = 0; i < afDTO.getSubDTO().size(); i++) {
 			this.subjects.add(new SubjectEntity(afDTO.getSubDTO().get(i)));
 		}
 		this.totalClass = afDTO.getTotalClass();
