@@ -12,13 +12,8 @@ import com.cg.ams.exception.CourseNotFoundException;
 import com.cg.ams.exception.DuplicateRecordException;
 import com.cg.ams.repository.ICourseRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CourseServiceImpl implements ICourseService {

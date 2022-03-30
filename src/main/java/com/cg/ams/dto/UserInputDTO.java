@@ -58,5 +58,6 @@ public class UserInputDTO {
 		this.gender = entity.getGender();
 		this.profilePic = entity.getProfilePic();
 		this.mobileNo = entity.getMobileNo();
+		this.roleId = entity.getRole().getId();
 	}
 }
