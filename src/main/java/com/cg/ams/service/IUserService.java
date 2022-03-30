@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.cg.ams.dto.UserInputDTO;
 import com.cg.ams.dto.UserOutputDTO;
-import com.cg.ams.entity.UserEntity;
 
 /**
  * Defines all the operation that are supported by this service

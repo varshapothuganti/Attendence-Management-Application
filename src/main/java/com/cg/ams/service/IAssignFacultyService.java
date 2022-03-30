@@ -2,22 +2,23 @@ package com.cg.ams.service;
 
 import java.util.List;
 
-import com.cg.ams.entity.AssignFacultyEntity;
+import com.cg.ams.dto.AssignFacultyInputDTO;
+import com.cg.ams.dto.AssignFacultyOutputDTO;
 
 public interface IAssignFacultyService {
 
-	public long add(AssignFacultyEntity entity);
+	public long add(AssignFacultyInputDTO afDTO);
 
-	public void update(AssignFacultyEntity entity);
+	public void update(AssignFacultyInputDTO afDTO);
 
-	public void delete(AssignFacultyEntity entity);
+	public void delete(AssignFacultyInputDTO afDTO);
 
-	public AssignFacultyEntity findByName(String name);
+	public AssignFacultyOutputDTO findByName(String name);
 
-	public AssignFacultyEntity findByPk(long id);
+	public AssignFacultyOutputDTO findByPk(long id);
 
-	public List<AssignFacultyEntity> search(AssignFacultyEntity entity, long pageNo, int pageSize);
+	public List<AssignFacultyOutputDTO> search(AssignFacultyInputDTO afDTO, long pageNo, int pageSize);
 
-	public List<AssignFacultyEntity> search(AssignFacultyEntity entity);
+	public List<AssignFacultyOutputDTO> search(AssignFacultyInputDTO afDTO);
 
 }

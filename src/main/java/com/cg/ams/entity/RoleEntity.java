@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Data
@@ -20,7 +21,9 @@ public class RoleEntity {
 
     @Id
     private long id;
+    @NotEmpty(message = "Name shouldn't be empty")
     private String name;
+    @NotEmpty(message = "Description shouldn't be empty")
     private String description;
 
 }

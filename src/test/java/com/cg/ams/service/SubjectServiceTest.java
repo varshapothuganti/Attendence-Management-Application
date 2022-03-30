@@ -1,107 +1,89 @@
 package com.cg.ams.service;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
-
-
-import org.junit.jupiter.api.Disabled;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.cg.ams.entity.StudentEntity;
+import com.cg.ams.dto.SubjectDTO;
+import com.cg.ams.entity.CourseEntity;
 import com.cg.ams.exception.RecordNotFoundException;
 
+
 @SpringBootTest
-class StudentServiceTest {
-	@Autowired
-	IStudentService studentService;
+public class SubjectServiceTest {
 	
-	@Test
-	@Disabled
-	void addTest()throws RecordNotFoundException, ParseException{ 
-		StudentEntity student=new StudentEntity();
-		student.setRollNo(5);
-		student.setFirstName("Varsha");
-		student.setLastName("Pothuganti");
-		student.setDob(new SimpleDateFormat("yyyy-MM-dd").parse("2001-04-21T11:04:54.511Z"));
-		student.setGender("female");
-		student.setMobileNo("9999999990");
-		student.setEmailId("varsha@gmail.com");
-		student.setFatherEmailId("father@gmail.com");
-		student.setFatherMobileNo("7896541230");
-		student.setProfilePic("pic1.jpg");
-		studentService.add(student);
-		assertEquals("Varsha", student.getFirstName());
-		assertEquals("varsha@gmail.com", student.getEmailId());	
-	}
-	
-	@Test
-	@Disabled
-	void updateTest() throws RecordNotFoundException
-	{
-        StudentEntity dbStudent = studentService.findByPk(250);
-
-        // Updating value
-        String newLastName = "ClownFish";
-        dbStudent.setLastName(newLastName);
-        studentService.update(dbStudent);
-
-        StudentEntity updatedStudent = studentService.findByPk(250);
-
-        assertEquals(newLastName, updatedStudent.getLastName());
-	}
-	
-	@Test
-	@Disabled
-	void deleteTest() throws RecordNotFoundException
-	{
-		StudentEntity dbStudent =studentService.findByPk(248);
-		studentService.delete(dbStudent);
-		assertThatExceptionOfType(RecordNotFoundException.class).isThrownBy(()->{studentService.findByPk(248);});
-	}
-	@Test
-	@Disabled
-	void findByPkTest() throws RecordNotFoundException{
-		StudentEntity student =studentService.findByPk(250);
-        assertEquals("Nemo", student.getFirstName());
-        assertEquals("ClownFish", student.getLastName());
-		
-	}
-	
-	@Test
-	@Disabled
-	void findByName() throws RecordNotFoundException
-	{
-		List<StudentEntity> students = studentService.findByName("Varsha");
-		assertEquals(2, students.size());
-	}
-
-    @Test
-    @Disabled
-    void searchTest() throws ParseException {
- 	   List<StudentEntity> stdlist=studentService.search("sh");
- 	   assertEquals(1,stdlist.size());
-    }
-    @Test
-    @Disabled
-    void searchPageTest() {
- 	    List<StudentEntity> al1 = studentService.search("sh",0, 3);
- 		assertEquals(3,al1.size());
-    }
-	
-	
-	
-	
-
-
-\
-
+   @Autowired
+   ISubjectService subServ;
+   
+   @Test
+   void addTest() {
+	   CourseEntity c1=new CourseEntity(111,"Communicatons","This is an Interesting subject");
+	   SubjectDTO sub=new SubjectDTO(1000,"Analog Signals","A12478","3rd semester",c1);
+	   subServ.add(sub);
+	   SubjectDTO sub1=subServ.findByPk(1000);
+	   assertEquals("Analog Signals",sub1.getName());
+	   assertEquals("3rd semester",sub1.getSemester());
+	   assertEquals(c1,sub1.getCourse());
+   }
+   
+   @Test
+   void findByNameTest() {
+	   SubjectDTO sub=subServ.findByName("Analog Signals");
+	   assertEquals(1000,sub.getId());
+	   assertEquals("3rd semester",sub.getSemester());
+	   assertThrows(RecordNotFoundException.class,() -> {subServ.findByName("Digital Signals");});
+	   assertEquals("A12478",sub.getSubjectCode());  
+   }
+   
+  @Test
+   void updateTest() {
+	   CourseEntity c1=new CourseEntity(111,"Communicatons","This is an Interesting subject");
+	   SubjectDTO sub=new SubjectDTO(1000,"Analog Signals","B14K28","6th semester",c1);
+	   subServ.update(sub);
+	   SubjectDTO sub1=subServ.findByPk(1000);
+	   assertEquals("6th semester",sub1.getSemester());
+	   assertEquals("B14K28",sub1.getSubjectCode());  
+	   assertEquals(c1,sub1.getCourse());
+   }
+   
+   @Test
+   void findByPkTest(){
+	   SubjectDTO sub=subServ.findByPk(1000);
+	   assertEquals("Analog Signals",sub.getName());
+	   assertEquals("6th semester",sub.getSemester());
+	   assertEquals("B14K28",sub.getSubjectCode());
+	   assertThrows(RecordNotFoundException.class,() -> {subServ.findByPk(200);});
+   }
+   
+   @Test
+   void deleteTest(){
+	   SubjectDTO sub=subServ.findByPk(1000);
+	   subServ.delete(sub);
+	   assertThatExceptionOfType(RecordNotFoundException.class).isThrownBy(()->{subServ.findByPk(1000);});
+   }
+   
+   @Test
+   void searchPageTest() {
+	    CourseEntity c1=new CourseEntity();
+	    SubjectDTO sub=new SubjectDTO(1100,"Signals and Systems","B14K28","6th Semester",c1);
+	    subServ.add(sub);
+	    SubjectDTO sub1=new SubjectDTO(2000,"Signals and Systems","A4312","3rd Semester",c1);
+	    subServ.add(sub1);
+	    List<SubjectDTO> al1 = subServ.search("Signals and Systems", 0, 3);
+		assertEquals(2,al1.size());
+   }
+   
+   @Test
+   void searchTest() {
+	   List<SubjectDTO> sublist=subServ.search("Signals and Systems");
+	   assertEquals(2,sublist.size());
+   }
+   
 
 }
+

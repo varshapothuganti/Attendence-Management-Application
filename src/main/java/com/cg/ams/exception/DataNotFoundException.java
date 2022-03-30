@@ -1,5 +1,6 @@
 package com.cg.ams.exception;
 
+@SuppressWarnings("serial")
 public class DataNotFoundException extends RuntimeException {
 
 	public DataNotFoundException() {
