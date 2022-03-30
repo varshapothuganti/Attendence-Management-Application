@@ -15,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.cg.ams.dto.CourseInputDTO;
 import com.cg.ams.dto.SubjectDTO;
 import com.cg.ams.entity.CourseEntity;
 import com.cg.ams.entity.SubjectEntity;
@@ -37,7 +38,7 @@ public class SubjectServiceMockitoTest {
 
 	@Test
 	void addTest() throws RecordNotFoundException {
-		CourseEntity c1=new CourseEntity(111,"Communicatons","This is an Interesting subject");
+		CourseInputDTO c1=new CourseInputDTO(111,"Communicatons");
 		SubjectDTO subdto = new SubjectDTO(1000l, "Signals and Systems", "A12478", "3rd semester",c1);
 		SubjectEntity sub=new SubjectEntity(subdto);
 		Mockito.when(subRepo.save(sub)).thenReturn(sub);
@@ -50,7 +51,9 @@ public class SubjectServiceMockitoTest {
 
 	@Test
 	void findByNameTest() throws Exception {
-		SubjectEntity sub = new SubjectEntity(1000l, "Signals and Systems", "A12478", "3rd semester");
+		CourseInputDTO c1=new CourseInputDTO(111,"Communicatons");
+		SubjectDTO subdto = new SubjectDTO(1000l, "Signals and Systems", "A12478", "3rd semester",c1);
+		SubjectEntity sub=new SubjectEntity(subdto);
 		Mockito.when(subRepo.findByName("Signals and Systems")).thenReturn(Optional.of(sub));
 		SubjectDTO sub1 = subServ.findByName("Signals and Systems");
 		assertEquals(1000l, sub1.getId());
@@ -60,7 +63,7 @@ public class SubjectServiceMockitoTest {
 
 	@Test
 	void updateTest() throws RecordNotFoundException {
-		CourseEntity c1=new CourseEntity(111,"Communicatons","This is an Interesting subject");
+		CourseInputDTO c1=new CourseInputDTO(111,"Communicatons");
 		SubjectDTO subdto = new SubjectDTO(1000, "Signals and Systems", "B14K28", "6th semester",c1);
 		SubjectEntity sub=new SubjectEntity(subdto);
 		Mockito.when(subRepo.save(sub)).thenReturn(sub);
@@ -74,7 +77,7 @@ public class SubjectServiceMockitoTest {
 
 	@Test
 	void findByPkTest() throws RecordNotFoundException {
-		CourseEntity c1=new CourseEntity(111,"Communicatons","This is an Interesting subject");
+		CourseInputDTO c1=new CourseInputDTO(111,"Communicatons");
 		SubjectDTO subdto = new SubjectDTO(1000, "Signals and Systems", "B14K28", "6th semester",c1);
 		SubjectEntity sub=new SubjectEntity(subdto);
 		Mockito.when(subRepo.findById(1000l)).thenReturn(Optional.of(sub));
@@ -86,15 +89,15 @@ public class SubjectServiceMockitoTest {
 	
 	@Test
 	void searchPageTest() {
-		CourseEntity c1=new CourseEntity(111,"Communicatons","This is an Interesting subject");
-		SubjectDTO subdto = new SubjectDTO(1100, "Signals and Systems", "B14K28", "6th Semester",c1);
+		CourseInputDTO c1=new CourseInputDTO(111,"Communicatons");	
 		SubjectDTO subdto1=new SubjectDTO(2000, "Signals and Systems", "A4312", "3rd Semester",c1);
 		SubjectEntity sub=new SubjectEntity(subdto1);
-		Mockito.when(subRepo.save(sub)).thenReturn(sub);
-		subServ.add(subdto1);
+		SubjectDTO subdto2 = new SubjectDTO(1000, "Signals and Systems", "B14K28", "6th semester",c1);
 		List<SubjectDTO> list = new ArrayList<SubjectDTO>();
 		list.add(subdto1);
-		list.add(subdto);
+		list.add(subdto2);
+		Mockito.when(subRepo.save(sub)).thenReturn(sub);
+		subServ.add(subdto1);
 		Mockito.when(subRepo.findByNameIgnoreCase(sub.getName(), PageRequest.of(0, 3))).thenReturn(list);
 		List<SubjectDTO> al1 = subServ.search("Signals and Systems", 0, 3);
 		assertEquals(2, al1.size());
@@ -102,7 +105,7 @@ public class SubjectServiceMockitoTest {
 
 	@Test
 	void deleteTest() throws RecordNotFoundException {
-		CourseEntity c1=new CourseEntity(111,"Communicatons","This is an Interesting subject");
+		CourseInputDTO c1=new CourseInputDTO(111,"Communicatons");
 		SubjectDTO subdto = new SubjectDTO(1000, "Signals and Systems", "B14K28", "6th semester",c1);
 		SubjectEntity sub=new SubjectEntity(subdto);
 		Mockito.when(subRepo.findById(1000l)).thenReturn(Optional.of(sub));
@@ -113,16 +116,16 @@ public class SubjectServiceMockitoTest {
 
 	@Test
 	void searchTest() {
-		CourseEntity c1=new CourseEntity(111,"Communicatons","This is an Interesting subject");
+		CourseInputDTO c1=new CourseInputDTO(111,"Communicatons");
 		SubjectDTO subdto = new SubjectDTO(1100, "Signals and Systems", "B14K28", "6th Semester",c1);
 		List<SubjectDTO> list = new ArrayList<SubjectDTO>();
 		list.add(subdto);
 		SubjectEntity sub=new SubjectEntity(subdto);
 		Mockito.when(subRepo.save(sub)).thenReturn(sub);
 		subServ.add(subdto);
-		@SuppressWarnings("unused")
+		Mockito.when(subRepo.findByNameIgnoreCase("Signals and Systems")).thenReturn(list);
 		List<SubjectDTO> l = subServ.search("Signals and Systems");
-		assertEquals(1, list.size());
+		assertEquals(1, l.size());
 	}
 
 }
