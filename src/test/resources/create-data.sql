@@ -1,0 +1,3 @@
+delete from users where id in (10000, 10001, 10002, 10003, 10004, 10005);
+
+insert into users (id, first_name, last_name, login, password, gender, mobile_no, dob, profile_pic, role_id) values (10001, 'first1', 'last1', 'login1', '1234567890', 'male', '9876543210', NOW(), 'default-pic.jpg', 2), (10002, 'first2', 'last2', 'login2', '1234567890', 'male', '9876543210', NOW(), 'default-pic.jpg', 3), (10003, 'first3', 'last3', 'login3', '1234567890', 'male', '9876543210', NOW(), 'default-pic.jpg', 4), (10004, 'first4', 'last4', 'login4', '1234567890', 'male', '9876543210', NOW(), 'default-pic.jpg', 5), (10005, 'first5', 'last5', 'login5', '1234567890', 'male', '9876543210', NOW(), 'default-pic.jpg', 1);

@@ -12,15 +12,24 @@ import org.springframework.stereotype.Service;
 import com.cg.ams.dto.AssignFacultyInputDTO;
 import com.cg.ams.dto.AssignFacultyOutputDTO;
 import com.cg.ams.entity.AssignFacultyEntity;
+import com.cg.ams.entity.UserEntity;
 import com.cg.ams.exception.DuplicateRecordException;
 import com.cg.ams.exception.RecordNotFoundException;
 import com.cg.ams.repository.IAssignFacultyRepository;
+import com.cg.ams.repository.IRoleRepository;
+import com.cg.ams.repository.IUserRepository;
 
 @Service
 public class AssignFacultyServiceImpl implements IAssignFacultyService {
 
 	@Autowired
 	IAssignFacultyRepository afRep;
+	
+	@Autowired
+	IUserRepository userRep;
+	
+	@Autowired
+	IRoleRepository roleRep;
 
 	private String message = "Cannot find faculty record with id: ";
 	
@@ -31,6 +40,11 @@ public class AssignFacultyServiceImpl implements IAssignFacultyService {
 		if (afe.isPresent()) {
 			throw new DuplicateRecordException("The faculty with id: " + entity.getId() + " already exists!");
 		}
+		Optional<UserEntity> user = userRep.findById(entity.getUser().getId());
+		if(user.isPresent()) {
+			entity.setUser(user.get());
+		}
+		entity.getUser().setRole(roleRep.getById(afInDTO.getUserDTO().getRoleId()));
 		afRep.save(entity);
 		return entity.getId();
 	}
@@ -42,6 +56,11 @@ public class AssignFacultyServiceImpl implements IAssignFacultyService {
 		if (!afe.isPresent()) {
 			throw new RecordNotFoundException(message + entity.getId());
 		}
+		Optional<UserEntity> user = userRep.findById(entity.getUser().getId());
+		if(user.isPresent()) {
+			entity.setUser(user.get());
+		}
+		entity.getUser().setRole(roleRep.getById(afInDTO.getUserDTO().getRoleId()));
 		afRep.save(entity);
 	}
 
