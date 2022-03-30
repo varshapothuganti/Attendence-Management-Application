@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+//@AllArgsConstructor
 public class SubjectDTO {
 	@Id
     private long id;
@@ -24,14 +24,24 @@ public class SubjectDTO {
     @NotEmpty(message = "Semester shouldn't be empty")
     private String semester;
     
-    private CourseEntity course;
+    private CourseInputDTO course;
     
-    public SubjectDTO(SubjectEntity sub) {
-    	this.id = sub.getId();
-    	this.name = sub.getName();
-    	this.course = sub.getCourse();
-    	this.semester = sub.getSemester();
-    	this.subjectCode = sub.getSubjectCode();
+    
+    //constructors
+    public SubjectDTO(long id,String name,String subjectCode,String semester,CourseInputDTO course) {
+    	this.id = id;
+    	this.name = name;
+    	this.semester = semester;
+    	this.subjectCode = subjectCode;
+    	this.course = course;
+    }
+    
+    public SubjectDTO(SubjectEntity entity) {
+    	this.id=entity.getId();
+    	this.name=entity.getName();
+    	this.semester=entity.getSemester();
+    	this.subjectCode=entity.getSubjectCode();
+    	this.course=new CourseInputDTO(entity.getCourse());
     }
     
 }
