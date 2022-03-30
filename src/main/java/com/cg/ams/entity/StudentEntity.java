@@ -65,7 +65,7 @@ public class StudentEntity {
 	@NotEmpty(message = "Profilepic shouldn't be empty")
 	private String profilePic;
 
-	@ManyToMany(cascade = CascadeType.PERSIST)
+	@ManyToMany(cascade = CascadeType.MERGE)
 	@JoinTable(name = "student_subject", joinColumns = { @JoinColumn(name = "std_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "subject_id") })
 	private List<SubjectEntity> subject;
