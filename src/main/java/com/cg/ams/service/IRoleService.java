@@ -4,6 +4,8 @@ import com.cg.ams.entity.RoleEntity;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 public interface IRoleService {
 
     String addRole(RoleEntity role);
@@ -23,4 +25,6 @@ public interface IRoleService {
     RoleEntity getRoleById(long id);
 
     RoleEntity getRoleByName(String name);
+    
+    Page<RoleEntity> getAllRolesWithPagination(int offset, int pageSize);
 }

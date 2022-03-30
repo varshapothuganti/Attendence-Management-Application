@@ -3,6 +3,7 @@ package com.cg.ams.controller;
 import com.cg.ams.entity.RoleEntity;
 import com.cg.ams.service.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -77,5 +78,12 @@ public class RoleController {
         RoleEntity role = roleServ.getRoleById(id);
         return new ResponseEntity<>(role, HttpStatus.OK);
     }
+    
+    @GetMapping("/roles/pagination/{offset}/{pageSize}")
+	ResponseEntity<Page<RoleEntity>> getAllRolesWithPagination(@PathVariable("offset") int offset,
+			@PathVariable("pageSize") int pageSize) {
+		Page<RoleEntity> roles = roleServ.getAllRolesWithPagination(offset, pageSize);
+		return new ResponseEntity<>(roles, HttpStatus.OK);
+	}
 
 }

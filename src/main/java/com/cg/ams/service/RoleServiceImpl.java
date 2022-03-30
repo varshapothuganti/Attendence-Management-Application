@@ -5,6 +5,8 @@ import com.cg.ams.exception.DuplicateRecordException;
 import com.cg.ams.exception.RoleNotFoundException;
 import com.cg.ams.repository.IRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +18,7 @@ public class RoleServiceImpl implements IRoleService {
     @Autowired
     IRoleRepository roleRepo;
 
+    // Add Role Entity
     @Override
     public String addRole(RoleEntity role) {
         Optional<RoleEntity> opt = roleRepo.findById(role.getId());
@@ -27,6 +30,7 @@ public class RoleServiceImpl implements IRoleService {
         }
     }
 
+    // Delete Role Entity
     @Override
     public RoleEntity deleteRole(RoleEntity role) {
     	Optional<RoleEntity> opt=roleRepo.findById(role.getId());
@@ -39,6 +43,7 @@ public class RoleServiceImpl implements IRoleService {
 		}
     }
 
+    // Update Role Entity
     @Override
     public RoleEntity updateRole(RoleEntity role) {
     	Optional<RoleEntity> opt=roleRepo.findById(role.getId());
@@ -51,12 +56,14 @@ public class RoleServiceImpl implements IRoleService {
 		}
     }
 
+    // List All Roles
     @Override
     public List<RoleEntity> getAllRoles() {
          return roleRepo.findAll();
  
     }
 
+    // Delete Role By Id
     @Override
     public RoleEntity deleteRoleById(long id) {
         Optional<RoleEntity> opt = roleRepo.findById(id);
@@ -67,6 +74,7 @@ public class RoleServiceImpl implements IRoleService {
         return opt.get();
     }
 
+    // Delete Role By Name
     @Override
     public RoleEntity deleteRoleByName(String name) {
         RoleEntity role = roleRepo.findByName(name);
@@ -78,6 +86,7 @@ public class RoleServiceImpl implements IRoleService {
         }
     }
 
+    // Update Role Name By Id
     @Override
     public RoleEntity updateRoleNameById(long id, String name) {
         Optional<RoleEntity> opt = roleRepo.findById(id);
@@ -91,6 +100,7 @@ public class RoleServiceImpl implements IRoleService {
         }
     }
 
+    // Get Role By Id
     @Override
     public RoleEntity getRoleById(long id) {
         Optional<RoleEntity> role = roleRepo.findById(id);
@@ -101,6 +111,7 @@ public class RoleServiceImpl implements IRoleService {
         }
     }
 
+    // Get Role By Name
     @Override
     public RoleEntity getRoleByName(String name) {
         RoleEntity role = roleRepo.findByName(name);
@@ -110,5 +121,11 @@ public class RoleServiceImpl implements IRoleService {
             return role;
         }
     }
+    
+    @Override
+	public Page<RoleEntity> getAllRolesWithPagination(int offset, int pageSize) {
+		Page<RoleEntity> roles = roleRepo.findAll(PageRequest.of(offset, pageSize));
+		return roles;
+	}
 
 }
