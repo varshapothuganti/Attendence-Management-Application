@@ -12,11 +12,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.cg.ams.dto.AssignFacultyInputDTO;
 import com.cg.ams.dto.AssignFacultyOutputDTO;
+import com.cg.ams.dto.CourseInputDTO;
 import com.cg.ams.dto.SubjectDTO;
 import com.cg.ams.dto.UserInputDTO;
-import com.cg.ams.entity.CourseEntity;
 import com.cg.ams.exception.DuplicateRecordException;
 import com.cg.ams.exception.RecordNotFoundException;
+
+/*
+ * A Test class for testing Assign Faculty service methods.
+ * @Author Ramu
+ */
 
 @SpringBootTest
 public class AssignFacultyServiceTest {
@@ -33,7 +38,7 @@ public class AssignFacultyServiceTest {
 		UserInputDTO userInDTO = new UserInputDTO(1L,"firstName1","lastName1","login1",
 				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
 				"mobileNo1","gender1","profilePic1",1L);
-		CourseEntity c1 = new CourseEntity(101,"name1","description1");
+		CourseInputDTO c1 = new CourseInputDTO(101,"name1","description1");
 		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
 		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c1);
 		List<SubjectDTO> subList = new ArrayList<>();
@@ -42,8 +47,8 @@ public class AssignFacultyServiceTest {
 		AssignFacultyInputDTO afInDTO = new AssignFacultyInputDTO(1111,userInDTO,subList,"class1");
 		long id = afServ.add(afInDTO);
 		AssignFacultyOutputDTO afOutDTO = afServ.findByPk(id);
-		assertEquals("class2",afOutDTO.getTotalClass());
-		assertEquals("FirstName1LastName1",afOutDTO.getUsername());
+		assertEquals("class1",afOutDTO.getTotalClass());
+		assertEquals("firstName1 lastName1",afOutDTO.getUsername());
 		assertThrows(DuplicateRecordException.class,() -> {afServ.add(afInDTO);});
 	}
 	
@@ -52,16 +57,16 @@ public class AssignFacultyServiceTest {
 	public void findByPkTest() throws Exception {
 		AssignFacultyOutputDTO afOutDTO = afServ.findByPk(1111);
 		assertEquals("class_1",afOutDTO.getTotalClass());
-		assertEquals("f-Name1l-Name1",afOutDTO.getUsername());
+		assertEquals("f-Name1 l-Name1",afOutDTO.getUsername());
 		assertThrows(RecordNotFoundException.class,() -> {afServ.findByPk(200);});
 	}
 	
 	@Test
 	//@Disabled
 	public void findByNameTest() throws Exception {
-		AssignFacultyOutputDTO afOutDTO = afServ.findByName("firstName1lastName1");
+		AssignFacultyOutputDTO afOutDTO = afServ.findByName("firstName1 lastName1");
 		assertEquals("class1",afOutDTO.getTotalClass());
-		assertEquals("firstName1lastName1",afOutDTO.getUsername());
+		assertEquals("firstName1 lastName1",afOutDTO.getUsername());
 		assertThrows(RecordNotFoundException.class,() -> {afServ.findByName("abc");});
 	}
 	
@@ -71,7 +76,7 @@ public class AssignFacultyServiceTest {
 		UserInputDTO userInDTO = new UserInputDTO(1L,"f-Name1","l-Name1","login1",
 				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
 				"mobileNo1","gender1","profilePic1",11L);
-		CourseEntity c1 = new CourseEntity(101,"name1","description1");
+		CourseInputDTO c1 = new CourseInputDTO(101,"name1","description1");
 		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
 		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c1);
 		List<SubjectDTO> subList = new ArrayList<>();
@@ -82,7 +87,7 @@ public class AssignFacultyServiceTest {
 		afServ.update(afInDTO);
 		AssignFacultyOutputDTO afOutDTO = afServ.findByPk(1111);
 		assertEquals("class_1",afOutDTO.getTotalClass());
-		assertEquals("f-Name1l-Name1",afOutDTO.getUsername());
+		assertEquals("f-Name1 l-Name1",afOutDTO.getUsername());
 		assertThrows(RecordNotFoundException.class,() -> {afServ.update(afInDTO1);});
 	}
 	
@@ -92,7 +97,7 @@ public class AssignFacultyServiceTest {
 		UserInputDTO userInDTO = new UserInputDTO(1L,"firstName1","lastName1","login1",
 				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
 				"mobileNo1","gender1","profilePic1",11L);
-		CourseEntity c1 = new CourseEntity(101,"name1","description1");
+		CourseInputDTO c1 = new CourseInputDTO(101,"name1","description1");
 		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
 		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c1);
 		List<SubjectDTO> subList = new ArrayList<>();
@@ -111,7 +116,7 @@ public class AssignFacultyServiceTest {
 		UserInputDTO userInDTO = new UserInputDTO(1L,"firstName1","lastName1","login1",
 				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
 				"mobileNo1","gender1","profilePic1",11L);
-		CourseEntity c1 = new CourseEntity(101,"name1","description1");
+		CourseInputDTO c1 = new CourseInputDTO(101,"name1","description1");
 		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
 		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c1);
 		List<SubjectDTO> subList = new ArrayList<>();
@@ -128,7 +133,7 @@ public class AssignFacultyServiceTest {
 		UserInputDTO userInDTO = new UserInputDTO(1L,"firstName1","lastName1","login1",
 				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
 				"mobileNo1","gender1","profilePic1",11L);
-		CourseEntity c1 = new CourseEntity(101,"name1","description1");
+		CourseInputDTO c1 = new CourseInputDTO(101,"name1","description1");
 		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
 		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c1);
 		List<SubjectDTO> subList = new ArrayList<>();

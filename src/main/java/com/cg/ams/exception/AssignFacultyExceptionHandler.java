@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.cg.ams.entity.AssignFacultyErrorResponse;
 
+/*
+ * Exception Handler class for Assign Faculty entity
+ * @Author Ramu
+ */
+
 @ControllerAdvice
 public class AssignFacultyExceptionHandler {
 	@ExceptionHandler

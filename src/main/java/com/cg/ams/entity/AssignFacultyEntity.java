@@ -18,6 +18,10 @@ import javax.validation.constraints.NotEmpty;
 
 import com.cg.ams.dto.AssignFacultyInputDTO;
 
+/*
+ * Assign Faculty entity class with all members
+ */
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -32,11 +36,14 @@ public class AssignFacultyEntity {
 
 	@NotEmpty(message = "totalClass cannot be empty")
 	private String totalClass;
+	
+	private long courseId;
+	private String courseName;
 
 	@OneToOne(cascade = CascadeType.MERGE)
 	private UserEntity user;
 
-	@ManyToMany(fetch = FetchType.LAZY, targetEntity = SubjectEntity.class, cascade = { CascadeType.MERGE,
+	@ManyToMany(fetch = FetchType.EAGER, targetEntity = SubjectEntity.class, cascade = { CascadeType.MERGE,
 			CascadeType.REFRESH })
 	@JoinTable(name = "Faculty_Subjects", joinColumns = { @JoinColumn(name = "faculty_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "subject_id") })
@@ -50,6 +57,8 @@ public class AssignFacultyEntity {
 		for (int i = 0; i < afDTO.getSubDTO().size(); i++) {
 			this.subjects.add(new SubjectEntity(afDTO.getSubDTO().get(i)));
 		}
+		this.courseId = this.subjects.get(0).getCourse().getId();
+		this.courseName = this.subjects.get(0).getCourse().getName();
 		this.totalClass = afDTO.getTotalClass();
 	}
 }

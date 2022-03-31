@@ -17,7 +17,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.cg.ams.dto.CourseInputDTO;
 import com.cg.ams.dto.SubjectDTO;
-import com.cg.ams.entity.CourseEntity;
 import com.cg.ams.entity.SubjectEntity;
 import com.cg.ams.exception.RecordNotFoundException;
 import com.cg.ams.repository.ISubjectRepository;
@@ -38,7 +37,7 @@ public class SubjectServiceMockitoTest {
 
 	@Test
 	void addTest() throws RecordNotFoundException {
-		CourseInputDTO c1=new CourseInputDTO(111,"Communicatons");
+		CourseInputDTO c1 = new CourseInputDTO(111,"Communicatons","This is a communications course");
 		SubjectDTO subdto = new SubjectDTO(1000l, "Signals and Systems", "A12478", "3rd semester",c1);
 		SubjectEntity sub=new SubjectEntity(subdto);
 		Mockito.when(subRepo.save(sub)).thenReturn(sub);
@@ -51,7 +50,7 @@ public class SubjectServiceMockitoTest {
 
 	@Test
 	void findByNameTest() throws Exception {
-		CourseInputDTO c1=new CourseInputDTO(111,"Communicatons");
+		CourseInputDTO c1=new CourseInputDTO(111,"Communicatons","This is a communications course");
 		SubjectDTO subdto = new SubjectDTO(1000l, "Signals and Systems", "A12478", "3rd semester",c1);
 		SubjectEntity sub=new SubjectEntity(subdto);
 		Mockito.when(subRepo.findByName("Signals and Systems")).thenReturn(Optional.of(sub));
@@ -63,7 +62,7 @@ public class SubjectServiceMockitoTest {
 
 	@Test
 	void updateTest() throws RecordNotFoundException {
-		CourseInputDTO c1=new CourseInputDTO(111,"Communicatons");
+		CourseInputDTO c1=new CourseInputDTO(111,"Communicatons","This is a communications course");
 		SubjectDTO subdto = new SubjectDTO(1000, "Signals and Systems", "B14K28", "6th semester",c1);
 		SubjectEntity sub=new SubjectEntity(subdto);
 		Mockito.when(subRepo.save(sub)).thenReturn(sub);
@@ -77,7 +76,7 @@ public class SubjectServiceMockitoTest {
 
 	@Test
 	void findByPkTest() throws RecordNotFoundException {
-		CourseInputDTO c1=new CourseInputDTO(111,"Communicatons");
+		CourseInputDTO c1=new CourseInputDTO(111,"Communicatons","This is a communications course");
 		SubjectDTO subdto = new SubjectDTO(1000, "Signals and Systems", "B14K28", "6th semester",c1);
 		SubjectEntity sub=new SubjectEntity(subdto);
 		Mockito.when(subRepo.findById(1000l)).thenReturn(Optional.of(sub));
@@ -89,7 +88,7 @@ public class SubjectServiceMockitoTest {
 	
 	@Test
 	void searchPageTest() {
-		CourseInputDTO c1=new CourseInputDTO(111,"Communicatons");	
+		CourseInputDTO c1=new CourseInputDTO(111,"Communicatons","This is a communications course");	
 		SubjectDTO subdto1=new SubjectDTO(2000, "Signals and Systems", "A4312", "3rd Semester",c1);
 		SubjectEntity sub=new SubjectEntity(subdto1);
 		SubjectDTO subdto2 = new SubjectDTO(1000, "Signals and Systems", "B14K28", "6th semester",c1);
@@ -105,7 +104,7 @@ public class SubjectServiceMockitoTest {
 
 	@Test
 	void deleteTest() throws RecordNotFoundException {
-		CourseInputDTO c1=new CourseInputDTO(111,"Communicatons");
+		CourseInputDTO c1=new CourseInputDTO(111,"Communicatons","This is a communications course");
 		SubjectDTO subdto = new SubjectDTO(1000, "Signals and Systems", "B14K28", "6th semester",c1);
 		SubjectEntity sub=new SubjectEntity(subdto);
 		Mockito.when(subRepo.findById(1000l)).thenReturn(Optional.of(sub));
@@ -116,7 +115,7 @@ public class SubjectServiceMockitoTest {
 
 	@Test
 	void searchTest() {
-		CourseInputDTO c1=new CourseInputDTO(111,"Communicatons");
+		CourseInputDTO c1=new CourseInputDTO(111,"Communicatons","This is a communications course");
 		SubjectDTO subdto = new SubjectDTO(1100, "Signals and Systems", "B14K28", "6th Semester",c1);
 		List<SubjectDTO> list = new ArrayList<SubjectDTO>();
 		list.add(subdto);

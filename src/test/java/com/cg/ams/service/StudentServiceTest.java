@@ -14,10 +14,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.cg.ams.dto.CourseInputDTO;
 import com.cg.ams.dto.StudentInputDTO;
 import com.cg.ams.dto.StudentOutputDTO;
 import com.cg.ams.dto.SubjectDTO;
-import com.cg.ams.entity.CourseEntity;
 import com.cg.ams.exception.DuplicateRecordException;
 import com.cg.ams.exception.RecordNotFoundException;
 
@@ -31,8 +31,8 @@ class StudentServiceTest {
 	@Test
 	@Disabled
 	public void addTest() throws DuplicateRecordException {
-		CourseEntity c1 = new CourseEntity(501,"CSE","Computer Science Engineering");
-		CourseEntity c2 = new CourseEntity(102,"CSE","Computer Science Engineering");
+		CourseInputDTO c1 = new CourseInputDTO(501,"CSE","Computer Science Engineering");
+		CourseInputDTO c2 = new CourseInputDTO(102,"CSE","Computer Science Engineering");
 		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
 		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c2);
 		List<SubjectDTO> subList = new ArrayList<>();
@@ -69,8 +69,8 @@ class StudentServiceTest {
 	  }
 	@Test
 	public void updateTest() {
-		CourseEntity c1 = new CourseEntity(101,"name1","description1");
-		CourseEntity c2 = new CourseEntity(102,"name2","description2");
+		CourseInputDTO c1 = new CourseInputDTO(101,"name1","description1");
+		CourseInputDTO c2 = new CourseInputDTO(102,"name2","description2");
 		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
 		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c2);
 		List<SubjectDTO> subList = new ArrayList<>();
@@ -92,8 +92,8 @@ class StudentServiceTest {
 		@Test
 		@Disabled
 		public void deleteTest() throws Exception {
-			CourseEntity c1 = new CourseEntity(101,"name1","description1");
-			CourseEntity c2 = new CourseEntity(102,"name2","description2");
+			CourseInputDTO c1 = new CourseInputDTO(101,"name1","description1");
+			CourseInputDTO c2 = new CourseInputDTO(102,"name2","description2");
 			SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
 			SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c2);
 			List<SubjectDTO> subList = new ArrayList<>();

@@ -11,13 +11,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CourseInputDTO {
-	
+
 	private long id;
 	private String name;
-	
-public CourseInputDTO(CourseEntity course) {
-	this.id=course.getId();
-	this.name=course.getName();
-		
+	private String description;
+
+	public CourseInputDTO(CourseEntity course) {
+		this.id = course.getId();
+		this.name = course.getName();
+		this.description = course.getDescription();
 	}
 }
