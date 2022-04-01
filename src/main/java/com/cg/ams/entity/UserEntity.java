@@ -66,7 +66,8 @@ public class UserEntity {
 
 		this.mobileNo = userInputDTO.getMobileNo();
 		this.gender = userInputDTO.getGender();
-		
+
 		this.profilePic = userInputDTO.getProfilePic();
 	}
+
 }
