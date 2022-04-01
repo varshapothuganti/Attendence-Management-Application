@@ -29,7 +29,6 @@ class StudentServiceTest {
 	
 
 	@Test
-	@Disabled
 	public void addTest() throws DuplicateRecordException {
 		CourseInputDTO c1 = new CourseInputDTO(501,"CSE","Computer Science Engineering");
 		CourseInputDTO c2 = new CourseInputDTO(102,"CSE","Computer Science Engineering");
