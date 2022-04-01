@@ -12,6 +12,11 @@ import com.cg.ams.entity.SubjectEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/*
+ * Assign Faculty entity's output DTO class with user output DTO as a member
+ * @Author Ramu
+ */
+
 @Data
 @NoArgsConstructor
 public class AssignFacultyOutputDTO {
@@ -20,6 +25,9 @@ public class AssignFacultyOutputDTO {
 	private long id;
 	
 	private String username;
+	
+	private long courseId;
+	private String courseName;
 	
 	private UserOutputDTO userDTO;
 	
@@ -36,6 +44,8 @@ public class AssignFacultyOutputDTO {
 		}
 		this.userDTO = new UserOutputDTO(afe.getUser());
 		this.username = afe.getUserName();
+		this.courseId = afe.getCourseId();
+		this.courseName = afe.getCourseName();
 		this.totalClass = afe.getTotalClass();
 	}
 	

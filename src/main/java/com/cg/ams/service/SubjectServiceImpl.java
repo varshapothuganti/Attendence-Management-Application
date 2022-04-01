@@ -16,7 +16,7 @@ import com.cg.ams.repository.ISubjectRepository;
 
 /**
  * Implements ISubjectService
- * @author ADMIN
+ * @author Naveen
  *
  */
 

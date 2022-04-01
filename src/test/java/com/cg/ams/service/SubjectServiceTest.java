@@ -1,6 +1,6 @@
 package com.cg.ams.service;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.cg.ams.dto.CourseInputDTO;
 import com.cg.ams.dto.SubjectDTO;
-import com.cg.ams.entity.CourseEntity;
 import com.cg.ams.exception.RecordNotFoundException;
 
 
@@ -22,13 +22,12 @@ public class SubjectServiceTest {
    
    @Test
    void addTest() {
-	   CourseEntity c1=new CourseEntity(111,"Communicatons","This is an Interesting subject");
+	   CourseInputDTO c1=new CourseInputDTO(111,"Communicatons","This is a communications course");
 	   SubjectDTO sub=new SubjectDTO(1000,"Analog Signals","A12478","3rd semester",c1);
 	   subServ.add(sub);
-	   SubjectDTO sub1=subServ.findByPk(1000);
-	   assertEquals("Analog Signals",sub1.getName());
-	   assertEquals("3rd semester",sub1.getSemester());
-	   assertEquals(c1,sub1.getCourse());
+	   SubjectDTO subdto=subServ.findByPk(1000);
+	   assertEquals("Analog Signals",subdto.getName());
+	   assertEquals("3rd semester",subdto.getSemester());
    }
    
    @Test
@@ -42,14 +41,13 @@ public class SubjectServiceTest {
    
   @Test
    void updateTest() {
-	   CourseEntity c1=new CourseEntity(111,"Communicatons","This is an Interesting subject");
+	   CourseInputDTO c1=new CourseInputDTO(111,"Communicatons","This is a communications course");
 	   SubjectDTO sub=new SubjectDTO(1000,"Analog Signals","B14K28","6th semester",c1);
 	   subServ.update(sub);
 	   SubjectDTO sub1=subServ.findByPk(1000);
 	   assertEquals("6th semester",sub1.getSemester());
 	   assertEquals("B14K28",sub1.getSubjectCode());  
-	   assertEquals(c1,sub1.getCourse());
-   }
+}
    
    @Test
    void findByPkTest(){
@@ -64,13 +62,13 @@ public class SubjectServiceTest {
    void deleteTest(){
 	   SubjectDTO sub=subServ.findByPk(1000);
 	   subServ.delete(sub);
-	   assertThatExceptionOfType(RecordNotFoundException.class).isThrownBy(()->{subServ.findByPk(1000);});
+	   assertThrows(RecordNotFoundException.class,() -> {subServ.findByPk(200);});
    }
    
    @Test
    void searchPageTest() {
-	    CourseEntity c1=new CourseEntity();
-	    SubjectDTO sub=new SubjectDTO(1100,"Signals and Systems","B14K28","6th Semester",c1);
+	    CourseInputDTO c1=new CourseInputDTO(111,"Communicatons","This is a communications course");
+	    SubjectDTO sub=new SubjectDTO(1200,"Signals and Systems","B14K28","6th Semester",c1);
 	    subServ.add(sub);
 	    SubjectDTO sub1=new SubjectDTO(2000,"Signals and Systems","A4312","3rd Semester",c1);
 	    subServ.add(sub1);

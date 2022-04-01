@@ -19,6 +19,11 @@ import com.cg.ams.repository.IAssignFacultyRepository;
 import com.cg.ams.repository.IRoleRepository;
 import com.cg.ams.repository.IUserRepository;
 
+/*
+ * Service Class for Assign Faculty entity to manipulate database as per the requirements
+ * @Author Ramu
+ */
+
 @Service
 public class AssignFacultyServiceImpl implements IAssignFacultyService {
 
@@ -32,6 +37,11 @@ public class AssignFacultyServiceImpl implements IAssignFacultyService {
 	IRoleRepository roleRep;
 
 	private String message = "Cannot find faculty record with id: ";
+	
+	/*
+	 * The method to add a new record to the database.
+	 * Throws an exception if the id already exists.
+	 */
 	
 	@Override
 	public long add(AssignFacultyInputDTO afInDTO) {
@@ -48,6 +58,11 @@ public class AssignFacultyServiceImpl implements IAssignFacultyService {
 		afRep.save(entity);
 		return entity.getId();
 	}
+	
+	/*
+	 * The method to update a record in the database.
+	 * Throws an exception if the id doesn't exist.
+	 */
 
 	@Override
 	public void update(AssignFacultyInputDTO afInDTO) {
@@ -63,6 +78,11 @@ public class AssignFacultyServiceImpl implements IAssignFacultyService {
 		entity.getUser().setRole(roleRep.getById(afInDTO.getUserDTO().getRoleId()));
 		afRep.save(entity);
 	}
+	
+	/*
+	 * The method to delete a record from the database.
+	 * Throws an exception if the id doesn't exist.
+	 */
 
 	@Override
 	public void delete(AssignFacultyInputDTO afInDTO) {
@@ -72,6 +92,11 @@ public class AssignFacultyServiceImpl implements IAssignFacultyService {
 
 		afRep.deleteById(afe.getId());
 	}
+	
+	/*
+	 * The method to find a record from the database with user name as parameter.
+	 * Throws an exception if the record with the given user name doesn't exist.
+	 */
 
 	@Override
 	public AssignFacultyOutputDTO findByName(String name) {
@@ -82,6 +107,11 @@ public class AssignFacultyServiceImpl implements IAssignFacultyService {
 		return new AssignFacultyOutputDTO(afe.get());
 	}
 
+	/*
+	 * The method to find a record from the database with id as the parameter.
+	 * Throws an exception if the id doesn't exist.
+	 */
+	
 	@Override
 	public AssignFacultyOutputDTO findByPk(long id) {
 		Optional<AssignFacultyEntity> afe = afRep.findById(id);
@@ -91,6 +121,11 @@ public class AssignFacultyServiceImpl implements IAssignFacultyService {
 		return new AssignFacultyOutputDTO(afe.get());
 	}
 
+	/*
+	 * The method to search the database for a given user name and 
+	 * return a page at the given page no from the resulting set.
+	 */
+	
 	@Override
 	public List<AssignFacultyOutputDTO> search(AssignFacultyInputDTO afInDTO, long pageNo, int pageSize) {
 		Pageable pageable = PageRequest.of((int) pageNo, pageSize);
@@ -103,6 +138,10 @@ public class AssignFacultyServiceImpl implements IAssignFacultyService {
 		return al1;
 	}
 
+	/*
+	 * The method to search the database for a given user name and return a list with all the results.
+	 */
+	
 	@Override
 	public List<AssignFacultyOutputDTO> search(AssignFacultyInputDTO afInDTO) {
 		AssignFacultyEntity entity = new AssignFacultyEntity(afInDTO);

@@ -19,10 +19,10 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.cg.ams.dto.CourseInputDTO;
 import com.cg.ams.dto.StudentInputDTO;
 import com.cg.ams.dto.StudentOutputDTO;
 import com.cg.ams.dto.SubjectDTO;
-import com.cg.ams.entity.CourseEntity;
 import com.cg.ams.entity.StudentEntity;
 import com.cg.ams.repository.IStudentRepository;
 
@@ -48,8 +48,8 @@ class StudentServiceMokitoTest {
 	
 	@Test
 	public void addTest() throws Exception {
-		CourseEntity c1 = new CourseEntity(501,"CSE","Computer Science Engineering");
-		CourseEntity c2 = new CourseEntity(102,"CSE","Computer Science Engineering");
+		CourseInputDTO c1 = new CourseInputDTO(501,"CSE","Computer Science Engineering");
+		CourseInputDTO c2 = new CourseInputDTO(102,"CSE","Computer Science Engineering");
 		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
 		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c2);
 		List<SubjectDTO> subList = new ArrayList<>();
@@ -67,8 +67,8 @@ class StudentServiceMokitoTest {
 	
 	@Test
 	public void findByPkTest() throws Exception {
-		CourseEntity c1 = new CourseEntity(501,"CSE","Computer Science Engineering");
-		CourseEntity c2 = new CourseEntity(102,"CSE","Computer Science Engineering");
+		CourseInputDTO c1 = new CourseInputDTO(501,"CSE","Computer Science Engineering");
+		CourseInputDTO c2 = new CourseInputDTO(102,"CSE","Computer Science Engineering");
 		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
 		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c2);
 		List<SubjectDTO> subList = new ArrayList<>();
@@ -83,8 +83,8 @@ class StudentServiceMokitoTest {
 	}
 	@Test
 	public void updateTest() throws Exception {
-		CourseEntity c1 = new CourseEntity(501,"CSE","Computer Science Engineering");
-		CourseEntity c2 = new CourseEntity(102,"CSE","Computer Science Engineering");
+		CourseInputDTO c1 = new CourseInputDTO(501,"CSE","Computer Science Engineering");
+		CourseInputDTO c2 = new CourseInputDTO(102,"CSE","Computer Science Engineering");
 		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
 		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c2);
 		List<SubjectDTO> subList = new ArrayList<>();
@@ -99,8 +99,8 @@ class StudentServiceMokitoTest {
 	}
 	@Test
 	public void deleteTest() throws Exception {
-		CourseEntity c1 = new CourseEntity(501,"CSE","Computer Science Engineering");
-		CourseEntity c2 = new CourseEntity(102,"CSE","Computer Science Engineering");
+		CourseInputDTO c1 = new CourseInputDTO(501,"CSE","Computer Science Engineering");
+		CourseInputDTO c2 = new CourseInputDTO(102,"CSE","Computer Science Engineering");
 		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
 		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c2);
 		List<SubjectDTO> subList = new ArrayList<>();

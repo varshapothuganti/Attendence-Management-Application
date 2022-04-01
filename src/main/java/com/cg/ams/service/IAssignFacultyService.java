@@ -5,6 +5,11 @@ import java.util.List;
 import com.cg.ams.dto.AssignFacultyInputDTO;
 import com.cg.ams.dto.AssignFacultyOutputDTO;
 
+/*
+ * An Interface from which a service class can be implemented for total abstraction.
+ * @Author Ramu
+ */
+
 public interface IAssignFacultyService {
 
 	public long add(AssignFacultyInputDTO afDTO);

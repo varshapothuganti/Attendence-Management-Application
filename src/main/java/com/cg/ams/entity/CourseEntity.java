@@ -8,6 +8,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
+import com.cg.ams.dto.CourseInputDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -27,7 +28,6 @@ public class CourseEntity {
 	private long id;
 	@NotEmpty(message = "Name shouldn't be empty")
 	private String name;
-	@NotEmpty(message = "Description shouldn't be empty")
 	private String description;
 
 	// Constructor using fields
@@ -36,6 +36,12 @@ public class CourseEntity {
 		this.id = id;
 		this.name = name;
 		this.description = description;
+	}
+
+	public CourseEntity(CourseInputDTO course) {
+		this.id=course.getId();
+		this.name=course.getName();
+		this.description = course.getDescription();
 	}
 
 	@JsonIgnore

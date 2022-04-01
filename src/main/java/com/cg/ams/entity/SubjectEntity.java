@@ -26,6 +26,10 @@ public class SubjectEntity {
     private String subjectCode;
     @NotEmpty(message = "Semester shouldn't be empty")
     private String semester;
+
+	@ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    private CourseEntity course;
+    
     
     //constructors
     public SubjectEntity(long id, String name, String subjectCode, String semester) {
@@ -39,18 +43,10 @@ public class SubjectEntity {
     public SubjectEntity(SubjectDTO subjectDTO) {
 		this.id = subjectDTO.getId();
 		this.name = subjectDTO.getName();
-		this.course = subjectDTO.getCourse();
 		this.subjectCode = subjectDTO.getSubjectCode();
 		this.semester = subjectDTO.getSemester();
+		this.course=new CourseEntity(subjectDTO.getCourse());
 	}
-
-
-
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(nullable = false)
-    private CourseEntity course;
-    
-
 
 
 }
