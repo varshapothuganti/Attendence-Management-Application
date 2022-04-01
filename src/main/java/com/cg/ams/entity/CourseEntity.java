@@ -41,6 +41,7 @@ public class CourseEntity {
 	public CourseEntity(CourseInputDTO course) {
 		this.id=course.getId();
 		this.name=course.getName();
+		this.description = course.getDescription();
 	}
 
 	@JsonIgnore

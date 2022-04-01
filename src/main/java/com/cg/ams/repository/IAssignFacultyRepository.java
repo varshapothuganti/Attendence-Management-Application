@@ -8,6 +8,11 @@ import org.springframework.stereotype.Repository;
 
 import com.cg.ams.entity.AssignFacultyEntity;
 
+/*
+ * Interface which handles all the manipulations on the database with JPA queries
+ * @Author Ramu
+ */
+
 @Repository
 public interface IAssignFacultyRepository extends JpaRepository<AssignFacultyEntity,Long>{
 	

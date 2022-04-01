@@ -28,7 +28,6 @@ public class SubjectEntity {
     private String semester;
 
 	@ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-  	@JoinColumn(nullable = false)
     private CourseEntity course;
     
     

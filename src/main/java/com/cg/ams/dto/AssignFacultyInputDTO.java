@@ -8,6 +8,11 @@ import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/*
+ * Assign Faculty entity's input DTO class with user input DTO as a member
+ * @Author Ramu
+ */
+
 @Data
 @NoArgsConstructor
 public class AssignFacultyInputDTO {

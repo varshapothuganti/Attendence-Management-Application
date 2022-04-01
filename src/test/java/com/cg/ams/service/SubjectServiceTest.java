@@ -11,8 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.cg.ams.dto.CourseInputDTO;
 import com.cg.ams.dto.SubjectDTO;
-import com.cg.ams.entity.CourseEntity;
-import com.cg.ams.exception.DuplicateRecordException;
 import com.cg.ams.exception.RecordNotFoundException;
 
 
@@ -24,7 +22,7 @@ public class SubjectServiceTest {
    
    @Test
    void addTest() {
-	   CourseInputDTO c1=new CourseInputDTO(111,"Communicatons");
+	   CourseInputDTO c1=new CourseInputDTO(111,"Communicatons","This is a communications course");
 	   SubjectDTO sub=new SubjectDTO(1000,"Analog Signals","A12478","3rd semester",c1);
 	   subServ.add(sub);
 	   SubjectDTO subdto=subServ.findByPk(1000);
@@ -43,7 +41,7 @@ public class SubjectServiceTest {
    
   @Test
    void updateTest() {
-	   CourseInputDTO c1=new CourseInputDTO(111,"Communicatons");
+	   CourseInputDTO c1=new CourseInputDTO(111,"Communicatons","This is a communications course");
 	   SubjectDTO sub=new SubjectDTO(1000,"Analog Signals","B14K28","6th semester",c1);
 	   subServ.update(sub);
 	   SubjectDTO sub1=subServ.findByPk(1000);
@@ -69,7 +67,7 @@ public class SubjectServiceTest {
    
    @Test
    void searchPageTest() {
-	    CourseInputDTO c1=new CourseInputDTO(111,"Communicatons");
+	    CourseInputDTO c1=new CourseInputDTO(111,"Communicatons","This is a communications course");
 	    SubjectDTO sub=new SubjectDTO(1200,"Signals and Systems","B14K28","6th Semester",c1);
 	    subServ.add(sub);
 	    SubjectDTO sub1=new SubjectDTO(2000,"Signals and Systems","A4312","3rd Semester",c1);

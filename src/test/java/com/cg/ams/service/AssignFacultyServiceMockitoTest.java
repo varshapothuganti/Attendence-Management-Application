@@ -1,15 +1,12 @@
 package com.cg.ams.service;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.times;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,12 +18,21 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.cg.ams.dto.AssignFacultyInputDTO;
 import com.cg.ams.dto.AssignFacultyOutputDTO;
+import com.cg.ams.dto.CourseInputDTO;
 import com.cg.ams.dto.SubjectDTO;
 import com.cg.ams.dto.UserInputDTO;
 import com.cg.ams.entity.AssignFacultyEntity;
-import com.cg.ams.entity.CourseEntity;
+import com.cg.ams.entity.RoleEntity;
+import com.cg.ams.entity.UserEntity;
 import com.cg.ams.exception.RecordNotFoundException;
 import com.cg.ams.repository.IAssignFacultyRepository;
+import com.cg.ams.repository.IRoleRepository;
+import com.cg.ams.repository.IUserRepository;
+
+/*
+ * A Test class for testing Assign Faculty service methods with Mockito annotations.
+ * @Author Ramu
+ */
 
 @ExtendWith(SpringExtension.class)
 public class AssignFacultyServiceMockitoTest {
@@ -36,6 +42,12 @@ public class AssignFacultyServiceMockitoTest {
 	
 	@MockBean
 	IAssignFacultyRepository afRep;
+	
+	@MockBean
+	IUserRepository userRep;
+	
+	@MockBean
+	IRoleRepository roleRep;
 	
 	@BeforeEach
 	void init() throws Exception {
@@ -48,7 +60,8 @@ public class AssignFacultyServiceMockitoTest {
 		UserInputDTO userInDTO = new UserInputDTO(1L,"firstName1","lastName1","login1",
 				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
 				"mobileNo1","gender1","profilePic1",11L);
-		CourseEntity c1 = new CourseEntity(101,"name1","description1");
+		RoleEntity role = new RoleEntity(11,"name1","description1");
+		CourseInputDTO c1 = new CourseInputDTO(101,"name1","description1");
 		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
 		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c1);
 		List<SubjectDTO> subList = new ArrayList<>();
@@ -57,8 +70,9 @@ public class AssignFacultyServiceMockitoTest {
 		AssignFacultyInputDTO afInDTO = new AssignFacultyInputDTO(1111,userInDTO,subList,"class1");
 		AssignFacultyEntity afe = new AssignFacultyEntity(afInDTO);
 		Mockito.when(afRep.save(afe)).thenReturn(afe);
+		Mockito.when(userRep.findById(1L)).thenReturn(Optional.of(new UserEntity(userInDTO)));
+		Mockito.when(roleRep.getById(11L)).thenReturn(role);
 		long l = afServ.add(afInDTO);
-		Mockito.verify(afRep,times(1)).save(afe);
 		assertEquals(1111,l);
 	}
 	
@@ -68,7 +82,7 @@ public class AssignFacultyServiceMockitoTest {
 		UserInputDTO userInDTO = new UserInputDTO(1L,"firstName1","lastName1","login1",
 				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
 				"mobileNo1","gender1","profilePic1",11L);
-		CourseEntity c1 = new CourseEntity(101,"name1","description1");
+		CourseInputDTO c1 = new CourseInputDTO(101,"name1","description1");
 		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
 		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c1);
 		List<SubjectDTO> subList = new ArrayList<>();
@@ -78,7 +92,7 @@ public class AssignFacultyServiceMockitoTest {
 		AssignFacultyEntity afe = new AssignFacultyEntity(afInDTO);
 		Mockito.when(afRep.findById(1111L)).thenReturn(Optional.of(afe));
 		AssignFacultyOutputDTO afOutDTO = afServ.findByPk(1111);
-		assertEquals("firstName1lastName1",afOutDTO.getUsername());
+		assertEquals("firstName1 lastName1",afOutDTO.getUsername());
 		assertThrows(RecordNotFoundException.class,() -> {afServ.findByPk(2);});
 	}
 	
@@ -88,7 +102,7 @@ public class AssignFacultyServiceMockitoTest {
 		UserInputDTO userInDTO = new UserInputDTO(1L,"firstName1","lastName1","login1",
 				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
 				"mobileNo1","gender1","profilePic1",11L);
-		CourseEntity c1 = new CourseEntity(101,"name1","description1");
+		CourseInputDTO c1 = new CourseInputDTO(101,"name1","description1");
 		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
 		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c1);
 		List<SubjectDTO> subList = new ArrayList<>();
@@ -96,8 +110,8 @@ public class AssignFacultyServiceMockitoTest {
 		subList.add(subDTO2);
 		AssignFacultyInputDTO afInDTO = new AssignFacultyInputDTO(1111,userInDTO,subList,"class1");
 		AssignFacultyEntity afe = new AssignFacultyEntity(afInDTO);
-		Mockito.when(afRep.findByUserName("firstName1lastName1")).thenReturn(afe);
-		AssignFacultyOutputDTO afOutDTO = afServ.findByName("firstName1lastName1");
+		Mockito.when(afRep.findByUserName("firstName1 lastName1")).thenReturn(afe);
+		AssignFacultyOutputDTO afOutDTO = afServ.findByName("firstName1 lastName1");
 		assertEquals(1111,afOutDTO.getId());
 		assertThrows(RecordNotFoundException.class,() -> {afServ.findByName("abc");});
 	}
@@ -108,7 +122,8 @@ public class AssignFacultyServiceMockitoTest {
 		UserInputDTO userInDTO = new UserInputDTO(1L,"firstName1","lastName1","login1",
 				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
 				"mobileNo1","gender1","profilePic1",11L);
-		CourseEntity c1 = new CourseEntity(101,"name1","description1");
+		RoleEntity role = new RoleEntity(11,"name1","description1");
+		CourseInputDTO c1 = new CourseInputDTO(101,"name1","description1");
 		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
 		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c1);
 		List<SubjectDTO> subList = new ArrayList<>();
@@ -118,17 +133,19 @@ public class AssignFacultyServiceMockitoTest {
 		AssignFacultyEntity afe = new AssignFacultyEntity(afInDTO);
 		Mockito.when(afRep.save(afe)).thenReturn(afe);
 		Mockito.when(afRep.findById(1111L)).thenReturn(Optional.of(afe));
+		Mockito.when(userRep.findById(1L)).thenReturn(Optional.of(new UserEntity(userInDTO)));
+		Mockito.when(roleRep.getById(11L)).thenReturn(role);
 		afServ.update(afInDTO);
-		assertEquals("f-Name1l-Name1",afServ.findByPk(1111).getUsername());
+		assertEquals("firstName1 lastName1",afServ.findByPk(1111).getUsername());
 	}
 	
 	@Test
-	@Disabled
+	//@Disabled
 	public void deleteTest() throws Exception {
 		UserInputDTO userInDTO = new UserInputDTO(1L,"firstName1","lastName1","login1",
 				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
 				"mobileNo1","gender1","profilePic1",11L);
-		CourseEntity c1 = new CourseEntity(101,"name1","description1");
+		CourseInputDTO c1 = new CourseInputDTO(101,"name1","description1");
 		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
 		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c1);
 		List<SubjectDTO> subList = new ArrayList<>();
@@ -147,7 +164,7 @@ public class AssignFacultyServiceMockitoTest {
 		UserInputDTO userInDTO = new UserInputDTO(1L,"firstName1","lastName1","login1",
 				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
 				"mobileNo1","gender1","profilePic1",11L);
-		CourseEntity c1 = new CourseEntity(101,"name1","description1");
+		CourseInputDTO c1 = new CourseInputDTO(101,"name1","description1");
 		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
 		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c1);
 		List<SubjectDTO> subList = new ArrayList<>();
@@ -170,7 +187,7 @@ public class AssignFacultyServiceMockitoTest {
 		UserInputDTO userInDTO = new UserInputDTO(1L,"firstName1","lastName1","login1",
 				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
 				"mobileNo1","gender1","profilePic1",11L);
-		CourseEntity c1 = new CourseEntity(101,"name1","description1");
+		CourseInputDTO c1 = new CourseInputDTO(101,"name1","description1");
 		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
 		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c1);
 		List<SubjectDTO> subList = new ArrayList<>();
