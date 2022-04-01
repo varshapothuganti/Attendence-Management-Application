@@ -51,7 +51,6 @@ public class UserServiceImpl implements IUserService {
 			throw new DuplicateRecordException(" A User with ID: " + userInputDTO.getId() + " Already exists!");
 
 		UserEntity user = new UserEntity(userInputDTO);
-		user.setRole(roleService.getRoleById(userInputDTO.getRoleId()));
 
 		try {
 			userRepository.save(user);
@@ -78,7 +77,6 @@ public class UserServiceImpl implements IUserService {
 		}
 
 		UserEntity updatedUser = new UserEntity(entity);
-		updatedUser.setRole(roleService.getRoleById(entity.getRoleId()));
 
 		userRepository.save(updatedUser);
 	}

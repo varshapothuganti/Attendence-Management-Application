@@ -36,170 +36,183 @@ import com.cg.ams.repository.IUserRepository;
 
 @ExtendWith(SpringExtension.class)
 public class AssignFacultyServiceMockitoTest {
-	
+
 	@InjectMocks
 	AssignFacultyServiceImpl afServ;
-	
+
 	@MockBean
 	IAssignFacultyRepository afRep;
-	
+
 	@MockBean
 	IUserRepository userRep;
-	
+
 	@MockBean
 	IRoleRepository roleRep;
-	
+
 	@BeforeEach
 	void init() throws Exception {
 		MockitoAnnotations.openMocks(this);
 	}
-	
+
 	@Test
-	//@Disabled
+	// @Disabled
 	public void addTest() throws Exception {
-		UserInputDTO userInDTO = new UserInputDTO(1L,"firstName1","lastName1","login1",
-				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
-				"mobileNo1","gender1","profilePic1",11L);
-		RoleEntity role = new RoleEntity(11,"name1","description1");
-		CourseInputDTO c1 = new CourseInputDTO(101,"name1","description1");
-		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
-		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c1);
+		RoleEntity role = new RoleEntity(11, "name1", "description1");
+		UserInputDTO userInDTO = new UserInputDTO(1L, "firstName1", "lastName1", "login1", "password1", "password1",
+				new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"), "mobileNo1", "gender1",
+				"profilePic1", role);
+		CourseInputDTO c1 = new CourseInputDTO(101, "name1", "description1");
+		SubjectDTO subDTO1 = new SubjectDTO(111, "subjectName1", "code1", "semester1", c1);
+		SubjectDTO subDTO2 = new SubjectDTO(112, "subjectName2", "code2", "semester2", c1);
 		List<SubjectDTO> subList = new ArrayList<>();
 		subList.add(subDTO1);
 		subList.add(subDTO2);
-		AssignFacultyInputDTO afInDTO = new AssignFacultyInputDTO(1111,userInDTO,subList,"class1");
+		AssignFacultyInputDTO afInDTO = new AssignFacultyInputDTO(1111, userInDTO, subList, "class1");
 		AssignFacultyEntity afe = new AssignFacultyEntity(afInDTO);
 		Mockito.when(afRep.save(afe)).thenReturn(afe);
 		Mockito.when(userRep.findById(1L)).thenReturn(Optional.of(new UserEntity(userInDTO)));
 		Mockito.when(roleRep.getById(11L)).thenReturn(role);
 		long l = afServ.add(afInDTO);
-		assertEquals(1111,l);
+		assertEquals(1111, l);
 	}
-	
+
 	@Test
-	//@Disabled
+	// @Disabled
 	public void findByPkTest() throws Exception {
-		UserInputDTO userInDTO = new UserInputDTO(1L,"firstName1","lastName1","login1",
-				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
-				"mobileNo1","gender1","profilePic1",11L);
-		CourseInputDTO c1 = new CourseInputDTO(101,"name1","description1");
-		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
-		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c1);
+		RoleEntity role = new RoleEntity(11, "name1", "description1");
+		CourseInputDTO c1 = new CourseInputDTO(101, "name1", "description1");
+		UserInputDTO userInDTO = new UserInputDTO(1L, "firstName1", "lastName1", "login1", "password1", "password1",
+				new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"), "mobileNo1", "gender1",
+				"profilePic1", role);
+		SubjectDTO subDTO1 = new SubjectDTO(111, "subjectName1", "code1", "semester1", c1);
+		SubjectDTO subDTO2 = new SubjectDTO(112, "subjectName2", "code2", "semester2", c1);
 		List<SubjectDTO> subList = new ArrayList<>();
 		subList.add(subDTO1);
 		subList.add(subDTO2);
-		AssignFacultyInputDTO afInDTO = new AssignFacultyInputDTO(1111,userInDTO,subList,"class1");
+		AssignFacultyInputDTO afInDTO = new AssignFacultyInputDTO(1111, userInDTO, subList, "class1");
 		AssignFacultyEntity afe = new AssignFacultyEntity(afInDTO);
 		Mockito.when(afRep.findById(1111L)).thenReturn(Optional.of(afe));
 		AssignFacultyOutputDTO afOutDTO = afServ.findByPk(1111);
-		assertEquals("firstName1 lastName1",afOutDTO.getUsername());
-		assertThrows(RecordNotFoundException.class,() -> {afServ.findByPk(2);});
+		assertEquals("firstName1 lastName1", afOutDTO.getUsername());
+		assertThrows(RecordNotFoundException.class, () -> {
+			afServ.findByPk(2);
+		});
 	}
-	
+
 	@Test
-	//@Disabled
+	// @Disabled
 	public void findByNameTest() throws Exception {
-		UserInputDTO userInDTO = new UserInputDTO(1L,"firstName1","lastName1","login1",
-				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
-				"mobileNo1","gender1","profilePic1",11L);
-		CourseInputDTO c1 = new CourseInputDTO(101,"name1","description1");
-		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
-		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c1);
+		RoleEntity role = new RoleEntity(11, "name1", "description1");
+		UserInputDTO userInDTO = new UserInputDTO(1L, "firstName1", "lastName1", "login1", "password1", "password1",
+				new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"), "mobileNo1", "gender1",
+				"profilePic1", role);
+		CourseInputDTO c1 = new CourseInputDTO(101, "name1", "description1");
+		SubjectDTO subDTO1 = new SubjectDTO(111, "subjectName1", "code1", "semester1", c1);
+		SubjectDTO subDTO2 = new SubjectDTO(112, "subjectName2", "code2", "semester2", c1);
 		List<SubjectDTO> subList = new ArrayList<>();
 		subList.add(subDTO1);
 		subList.add(subDTO2);
-		AssignFacultyInputDTO afInDTO = new AssignFacultyInputDTO(1111,userInDTO,subList,"class1");
+		AssignFacultyInputDTO afInDTO = new AssignFacultyInputDTO(1111, userInDTO, subList, "class1");
 		AssignFacultyEntity afe = new AssignFacultyEntity(afInDTO);
 		Mockito.when(afRep.findByUserName("firstName1 lastName1")).thenReturn(afe);
 		AssignFacultyOutputDTO afOutDTO = afServ.findByName("firstName1 lastName1");
-		assertEquals(1111,afOutDTO.getId());
-		assertThrows(RecordNotFoundException.class,() -> {afServ.findByName("abc");});
+		assertEquals(1111, afOutDTO.getId());
+		assertThrows(RecordNotFoundException.class, () -> {
+			afServ.findByName("abc");
+		});
 	}
-	
+
 	@Test
-	//@Disabled
+	// @Disabled
 	public void updateTest() throws Exception {
-		UserInputDTO userInDTO = new UserInputDTO(1L,"firstName1","lastName1","login1",
-				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
-				"mobileNo1","gender1","profilePic1",11L);
-		RoleEntity role = new RoleEntity(11,"name1","description1");
-		CourseInputDTO c1 = new CourseInputDTO(101,"name1","description1");
-		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
-		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c1);
+		RoleEntity role = new RoleEntity(11, "name1", "description1");
+
+		UserInputDTO userInDTO = new UserInputDTO(1L, "firstName1", "lastName1", "login1", "password1", "password1",
+				new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"), "mobileNo1", "gender1",
+				"profilePic1", role);
+		CourseInputDTO c1 = new CourseInputDTO(101, "name1", "description1");
+		SubjectDTO subDTO1 = new SubjectDTO(111, "subjectName1", "code1", "semester1", c1);
+		SubjectDTO subDTO2 = new SubjectDTO(112, "subjectName2", "code2", "semester2", c1);
 		List<SubjectDTO> subList = new ArrayList<>();
 		subList.add(subDTO1);
 		subList.add(subDTO2);
-		AssignFacultyInputDTO afInDTO = new AssignFacultyInputDTO(1111,userInDTO,subList,"class1");
+		AssignFacultyInputDTO afInDTO = new AssignFacultyInputDTO(1111, userInDTO, subList, "class1");
 		AssignFacultyEntity afe = new AssignFacultyEntity(afInDTO);
 		Mockito.when(afRep.save(afe)).thenReturn(afe);
 		Mockito.when(afRep.findById(1111L)).thenReturn(Optional.of(afe));
 		Mockito.when(userRep.findById(1L)).thenReturn(Optional.of(new UserEntity(userInDTO)));
 		Mockito.when(roleRep.getById(11L)).thenReturn(role);
 		afServ.update(afInDTO);
-		assertEquals("firstName1 lastName1",afServ.findByPk(1111).getUsername());
+		assertEquals("firstName1 lastName1", afServ.findByPk(1111).getUsername());
 	}
-	
+
 	@Test
-	//@Disabled
+	// @Disabled
 	public void deleteTest() throws Exception {
-		UserInputDTO userInDTO = new UserInputDTO(1L,"firstName1","lastName1","login1",
-				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
-				"mobileNo1","gender1","profilePic1",11L);
-		CourseInputDTO c1 = new CourseInputDTO(101,"name1","description1");
-		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
-		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c1);
+		RoleEntity role = new RoleEntity(11,"name1","description1");
+
+		UserInputDTO userInDTO = new UserInputDTO(1L, "firstName1", "lastName1", "login1", "password1", "password1",
+				new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"), "mobileNo1", "gender1",
+				"profilePic1", role);
+		CourseInputDTO c1 = new CourseInputDTO(101, "name1", "description1");
+		SubjectDTO subDTO1 = new SubjectDTO(111, "subjectName1", "code1", "semester1", c1);
+		SubjectDTO subDTO2 = new SubjectDTO(112, "subjectName2", "code2", "semester2", c1);
 		List<SubjectDTO> subList = new ArrayList<>();
 		subList.add(subDTO1);
 		subList.add(subDTO2);
-		AssignFacultyInputDTO afInDTO = new AssignFacultyInputDTO(1111,userInDTO,subList,"class1");
+		AssignFacultyInputDTO afInDTO = new AssignFacultyInputDTO(1111, userInDTO, subList, "class1");
 		AssignFacultyEntity afe = new AssignFacultyEntity(afInDTO);
 		Mockito.when(afRep.findById(1111L)).thenReturn(Optional.of(afe));
 		afServ.delete(afInDTO);
 		Mockito.verify(afRep).deleteById(afe.getId());
 	}
-	
+
 	@Test
-	//@Disabled
+	// @Disabled
 	public void searchByPagesTest() throws Exception {
-		UserInputDTO userInDTO = new UserInputDTO(1L,"firstName1","lastName1","login1",
-				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
-				"mobileNo1","gender1","profilePic1",11L);
-		CourseInputDTO c1 = new CourseInputDTO(101,"name1","description1");
-		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
-		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c1);
+		RoleEntity role = new RoleEntity(11,"name1","description1");
+
+		UserInputDTO userInDTO = new UserInputDTO(1L, "firstName1", "lastName1", "login1", "password1", "password1",
+				new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"), "mobileNo1", "gender1",
+				"profilePic1", role);
+		CourseInputDTO c1 = new CourseInputDTO(101, "name1", "description1");
+		SubjectDTO subDTO1 = new SubjectDTO(111, "subjectName1", "code1", "semester1", c1);
+		SubjectDTO subDTO2 = new SubjectDTO(112, "subjectName2", "code2", "semester2", c1);
 		List<SubjectDTO> subList = new ArrayList<>();
 		subList.add(subDTO1);
 		subList.add(subDTO2);
-		AssignFacultyInputDTO afInDTO = new AssignFacultyInputDTO(1111,userInDTO,subList,"class1");
+		AssignFacultyInputDTO afInDTO = new AssignFacultyInputDTO(1111, userInDTO, subList, "class1");
 		AssignFacultyEntity afe = new AssignFacultyEntity(afInDTO);
 		List<AssignFacultyEntity> afList = new ArrayList<>();
 		afList.add(afe);
 		Mockito.when(afRep.findByUserNameIgnoreCase(afe.getUserName(), PageRequest.of(0, 1))).thenReturn(afList);
 		List<AssignFacultyOutputDTO> al = afServ.search(afInDTO, 0, 1);
 		List<AssignFacultyOutputDTO> al1 = afServ.search(afInDTO, 1, 1);
-		assertEquals(1,al.size());
-		assertEquals(0,al1.size());
+		assertEquals(1, al.size());
+		assertEquals(0, al1.size());
 	}
-	
+
 	@Test
-	//@Disabled
+	// @Disabled
 	public void searchTest() throws Exception {
-		UserInputDTO userInDTO = new UserInputDTO(1L,"firstName1","lastName1","login1",
-				"password1","password1",new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"),
-				"mobileNo1","gender1","profilePic1",11L);
-		CourseInputDTO c1 = new CourseInputDTO(101,"name1","description1");
-		SubjectDTO subDTO1 = new SubjectDTO(111,"subjectName1","code1","semester1",c1);
-		SubjectDTO subDTO2 = new SubjectDTO(112,"subjectName2","code2","semester2",c1);
+		RoleEntity role = new RoleEntity(11,"name1","description1");
+
+		UserInputDTO userInDTO = new UserInputDTO(1L, "firstName1", "lastName1", "login1", "password1", "password1",
+				new SimpleDateFormat("yyyy-MM-dd").parse("1988-01-29T11:04:54.511Z"), "mobileNo1", "gender1",
+				"profilePic1", role);
+		CourseInputDTO c1 = new CourseInputDTO(101, "name1", "description1");
+		SubjectDTO subDTO1 = new SubjectDTO(111, "subjectName1", "code1", "semester1", c1);
+		SubjectDTO subDTO2 = new SubjectDTO(112, "subjectName2", "code2", "semester2", c1);
 		List<SubjectDTO> subList = new ArrayList<>();
 		subList.add(subDTO1);
 		subList.add(subDTO2);
-		AssignFacultyInputDTO afInDTO = new AssignFacultyInputDTO(1111,userInDTO,subList,"class1");
+		AssignFacultyInputDTO afInDTO = new AssignFacultyInputDTO(1111, userInDTO, subList, "class1");
 		AssignFacultyEntity afe = new AssignFacultyEntity(afInDTO);
 		List<AssignFacultyEntity> afList = new ArrayList<>();
 		afList.add(afe);
 		Mockito.when(afRep.findByUserNameIgnoreCase(afe.getUserName())).thenReturn(afList);
 		List<AssignFacultyOutputDTO> al = afServ.search(afInDTO);
-		assertEquals(1,al.size());
+		assertEquals(1, al.size());
 	}
-	
+
 }
