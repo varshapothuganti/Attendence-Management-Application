@@ -1,20 +1,7 @@
 package com.cg.ams.controller;
 
 import java.util.List;
-
-
-
-
-
-
-
-
-
-
-
-
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.cg.ams.dto.StudentInputDTO;
 import com.cg.ams.dto.StudentOutputDTO;
 import com.cg.ams.entity.StudentEntity;
@@ -41,19 +27,11 @@ public class StudentController {
 	@Autowired
 	IStudentService studentService;
 	
-	@PostMapping("/add")
-	long addStudent(@Valid @RequestBody StudentEntity std) {
-		
-		return studentService.add(std);
-	}
-	
-	@PostMapping("/student/add")
-	ResponseEntity<Long> add(@Valid @RequestBody StudentInputDTO stdDTO) {
-		long l = studentService.add(stdDTO);
+	@PostMapping("/Student/add")
+	ResponseEntity<Long> add(@Valid @RequestBody StudentInputDTO stdInDTO) {
+		long l = studentService.add(stdInDTO);
 		return new ResponseEntity<>(l, HttpStatus.OK);
 	}
-	
-	
 	@PostMapping("/student/update")
 	ResponseEntity<StudentOutputDTO> update(@Valid @RequestBody StudentInputDTO stdDTO) {
 		studentService.update(stdDTO);
@@ -68,24 +46,15 @@ public class StudentController {
 		return new ResponseEntity<>("Deleted Successfully", HttpStatus.OK);
 	}
 
-	
 	@GetMapping("/student/getByPk/{id}")
 	ResponseEntity<StudentOutputDTO> findByPk(@PathVariable("id") long id) {
 		StudentOutputDTO stdOutDTO = studentService.findByPk(id);
 		return new ResponseEntity<>(stdOutDTO, HttpStatus.OK);
 	}
-	
-
-
-
 	@GetMapping("/student/getByName/{name}")
 	ResponseEntity<List<StudentOutputDTO>> findByName(@PathVariable("name") String name) {
 		List<StudentOutputDTO> stdOutDTO = studentService.findByName(name);
 		return new ResponseEntity<>(stdOutDTO, HttpStatus.OK);
-	}
-	@GetMapping("/student/search/{name}")
-	ResponseEntity<List<StudentOutputDTO>> search(@PathVariable("name") String name) {
-		return new ResponseEntity<>(studentService.search(name), HttpStatus.OK);
 	}
 
 	@GetMapping("/student/searchByPages/{name}/{pageNo}/{pageSize}")
@@ -94,8 +63,11 @@ public class StudentController {
 			 @RequestParam(value = "size", defaultValue = "10") int pageSize) {
 		return studentService.search(name, pageNo, pageSize);
 	}
+	@GetMapping(path = "/search")
+	ResponseEntity<List<StudentOutputDTO>> search(@RequestParam("name") String name) {
 
-
+		return new ResponseEntity<>(studentService.search(name), HttpStatus.OK);
+	}
 
 
 }

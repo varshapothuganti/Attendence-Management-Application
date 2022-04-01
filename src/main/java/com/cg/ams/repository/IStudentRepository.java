@@ -32,11 +32,12 @@ public interface IStudentRepository extends JpaRepository<StudentEntity, Long> {
 	@Query(value = "select student.* FROM student where first_name=:name or last_name=:name", nativeQuery = true)
     Optional<List<StudentEntity>> findByName(@Param("name") String name);
 
-
    public List<StudentEntity> findByFirstNameContainingOrLastNameContainingAllIgnoreCase(String firstName, String lastName, Pageable pageable);
 
-	@Query(value="select student.* from student where first_name ilike %:first_name% or last_name ilike %:last_name%",nativeQuery=true)
-	public List<StudentEntity> findStudentByFirstNameOrLastName(@Param("first_name") String firstName, @Param("last_name") String lastName);
+   @Query(value="select student.* from student where first_name ilike %:first_name% or last_name ilike %:last_name%",nativeQuery=true)
+   public List<StudentEntity> findStudentByFirstNameOrLastName(@Param("first_name") String firstName, @Param("last_name") String lastName);
+
+	public boolean existsByRollNo(long rollNo);
 
 
 }
