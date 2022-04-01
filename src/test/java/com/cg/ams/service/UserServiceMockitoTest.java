@@ -67,6 +67,20 @@ public class UserServiceMockitoTest {
 		assertEquals("first1", userOutputDTO.getFirstName());
 		assertEquals("last1", userOutputDTO.getLastName());
 	}
+	
+	@Test
+	void findByLoginTest() {
+		RoleEntity role = new RoleEntity(1, "ADMIN", "Administrator");
+		UserEntity user = new UserEntity(1000l, "first1", "last1", "login1", "password@123", new Date(), "9876543210",
+				role, "male", "default-pic.jpg");
+
+		Mockito.when(userRepository.findByLogin("login1")).thenReturn(user);
+
+		UserOutputDTO userOutputDTO = userService.findByLogin("login1");
+		
+		assertEquals("login1", userOutputDTO.getLogin());
+		assertEquals("first1", userOutputDTO.getFirstName());
+	}
 
 	@Test
 	void searchTest() {
