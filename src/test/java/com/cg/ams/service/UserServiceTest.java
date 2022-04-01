@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -16,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.cg.ams.dto.UserInputDTO;
 import com.cg.ams.dto.UserOutputDTO;
+import com.cg.ams.entity.RoleEntity;
 import com.cg.ams.entity.UserEntity;
 
 /**
@@ -33,16 +33,22 @@ class UserServiceTest {
 
 	@BeforeAll
 	void populateDataBase() {
+		RoleEntity role1 = new RoleEntity(1, "name1", "description1");
+		RoleEntity role2 = new RoleEntity(2, "name2", "description2");
+		RoleEntity role3 = new RoleEntity(3, "name3", "description3");
+		RoleEntity role4 = new RoleEntity(4, "name4", "description4");
+		RoleEntity role5 = new RoleEntity(5, "name5", "description5");
+
 		UserInputDTO userInputDTO2 = new UserInputDTO(10001, "first1", "last1", "login1", "password123", "password123",
-				new Date(), "9876543210", "male", "default-pic.jpg", 3);
+				new Date(), "9876543210", "male", "default-pic.jpg", role3);
 		UserInputDTO userInputDTO3 = new UserInputDTO(10002, "first2", "last2", "login2", "password123", "password123",
-				new Date(), "9876543210", "male", "default-pic.jpg", 4);
+				new Date(), "9876543210", "male", "default-pic.jpg", role4);
 		UserInputDTO userInputDTO4 = new UserInputDTO(10003, "first3", "last3", "login3", "password123", "password123",
-				new Date(), "9876543210", "male", "default-pic.jpg", 5);
+				new Date(), "9876543210", "male", "default-pic.jpg", role5);
 		UserInputDTO userInputDTO5 = new UserInputDTO(10004, "first4", "last4", "login4", "password123", "password123",
-				new Date(), "9876543210", "male", "default-pic.jpg", 1);
+				new Date(), "9876543210", "male", "default-pic.jpg", role1);
 		UserInputDTO userInputDTO6 = new UserInputDTO(10005, "first5", "last5", "login5", "password123", "password123",
-				new Date(), "9876543210", "male", "default-pic.jpg", 2);
+				new Date(), "9876543210", "male", "default-pic.jpg", role2);
 
 		userService.add(userInputDTO2);
 		userService.add(userInputDTO3);
@@ -76,6 +82,8 @@ class UserServiceTest {
 	 */
 	@Test
 	void addTest() { // Just Tested Once (don't want to add records to DB)
+		RoleEntity role1 = new RoleEntity(1, "name1", "description1");
+
 		UserInputDTO user = new UserInputDTO();
 
 		user.setId(10000);
@@ -86,7 +94,7 @@ class UserServiceTest {
 		user.setConfirmPassword("password123");
 		user.setGender("gender");
 		user.setDob(new Date());
-		user.setRoleId(1);
+		user.setRole(role1);
 
 		long prevCount = userService.count();
 		userService.add(user);

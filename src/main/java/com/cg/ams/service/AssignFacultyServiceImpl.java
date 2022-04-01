@@ -54,7 +54,7 @@ public class AssignFacultyServiceImpl implements IAssignFacultyService {
 		if(user.isPresent()) {
 			entity.setUser(user.get());
 		}
-		entity.getUser().setRole(roleRep.getById(afInDTO.getUserDTO().getRoleId()));
+		entity.getUser().setRole(afInDTO.getUserDTO().getRole());
 		afRep.save(entity);
 		return entity.getId();
 	}
@@ -75,7 +75,7 @@ public class AssignFacultyServiceImpl implements IAssignFacultyService {
 		if(user.isPresent()) {
 			entity.setUser(user.get());
 		}
-		entity.getUser().setRole(roleRep.getById(afInDTO.getUserDTO().getRoleId()));
+		entity.getUser().setRole(afInDTO.getUserDTO().getRole());
 		afRep.save(entity);
 	}
 	
