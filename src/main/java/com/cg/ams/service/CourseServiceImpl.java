@@ -14,9 +14,6 @@ import com.cg.ams.exception.CourseNotFoundException;
 import com.cg.ams.exception.DuplicateRecordException;
 import com.cg.ams.repository.ICourseRepository;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-
 @Service
 public class CourseServiceImpl implements ICourseService {
 
@@ -76,7 +73,6 @@ public class CourseServiceImpl implements ICourseService {
 			return course;
 		}
 	}
-
 
 	// Find Course By Name
 	@Override

@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.Date;
 import java.util.List;
 
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -20,56 +19,55 @@ import com.cg.ams.entity.UserEntity;
 
 /**
  * Test Case to check UserService
- * 
- * Before running this class run this query
- * 
-delete from users where id = 10000; insert into users (id, first_name, last_name, login, password, gender, mobile_no, dob, profile_pic, role_id) values (10001, 'first1', 'last1', 'login1', '1234567890', 'male', '9876543210', NOW(), 'default-pic.jpg', 2), (10002, 'first2', 'last2', 'login2', '1234567890', 'male', '9876543210', NOW(), 'default-pic.jpg', 2), (10003, 'first3', 'last3', 'login3', '1234567890', 'male', '9876543210', NOW(), 'default-pic.jpg', 2), (10004, 'first4', 'last4', 'login4', '1234567890', 'male', '9876543210', NOW(), 'default-pic.jpg', 2), (10005, 'first5', 'last5', 'login5', '1234567890', 'male', '9876543210', NOW(), 'default-pic.jpg', 2);
-
  *
+ * 
  * @author Phanidra
  */
 @SpringBootTest
-//@Sql(scripts = "/create-data.sql")
 @TestInstance(Lifecycle.PER_CLASS)
 class UserServiceTest {
 
 	@Autowired
 	UserServiceImpl userService;
-	
+
 	@BeforeAll
 	void populateDataBase() {
-		UserInputDTO userInputDTO2 = new UserInputDTO(10001, "first1", "last1", "login1", "password123", "password123", new Date(), "9876543210", "male", "default-pic.jpg", 3);
-		UserInputDTO userInputDTO3 = new UserInputDTO(10002, "first2", "last2", "login2", "password123", "password123", new Date(), "9876543210", "male", "default-pic.jpg", 4);
-		UserInputDTO userInputDTO4 = new UserInputDTO(10003, "first3", "last3", "login3", "password123", "password123", new Date(), "9876543210", "male", "default-pic.jpg", 5);
-		UserInputDTO userInputDTO5 = new UserInputDTO(10004, "first4", "last4", "login4", "password123", "password123", new Date(), "9876543210", "male", "default-pic.jpg", 1);
-		UserInputDTO userInputDTO6 = new UserInputDTO(10005, "first5", "last5", "login5", "password123", "password123", new Date(), "9876543210", "male", "default-pic.jpg", 2);
-		
+		UserInputDTO userInputDTO2 = new UserInputDTO(10001, "first1", "last1", "login1", "password123", "password123",
+				new Date(), "9876543210", "male", "default-pic.jpg", 3);
+		UserInputDTO userInputDTO3 = new UserInputDTO(10002, "first2", "last2", "login2", "password123", "password123",
+				new Date(), "9876543210", "male", "default-pic.jpg", 4);
+		UserInputDTO userInputDTO4 = new UserInputDTO(10003, "first3", "last3", "login3", "password123", "password123",
+				new Date(), "9876543210", "male", "default-pic.jpg", 5);
+		UserInputDTO userInputDTO5 = new UserInputDTO(10004, "first4", "last4", "login4", "password123", "password123",
+				new Date(), "9876543210", "male", "default-pic.jpg", 1);
+		UserInputDTO userInputDTO6 = new UserInputDTO(10005, "first5", "last5", "login5", "password123", "password123",
+				new Date(), "9876543210", "male", "default-pic.jpg", 2);
+
 		userService.add(userInputDTO2);
 		userService.add(userInputDTO3);
 		userService.add(userInputDTO4);
 		userService.add(userInputDTO5);
 		userService.add(userInputDTO6);
 	}
-	
+
 	@AfterAll
-	
+
 	void cleanDataBase() {
 		UserEntity dbUser = userService.getUserById(10005);
 		userService.delete(new UserInputDTO(dbUser));
-		
+
 		UserEntity dbUser1 = userService.getUserById(10001);
 		userService.delete(new UserInputDTO(dbUser1));
-		
+
 		UserEntity dbUser11 = userService.getUserById(10002);
 		userService.delete(new UserInputDTO(dbUser11));
-		
+
 		UserEntity dbUser111 = userService.getUserById(10003);
 		userService.delete(new UserInputDTO(dbUser111));
-		
+
 		UserEntity dbUser1111 = userService.getUserById(10004);
 		userService.delete(new UserInputDTO(dbUser1111));
 	}
-
 
 	/**
 	 * Test case to test the add method.
@@ -101,7 +99,6 @@ class UserServiceTest {
 	 * here checking for updating the loginid
 	 */
 	@Test
-	@Disabled
 	void updateTest() {
 
 		long testId = 10001; // Hard coded
@@ -116,7 +113,6 @@ class UserServiceTest {
 
 		assertEquals(newLogin, updatedUser.getLogin());
 	}
-
 
 	/**
 	 * Test case for finding a user by their userID
@@ -144,7 +140,8 @@ class UserServiceTest {
 	}
 
 	/**
-	 * Search the database using the searchTerm matching either the first name or last name.
+	 * Search the database using the searchTerm matching either the first name or
+	 * last name.
 	 */
 	@Test
 	void searchTest() {
@@ -153,7 +150,6 @@ class UserServiceTest {
 		List<UserOutputDTO> users = userService.search(searchTerm);
 		users.forEach(System.out::println);
 		long cnt = 6;
-
 
 		assertEquals(cnt, users.size());
 	}
